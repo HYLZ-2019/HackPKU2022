@@ -12,6 +12,10 @@
 *
 ********************************************************************************************/
 
+/*
+    by scarlyw
+*/
+
 #include "raylib.h"
 #include "screens.h"    // NOTE: Declares global (extern) variables and screens functions
 
