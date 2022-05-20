@@ -9,6 +9,13 @@ class World {
     Tiger tiger;
     RopeInfo rope;
     NotesInfo notes;
+    int points; // 清零时game over
+    int currentStage;
+
+    World(){
+        points = 0;
+        currentStage = 0;
+    }
     
     /* 调用tiger, rope, notes的update*/
     void updateWorld(){
