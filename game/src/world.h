@@ -17,7 +17,7 @@ class World {
     
     // 地球旋转角
     int Earth_sita;
-    Texture texture[Texture_number];
+    Texture texture[TEXTURE_CNT];
     Rectangle sourceRec;
     Rectangle destRec;
     Vector2 origin;  

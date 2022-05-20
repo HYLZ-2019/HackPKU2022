@@ -12,7 +12,7 @@ World :: World() {
     // Source rectangle (part of the texture to use for drawing)
     sourceRec = { 0.0f, 0.0f, (float)texture[1].width, (float)texture[1].height };
     // Destination rectangle (screen rectangle where drawing part of texture)
-    destRec = { screenWidth/2.0f, screenHeight/2.0f, texture[1].width*2.0f, texture[1].height*2.0f };
+    destRec = { SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f, texture[1].width*2.0f, texture[1].height*2.0f };
     // Origin of the texture (rotation/scale point), it's relative to destination rectangle size
     origin = { (float)texture[1].width, (float)texture[1].height };
 }

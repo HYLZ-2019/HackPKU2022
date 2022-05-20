@@ -4,7 +4,7 @@
 
 //初始化绳粒子
 RopeDot :: RopeDot(int index) {
-    sita = 2.0 * Pi * index / BLOCK_NUMBER;
+    sita = 2.0 * PI * index / BLOCK_NUMBER;
     r = 0;
     status = ROPEDOT_ZERO;
     die_time = 0;
