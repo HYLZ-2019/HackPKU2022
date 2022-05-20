@@ -14,7 +14,13 @@ class World {
     NotesInfo notes;
     int points; // 清零时game over
     int currentStage;
-
+    
+    // 地球旋转角
+    int Earth_sita;
+    Texture texture[Texture_number];
+    Rectangle sourceRec;
+    Rectangle destRec;
+    Vector2 origin;  
     World();
     
     int pointsNeededForNextStage(int stage);
