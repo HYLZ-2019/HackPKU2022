@@ -26,6 +26,10 @@ int World::pointsNeededForNextStage(int stage) {
 void World::updateWorld(){
     double deltaH = 0;
     //
+    if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) 
+        deltaH = MOVE_STEP_LENGTH - DOWN_STEP_LENGTH;
+    else if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S))
+        deltaH = - MOVE_STEP_LENGTH - DOWN_STEP_LENGTH; 
     tiger.updateTiger(deltaH); 
     rope.updateRope();
     notes.updateNotes();      
