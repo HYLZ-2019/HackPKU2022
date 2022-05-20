@@ -14,6 +14,7 @@ ExplosiveNote::ExplosiveNote(int type, double sita, double r) {
 
 void NotesInfo::addNotes(int type) {
     Note* cur;
+    printf("%d, %d\n",random_number(), random_number());
     double sita = get_sita(random_number() % BLOCK_NUMBER);
     double r = random_number() % ((int)MAX_HEIGHT - 10) + 5;
     printf("%lf, %lf", sita, r);

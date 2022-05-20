@@ -14,6 +14,8 @@ class World {
     NotesInfo notes;
     int points; // 清零时game over
     int currentStage;
+
+    double NorthPolarAngel;
     
     // 地球旋转角
     int Earth_sita;
