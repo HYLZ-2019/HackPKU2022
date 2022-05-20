@@ -96,6 +96,7 @@ void ExplosiveNote::update_pos() {
 
 void NotesInfo::updateNotes() {
     std::vector<Note*> cur_notes;
+    cur_notes.clear();
     for ( ; !notes.empty();) {
         Note *e = notes.back();
         notes.pop_back();
@@ -114,6 +115,10 @@ void NotesInfo::updateNotes() {
             }
             cur_notes.push_back(e);
         }
+    }
+    while (!cur_notes.empty()) {
+        notes.push_back(cur_notes.back());
+        cur_notes.pop_back();
     }
     if (time % FPS == 0) {
         int ran = random_number() % MAX_STAGE;
