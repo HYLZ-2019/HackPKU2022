@@ -6,7 +6,9 @@ World :: World() {
     currentStage = 0;
     Earth_sita = 0;
     texture[0] = LoadTexture("resources/space.png");
-    texture[1] = LoadTexture("resources/moon.png");
+    Image moon = LoadImage("resources/moon.png");
+    ImageResize(&moon,EARTH_RADIUS,EARTH_RADIUS);
+    texture[1] = LoadTextureFromImage(moon);
     texture[2] = LoadTexture("resources/tiger.png");
     // texture[3] = LoadTexture("resources/");
     // Source rectangle (part of the texture to use for drawing)
