@@ -49,6 +49,10 @@ class Note {
             return ;
         }
 
+        inline bool break_rope() {
+            return false;
+        }
+
         bool get_collision() ;
 
         bool out_of_range() {
@@ -102,6 +106,7 @@ class ExplosiveNote : public Note {
         }
 
         void update_pos();
+        bool break_rope();
 };
 
 #endif

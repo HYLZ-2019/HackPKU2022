@@ -106,6 +106,12 @@ void NotesInfo::updateNotes() {
             delete e;
         } else {
             e->update_pos();
+            if (e->type == 2) {
+                if (e->break_rope()) {
+                    delete e;
+                    continue ;
+                } 
+            }
             cur_notes.push_back(e);
         }
     }
@@ -128,9 +134,20 @@ bool Note::get_collision() {
     int r = (cur + CHECK_SIZE + BLOCK_NUMBER) % BLOCK_NUMBER;
     for (int i = l; i != r; i = (i + 1) % BLOCK_NUMBER) {
         RopeDot cur_dot = world->rope.dots[i];
-        if (true && get_dis(cur_dot.sita, cur_dot.r)) {
+        if (cur_dot.isALIVE() && get_dis(cur_dot.sita, cur_dot.r)) {
             return true;
         }
     }
     return false;
+}
+
+bool ExplosiveNote::break_rope() {
+    if (time % (FPS * 60) != 0) return false; 
+    int l = world->rope.segments[0].first;
+    int r = world->rope.segments[0].second;
+    if (r < l) r += BLOCK_NUMBER; 
+    int pos = random_number() % (r - l) + l;
+    if (pos >= BLOCK_NUMBER) pos -= BLOCK_NUMBER;
+    world->rope.breakRope(l, pos);
+    return true;
 }
