@@ -134,13 +134,18 @@ void DrawGameplayScreen(const World* world, Shader shader)
             // printf("hhhhhhhh!\n");
             for(int i = 0; i < world->notes.notes.size(); i++){
                 // world->notes.notes[i].sita;
-                // world->notes.notes[i].r;
-                printf("%lf\n",world->notes.notes[i]->r);
+                // // world->notes.notes[i].r;
+                // printf("%lf\n",world->notes.notes[i]->r);
                 int frameType = world->notes.notes[i]->type + 3;
                 Rectangle frameRec = {0.0f,0.0f,(float)world->texture[frameType].width, (float)world->texture[frameType].height};
                 // Vector2 tiger_origin = TransitionCoordinate(world->notes.notes[i]->sita,world->notes.notes[i]->r+EARTH_RADIUS);
-                Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[3].width/6, (float)world->texture[3].height };
-                DrawTexturePro(world->texture[3], frameRec, destRec, (Vector2){(float)world->texture[3].width/2,(float)(world->notes.notes[i]->r+(float)EARTH_RADIUS*2.0/3)},  (-(float)world->NorthPolarAngel + world->notes.notes[i]->sita)*RAD2DEG,WHITE);
+                Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[frameType].width/6, (float)world->texture[frameType].height };
+                DrawTexturePro(world->texture[frameType], frameRec, destRec, (Vector2){(float)world->texture[frameType].width/2,(float)(world->notes.notes[i]->r+(float)EARTH_RADIUS*2.0/3+30)}, 
+              (-(float)world->NorthPolarAngel + world->notes.notes[i]->sita+PI*7/12)*RAD2DEG,WHITE);
+                
+                Vector2 tiger_origin = TransitionCoordinate(world->notes.notes[i]->sita- world -> NorthPolarAngel, world->notes.notes[i]->r + (float)EARTH_RADIUS*2/3);
+                tiger_origin.x += EARTH_POSX, tiger_origin.y += EARTH_POSY;
+                DrawCircle(tiger_origin.x,tiger_origin.y,20,GREEN);
             }
 
 

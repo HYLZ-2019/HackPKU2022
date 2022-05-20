@@ -161,7 +161,7 @@ bool Note::get_collision() {
 }
 
 bool ExplosiveNote::break_rope() {
-    if (time % (FPS * 60) != 0) return false; 
+    if (time % (FPS * 60) != 0 || time == 0) return false; 
     int l = world->rope.segments[0].first;
     int r = world->rope.segments[0].second;
     if (r < l) r += BLOCK_NUMBER; 

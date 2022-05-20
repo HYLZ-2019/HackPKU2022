@@ -16,7 +16,7 @@ const double MAX_HEIGHT = 300;  //高度上限
 const double ROPE_DOWN_STEP = 1; //绳子的自然下坠速度
 
 // TODO(xy) : 给出你觉得合适的判定点大小
-const int NOTE_RADIUS = 10;//判定点大小
+const int NOTE_RADIUS = 20;//判定点大小
 
 // 屏幕长款
 const int SCREEN_WIDTH = 1200;
@@ -28,8 +28,8 @@ const int EARTH_POSX = SCREEN_WIDTH/2;
 const int EARTH_POSY = SCREEN_HEIGHT*2/3;
 
 // note config
-const int NOTE_WIDTH = 50;
-const int NOTE_HEIGHT = 50;
+const int NOTE_WIDTH = 250;
+const int NOTE_HEIGHT = 100;
 
 
 
