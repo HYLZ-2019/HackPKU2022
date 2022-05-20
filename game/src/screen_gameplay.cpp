@@ -120,13 +120,13 @@ void DrawGameplayScreen(const World* world, Shader shader)
             Rectangle frameRec = {0.0f,0.0f,(float)world->texture[2].width/6, (float)world->texture[2].height};
             frameRec.x = (float)(world->tiger.position)*(float)world->texture[2].width/6;
             Vector2 tiger_origin = TransitionCoordinate(world->tiger.sita,world->tiger.r+EARTH_RADIUS);
-            Rectangle destRec = { SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f, (float)world->texture[2].width/6, (float)world->texture[2].height };
-            // print("%d,%d",)
-            // printf("%lf,%lf,%d\n",world->tiger.sita,world->tiger.r,world->tiger.position);
-            DrawTexturePro(world->texture[2], frameRec, destRec, (Vector2){(float)world->texture[2].width/12,(float)(world->tiger.r+EARTH_RADIUS)}, 0,/*PI/(2.0*DEG2RAD)*/ WHITE);
+            Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[2].width/6, (float)world->texture[2].height };
+            DrawTexturePro(world->texture[2], frameRec, destRec, (Vector2){(float)world->texture[2].width/12,(float)(world->tiger.r+EARTH_RADIUS)}, 0,WHITE);
             // world->tiger->sita;
             // world->tiger->r;(float)world->texture[2].width/3,(float)world->texture[2].height*2
             // world->tiger->pos;
+
+
 
 
 
