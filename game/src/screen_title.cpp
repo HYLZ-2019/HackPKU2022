@@ -35,6 +35,7 @@ static int finishScreen = 0;
 //----------------------------------------------------------------------------------
 // Title Screen Functions Definition
 //----------------------------------------------------------------------------------
+Texture titlepic;
 
 // Title Screen Initialization logic
 void InitTitleScreen(void)
@@ -42,6 +43,7 @@ void InitTitleScreen(void)
     // TODO: Initialize TITLE screen variables here!
     framesCounter = 0;
     finishScreen = 0;
+    titlepic = LoadTexture("resources/title.png");
 }
 
 // Title Screen Update logic
@@ -63,14 +65,17 @@ void DrawTitleScreen(void)
 {
     // TODO: Draw TITLE screen here!
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), GREEN);
-    DrawTextEx(font, "TITLE SCREEN", (Vector2){ 20, 10 }, font.baseSize*3.0f, 4, DARKGREEN);
-    DrawText("PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN", 120, 220, 20, DARKGREEN);
+    DrawTexture(titlepic, 0, 0, WHITE);
+    Rectangle source_rec = {0.0f, 0.0f, (float)titlepic.width, (float)titlepic.width};
+    Rectangle dest_rec = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+    DrawTexturePro(titlepic, source_rec, dest_rec, {0.0f, 0.0f}, 0.0f, WHITE);
 }
 
 // Title Screen Unload logic
 void UnloadTitleScreen(void)
 {
     // TODO: Unload TITLE screen variables here!
+    UnloadTexture(titlepic);
 }
 
 // Title Screen should finish?
