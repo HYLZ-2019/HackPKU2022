@@ -27,6 +27,9 @@
 #define SCREENS_H
 
 #include "rope.h"
+#include "tiger.h"
+#include "notes.h"
+#include "world.h"
 
 //----------------------------------------------------------------------------------
 // Types and Structures Definition

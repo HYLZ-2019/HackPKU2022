@@ -12,10 +12,6 @@
 *
 ********************************************************************************************/
 
-/*
-    by scarlyw
-*/
-
 #include "raylib.h"
 #include "screens.h"    // NOTE: Declares global (extern) variables and screens functions
 
@@ -59,6 +55,10 @@ static void UpdateDrawFrame(void);          // Update and draw one frame
 //----------------------------------------------------------------------------------
 // Main entry point
 //----------------------------------------------------------------------------------
+
+/* 游戏的所有全局信息。会在“new game”的时候new出来。 */
+World* world;
+
 int main(void)
 {
     // Initialization
