@@ -1,5 +1,6 @@
 #ifndef NOTESH
 #define NOTESH
+#include "raylib.h"
 #include "constant.h"
 #include <vector>
 #include <ctime>
@@ -9,8 +10,7 @@ const int time_stamp = 15;
 const int score[4] = {5, 10, 20, -5};
 
 inline int random_number() {
-    srand(time(0));
-    return rand();
+    return GetRandomValue(0, 147483647);
 }
 
 inline double get_sita(int pos) {

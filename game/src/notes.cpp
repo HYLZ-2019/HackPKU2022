@@ -16,6 +16,7 @@ void NotesInfo::addNotes(int type) {
     Note* cur;
     double sita = get_sita(random_number() % BLOCK_NUMBER);
     double r = random_number() % ((int)MAX_HEIGHT - 10) + 5;
+    printf("%lf, %lf", sita, r);
     switch(type) {    
         case 0:
             cur = new NormalNote(type, sita, r);

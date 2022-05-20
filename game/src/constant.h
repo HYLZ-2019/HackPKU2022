@@ -23,7 +23,7 @@ const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 900;
 
 // 地球config
-const int EARTH_RADIUS = 300;
+const int EARTH_RADIUS = 400;
 const int EARTH_POSX = SCREEN_WIDTH/2;
 const int EARTH_POSY = SCREEN_HEIGHT*2/3;
 
