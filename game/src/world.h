@@ -18,7 +18,7 @@ class World {
     double NorthPolarAngel;
     
     // 地球旋转角
-    int Earth_sita;
+    float Earth_sita;
     Texture texture[TEXTURE_CNT];
     Rectangle sourceRec;
     Rectangle destRec;

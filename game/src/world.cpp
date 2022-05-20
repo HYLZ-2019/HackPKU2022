@@ -6,7 +6,7 @@ World :: World() {
     points = 0;
     currentStage = 0;
     Earth_sita = 0;
-    NorthPolarAngel = 0;
+    NorthPolarAngel = PI / 2.0;
     texture[0] = LoadTexture("resources/space.png");
     Image moon = LoadImage("resources/moon.png");
     ImageResize(&moon,EARTH_RADIUS,EARTH_RADIUS);
@@ -46,7 +46,7 @@ void World::updateWorld(){
     if (points > pointsNeededForNextStage(currentStage)){
         currentStage += 1;
     }
-    Earth_sita++;
+    Earth_sita-=0.1;
     NorthPolarAngel += 2 * PI / BLOCK_NUMBER;
     return;
 }
