@@ -3,6 +3,7 @@
 #include "screens.h"
 #include <vector>
 
+class World;
 extern World* world; // 可以直接读取全局信息。不要修改自己(world.notes)以外的全局信息。
 
 class Note;

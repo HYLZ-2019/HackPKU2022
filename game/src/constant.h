@@ -1,3 +1,6 @@
+#ifndef CONSTANT_H
+#define CONSTANT_H
+
 #include <cmath>
 
 const int FPS = 60; // 游戏的帧率
@@ -5,9 +8,13 @@ const double Pi = acos(-1);
 
 // TODO(wy) : 修改至你喜欢的大小
 const int BLOCK_NUMBER = 720; // 2pi被分割成多少个角度
-const double UP_STEP_LENGTH = 0.5;
+
+const double UP_STEP_LENGTH = 0.5; //老虎的上升/下降速度
 const double DOWN_STEP_LENGTH = 1;
-const double MAX_HEIGHT = 50;
+
+const double MAX_HEIGHT = 50;  //高度上限
+
+const double ROPE_DOWN_STEP = 0.3; //绳子的自然下坠速度
 
 // TODO(xy) : 给出你觉得合适的判定点大小
 const int NOTE_RADIUS = 10;//判定点大小
@@ -30,3 +37,5 @@ const int HighSpeed = 20;
 
 // 总共有几个关卡（一旦stage变成MAX_STAGE，就视为通关）
 const int MAX_STAGE = 10;
+
+#endif
