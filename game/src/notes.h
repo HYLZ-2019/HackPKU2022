@@ -1,5 +1,6 @@
 #ifndef NOTESH
 #define NOTESH
+#include "raylib.h"
 #include "constant.h"
 #include <vector>
 #include <ctime>
@@ -9,8 +10,7 @@ const int time_stamp = 15;
 const int score[4] = {5, 10, 20, -5};
 
 inline int random_number() {
-    srand(1);
-    return rand();
+    return GetRandomValue(0, 147483647);
 }
 
 inline double get_sita(int pos) {
@@ -32,7 +32,7 @@ class Note {
         Note(int type, double sita, double r);
 
         inline double random_speed() {
-            return (double)(random_number() % (NOTE_MID_SPEED - speed - 1)
+            return (double)(random_number() % (NOTE_HIGH_SPEED - speed - 1)
                  + speed);
         }
 
@@ -46,6 +46,7 @@ class Note {
         }
 
         inline void update_pos() {
+            printf("Note");
             return ;
         }
 
@@ -76,10 +77,7 @@ class NotesInfo {
 class NormalNote : public Note {
     public:
         NormalNote() {}
-        NormalNote(int type, double sita, double r) {
-            Note(type, sita, r);
-            //TODO(增加分数赋值)
-        }
+        NormalNote(int type, double sita, double r);
 
         void update_pos();
 };
@@ -87,10 +85,7 @@ class NormalNote : public Note {
 class FasterNote : public Note {
     public:
         FasterNote() {}
-        FasterNote(int type, double sita, double r) {
-            Note(type, sita, r);
-            //TODO(增加分数赋值)
-        }
+        FasterNote(int type, double sita, double r) ;
         void update_pos();
 
 }; 
