@@ -46,7 +46,6 @@ class World {
         if (points > pointsNeededForNextStage(currentStage)){
             currentStage += 1;
         }
-        Earth_sita ++;
         return;
     }
 };
