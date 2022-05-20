@@ -13,6 +13,10 @@ inline int random_number() {
     return rand();
 }
 
+inline double get_sita(int pos) {
+    return (double)pos / 720.0 * PI * 2.0;
+}
+
 class Note {
     public:
         int type; //音符类型
@@ -32,24 +36,23 @@ class Note {
                  + speed);
         }
 
-        inline int get_cur_sita() {
-            return sita * 720.0 / PI / 2.0;
+        inline double get_dis(double dot_sita, double dot_r) {
+            return sqrt(r * r + dot_r * dot_r - 2.0 * r * 
+                dot_r * cos(sita - dot_sita));
         }
 
-        inline double get_sita(int pos) {
-            return (double)pos / 720.0 * PI * 2.0;
+        inline int get_cur_sita() {
+            return sita * 720.0 / PI / 2.0;
         }
 
         inline void update_pos() {
             return ;
         }
 
-        bool get_collision() {
-            return true;
-        }
+        bool get_collision() ;
 
         bool out_of_range() {
-            return true;
+            return r > MAX_HEIGHT || r < 0;
         }
 };
 
@@ -66,7 +69,7 @@ class NotesInfo {
 } ;
 
 /* 普通音符 */
-class NormalNote : Note {
+class NormalNote : public Note {
     public:
         NormalNote() {}
         NormalNote(int type, double sita, double r) {
@@ -77,7 +80,7 @@ class NormalNote : Note {
         void update_pos();
 };
 
-class FasterNote : Note {
+class FasterNote : public Note {
     public:
         FasterNote() {}
         FasterNote(int type, double sita, double r) {
@@ -88,7 +91,7 @@ class FasterNote : Note {
 
 }; 
 
-class ExplosiveNote : Note {
+class ExplosiveNote : public Note {
     public:
         ExplosiveNote() {}
         ExplosiveNote(int type, double sita, double r) ;
