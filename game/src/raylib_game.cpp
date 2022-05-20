@@ -122,7 +122,6 @@ int main(void)
 
     float seconds = 0.0f;
     //--------------------------------------------------------------------------------------
-
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
