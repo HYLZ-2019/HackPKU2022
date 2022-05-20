@@ -36,6 +36,10 @@ static int finishScreen = 0;
 // Gameplay Screen Functions Definition
 //----------------------------------------------------------------------------------
 
+Vector2 TransitionCoordinate(double sita, double rho){
+    return (Vector2){rho*cos(sita),rho*sin(sita)};
+}
+
 // Gameplay Screen Initialization logic
 void InitGameplayScreen(void)
 {
@@ -83,6 +87,24 @@ void DrawGameplayScreen(const World* world, Shader shader)
         EndShaderMode();
         // printf("*************,%d",world->Earth_sita);
             DrawTexturePro(world->texture[1], world->sourceRec, world->destRec, world->origin, (float)world->Earth_sita, WHITE);
+
+
+
+
+            Rectangle frameRec = {0.0f,0.0f,(float)world->texture[2].width/6, (float)world->texture[2].height};
+            frameRec.x = (float)(world->tiger.position)*(float)world->texture[2].width/6;
+            Vector2 tiger_origin = TransitionCoordinate(world->tiger.sita,world->tiger.r+EARTH_RADIUS);
+            Rectangle destRec = { SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f, (float)world->texture[2].width/6, (float)world->texture[2].height };
+            // print("%d,%d",)
+            // printf("%lf,%lf,%d\n",world->tiger.sita,world->tiger.r,world->tiger.position);
+            DrawTexturePro(world->texture[2], frameRec, destRec, (Vector2){(float)world->texture[2].width/12,world->tiger.r+EARTH_RADIUS}, 0,/*PI/(2.0*DEG2RAD)*/ WHITE);
+            // world->tiger->sita;
+            // world->tiger->r;(float)world->texture[2].width/3,(float)world->texture[2].height*2
+            // world->tiger->pos;
+
+
+
+
     // DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
     // DrawTextEx(font, "GAMEPLAY SCREEN / YYYY", (Vector2){ 20, 10 }, font.baseSize*3.0f, 4, MAROON);
     // DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, MAROON);
