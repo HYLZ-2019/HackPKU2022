@@ -26,6 +26,8 @@
 #ifndef SCREENS_H
 #define SCREENS_H
 
+#include "raylib.h"
+
 #include "rope.h"
 #include "tiger.h"
 #include "notes.h"
@@ -80,7 +82,7 @@ int FinishOptionsScreen(void);
 //----------------------------------------------------------------------------------
 void InitGameplayScreen(void);
 void UpdateGameplayScreen(void);
-void DrawGameplayScreen(void);
+void DrawGameplayScreen(const World* world);
 void UnloadGameplayScreen(void);
 int FinishGameplayScreen(void);
 

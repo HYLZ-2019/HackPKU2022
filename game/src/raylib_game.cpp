@@ -282,7 +282,7 @@ static void UpdateDrawFrame(void)
             case LOGO: DrawLogoScreen(); break;
             case TITLE: DrawTitleScreen(); break;
             case OPTIONS: DrawOptionsScreen(); break;
-            case GAMEPLAY: DrawGameplayScreen(); break;
+            case GAMEPLAY: DrawGameplayScreen(world); break;
             case ENDING: DrawEndingScreen(); break;
             default: break;
         }
