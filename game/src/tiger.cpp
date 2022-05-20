@@ -5,7 +5,9 @@
 void Tiger :: initTiger(double pos) {
     sita = pos;
     r = 0;
+    position = 0;
     index = floor(pos * BLOCK_NUMBER / (2 * Pi));
+    times = 0;
     return;
 }
 
@@ -19,5 +21,8 @@ void Tiger :: updateTiger(double delH) {
     r += delH;
     if (r < 0) r = 0;
     if (r > MAX_HEIGHT) r = MAX_HEIGHT;
+
+    if(times%6==0) position = (position+1)%6;
+    times ++;
     return;
 }

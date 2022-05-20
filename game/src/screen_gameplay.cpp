@@ -36,8 +36,8 @@ static int finishScreen = 0;
 // Gameplay Screen Functions Definition
 //----------------------------------------------------------------------------------
 
-Vector2 Transition_Coordinate(double sita, double rho){
-    return (Vector2){(double)ScreenWidth/2.0f+rho*cos(sita),(double)ScreenHeight/2.0f+rho*sin(sita)};
+Vector2 TransitionCoordinate(double sita, double rho){
+    return (Vector2){rho*cos(sita),rho*sin(sita)};
 }
 
 // Gameplay Screen Initialization logic
@@ -88,14 +88,21 @@ void DrawGameplayScreen(const World* world, Shader shader)
         // printf("*************,%d",world->Earth_sita);
             DrawTexturePro(world->texture[1], world->sourceRec, world->destRec, world->origin, (float)world->Earth_sita, WHITE);
 
+
+
+
             Rectangle frameRec = {0.0f,0.0f,(float)world->texture[2].width/6, (float)world->texture[2].height};
-            frameRec.x = (float)(world->tiger.pos)*(float)world->texture[2].width/6;
-            Vector2 tiger_origin = Transition_Coordinate(world->tiger.sita,world->tiger.r);
-            Rectangle destRec = { screenWidth/2.0f, screenHeight/2.0f, world->texture[2].width*2.0f, world->texture[2].height*2.0f };
-            DrawTexturePro(world->texture[2], frameRec, destRec, tiger_origin, world->tiger.sita, WHITE);
+            frameRec.x = (float)(world->tiger.position)*(float)world->texture[2].width/6;
+            Vector2 tiger_origin = TransitionCoordinate(world->tiger.sita,world->tiger.r+Earth_RADIUS);
+            Rectangle destRec = { screenWidth/2.0f, screenHeight/2.0f, (float)world->texture[2].width/6, (float)world->texture[2].height };
+            // print("%d,%d",)
+            printf("%lf,%lf,%d\n",world->tiger.sita,world->tiger.r,world->tiger.position);
+            DrawTexturePro(world->texture[2], frameRec, destRec, (Vector2){world->tiger.r+Earth_RADIUS,world->tiger.r+Earth_RADIUS}, world->tiger.sita/DEG2RAD, WHITE);
             // world->tiger->sita;
-            // world->tiger->r;
+            // world->tiger->r;(float)world->texture[2].width/3,(float)world->texture[2].height*2
             // world->tiger->pos;
+
+
 
 
     // DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
