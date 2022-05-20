@@ -266,7 +266,6 @@ static void UpdateDrawFrame(void)
     // Update
     //----------------------------------------------------------------------------------
     UpdateMusicStream(music);       // NOTE: Music keeps playing between screens
-
     if (!onTransition)
     {
         switch(currentScreen)
