@@ -96,7 +96,8 @@ void DrawRope(const World* world) {
 }
 
 void ShowSTATE(const World* world) {
-    DrawText(TextFormat("POINTS: %d, CURRENT_STAGE:%d",world->points,world->currentStage),50,20,20,RED);
+    DrawText(TextFormat("POINTS: %d, CURRENT_STAGE:%d", world -> points, world -> currentStage), 
+             50, 20, 20, RED);
 }
 
 // Gameplay Screen Draw logic
@@ -135,7 +136,8 @@ void DrawGameplayScreen(const World* world, Shader shader)
                 // world->notes.notes[i].sita;
                 // world->notes.notes[i].r;
                 printf("%lf\n",world->notes.notes[i]->r);
-                Rectangle frameRec = {0.0f,0.0f,(float)world->texture[3].width, (float)world->texture[3].height};
+                int frameType = world->notes.notes[i]->type + 3;
+                Rectangle frameRec = {0.0f,0.0f,(float)world->texture[frameType].width, (float)world->texture[frameType].height};
                 // Vector2 tiger_origin = TransitionCoordinate(world->notes.notes[i]->sita,world->notes.notes[i]->r+EARTH_RADIUS);
                 Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[3].width/6, (float)world->texture[3].height };
                 DrawTexturePro(world->texture[3], frameRec, destRec, (Vector2){(float)world->texture[3].width/2,(float)(world->notes.notes[i]->r+(float)EARTH_RADIUS*2.0/3)},  (-(float)world->NorthPolarAngel + world->notes.notes[i]->sita)*RAD2DEG,WHITE);
