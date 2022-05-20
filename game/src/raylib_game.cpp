@@ -69,7 +69,7 @@ int main(void)
 {
     // Initialization
     //---------------------------------------------------------
-    InitWindow(screenWidth, screenHeight, " YYYY ");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, " YYYY ");
 
     InitAudioDevice();      // Initialize audio device
 
@@ -147,7 +147,7 @@ int main(void)
     UnloadSound(fxCoin);
     UnloadShader(shader);         // Unload shader
     // UnloadTexture(texture);       // Unload texture
-    for(int i=0;i<=Texture_number;i++){
+    for(int i=0;i<=TEXTURE_CNT;i++){
         UnloadTexture(world->texture[i]);
     }
     

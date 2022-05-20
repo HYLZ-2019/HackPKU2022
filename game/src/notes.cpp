@@ -4,12 +4,12 @@ extern World* world;
 // 可以直接读取全局信息。不要修改自己(world.notes)以外的全局信息。
 
 Note::Note(int type, double sita, double r) : type(type), 
-            sita(sita), r(r), alive(true), speed(SpeedMin + world->currentStage)
+            sita(sita), r(r), alive(true), speed(NOTE_MIN_SPEED + world->currentStage)
                 , time(0), points(score[type]) {}
 
 ExplosiveNote::ExplosiveNote(int type, double sita, double r) {
             Note(type, sita, r);
-            speed = SpeedMin * 2 + world->currentStage;
+            speed = NOTE_MIN_SPEED * 2 + world->currentStage;
 }
 
 void NotesInfo::addNotes(int type) {

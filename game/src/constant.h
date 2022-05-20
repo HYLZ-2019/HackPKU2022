@@ -4,7 +4,6 @@
 #include <cmath>
 
 const int FPS = 60; // 游戏的帧率
-const double Pi = acos(-1);
 
 // TODO: 需要调参
 const int BLOCK_NUMBER = 720; // 2pi被分割成多少个角度
@@ -20,26 +19,26 @@ const double ROPE_DOWN_STEP = 0.3; //绳子的自然下坠速度
 const int NOTE_RADIUS = 10;//判定点大小
 
 // 屏幕长款
-const int screenWidth = 1200;
-const int screenHeight = 1200;
+const int SCREEN_WIDTH = 1200;
+const int SCREEN_HEIGHT = 1200;
 
 // 地球config
-const int Earth_RADIUS = 400;
-const int Earth_posX = 200;
-const int Earth_posY = 200;
+const int EARTH_RADIUS = 400;
+const int EARTH_POSX = 200;
+const int EARTH_POSY = 200;
 
 
 // 纹理个数
-const int Texture_number = 3;
+const int TEXTURE_CNT = 3;
+
+
 
 // 运动速度
   // 常规音符
-const int SpeedMin = 3;
-const int SpeedMax = 10;
+const int NOTE_MIN_SPEED = 3;
+const int NOTE_MID_SPEED = 10;
   // 爆炸音符
-const int HighSpeed = 20;
-
-// const double PI = acos(-1.0);
+const int NOTE_HIGH_SPEED = 20;
 
 // 总共有几个关卡（一旦stage变成MAX_STAGE，就视为通关）
 const int MAX_STAGE = 10;

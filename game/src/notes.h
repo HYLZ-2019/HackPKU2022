@@ -32,7 +32,7 @@ class Note {
         Note(int type, double sita, double r);
 
         inline double random_speed() {
-            return (double)(random_number() % (SpeedMax - speed - 1)
+            return (double)(random_number() % (NOTE_MID_SPEED - speed - 1)
                  + speed);
         }
 
@@ -101,7 +101,7 @@ class ExplosiveNote : public Note {
         ExplosiveNote(int type, double sita, double r) ;
 
         inline double random_speed() {
-            return (double)(random_number() % (HighSpeed - speed - 1)
+            return (double)(random_number() % (NOTE_HIGH_SPEED - speed - 1)
                  + speed);
         }
 
