@@ -13,7 +13,24 @@ ExplosiveNote::ExplosiveNote(int type, double sita, double r) {
 }
 
 void NotesInfo::addNotes(int type) {
-    
+    Note* cur;
+    double sita = get_sita(random_number() % BLOCK_NUMBER);
+    double r = random_number() % ((int)MAX_HEIGHT - 10) + 5;
+    switch(type) {    
+        case 0:
+            cur = new NormalNote(type, sita, r);
+            break ;
+        case 1:
+            cur = new FasterNote(type, sita, r);
+            break ;
+        case 2:
+            cur = new ExplosiveNote(type, sita, r);
+            break ;
+        case 3:
+            cur = new NormalNote(type, sita, r);
+            break ;
+    }
+    notes.push_back(cur);
 }
 
 void NormalNote::update_pos() {
@@ -89,6 +106,12 @@ void NotesInfo::updateNotes() {
             delete e;
         } else {
             e->update_pos();
+            if (e->type == 2) {
+                if (e->break_rope()) {
+                    delete e;
+                    continue ;
+                } 
+            }
             cur_notes.push_back(e);
         }
     }
@@ -101,4 +124,30 @@ void NotesInfo::updateNotes() {
     }
     ++time;
     return;
+}
+
+const int CHECK_SIZE = 15;
+
+bool Note::get_collision() {
+    int cur = get_cur_sita();
+    int l = (cur - CHECK_SIZE + BLOCK_NUMBER) % BLOCK_NUMBER;
+    int r = (cur + CHECK_SIZE + BLOCK_NUMBER) % BLOCK_NUMBER;
+    for (int i = l; i != r; i = (i + 1) % BLOCK_NUMBER) {
+        RopeDot cur_dot = world->rope.dots[i];
+        if (cur_dot.isALIVE() && get_dis(cur_dot.sita, cur_dot.r)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool ExplosiveNote::break_rope() {
+    if (time % (FPS * 60) != 0) return false; 
+    int l = world->rope.segments[0].first;
+    int r = world->rope.segments[0].second;
+    if (r < l) r += BLOCK_NUMBER; 
+    int pos = random_number() % (r - l) + l;
+    if (pos >= BLOCK_NUMBER) pos -= BLOCK_NUMBER;
+    world->rope.breakRope(l, pos);
+    return true;
 }
