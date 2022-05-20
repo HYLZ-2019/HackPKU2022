@@ -11,7 +11,7 @@ class Tiger {
     int index;
     
     //初始化老虎。pos为当前帧老虎所在的极角方向，pos \in [0, 2Pi)
-    void initTigher(double pos);
+    void initTiger(double pos);
     /* 每帧调用一次，不负责读取用户的键盘输入。
       delH表示当前时间段内老虎的高度变化，更新老虎的状态。 
       如果老虎触地，它只能在地上，不能穿透地心再向下了。*/
