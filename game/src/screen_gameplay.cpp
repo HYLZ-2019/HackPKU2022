@@ -85,10 +85,19 @@ void DrawRope(const World* world) {
                                               PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3);
             pointsP[k].x += EARTH_POSX, pointsP[k].y += EARTH_POSY;
         }
-        for (int j = 0; j < numPoints - 1; ++j) {
+        /*for (int j = 0; j < numPoints - 1; ++j) { 
             if(PolarAngels[j].second == ROPEDOT_ZERO)DrawLineEx(pointsP[j], pointsP[j + 1], 10.0, GRAY);
             if(PolarAngels[j].second == ROPEDOT_ALIVE)DrawLineEx(pointsP[j], pointsP[j + 1], 10.0, RED);
             if(PolarAngels[j].second == ROPEDOT_DEAD)DrawLineEx(pointsP[j], pointsP[j + 1], 10.0, BLUE);
+        }*/
+
+        for (int j = l, k = 0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
+            int type = PolarAngels[j].second;
+            if ((j + 1) % BLOCK_NUMBER != r) {
+                if(type == ROPEDOT_ZERO)DrawLineEx(pointsP[k], pointsP[k + 1], 10.0, GRAY);
+                if(type == ROPEDOT_ALIVE)DrawLineEx(pointsP[k], pointsP[k + 1], 10.0, RED);
+                if(type == ROPEDOT_DEAD)DrawLineEx(pointsP[k], pointsP[k + 1], 10.0, BLUE);
+            }
         }
         //printf("++++++++++ DrawRope() seg %d numPoints = %d\n", i, numPoints);                        
         // Draw a line defining thickness
