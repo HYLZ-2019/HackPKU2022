@@ -152,7 +152,8 @@ bool Note::get_collision() {
     int r = (cur + CHECK_SIZE + BLOCK_NUMBER) % BLOCK_NUMBER;
     for (int i = l; i != r; i = (i + 1) % BLOCK_NUMBER) {
         RopeDot cur_dot = world->rope.dots[i];
-        if (cur_dot.isALIVE() && get_dis(cur_dot.sita, cur_dot.r)) {
+        if (cur_dot.isALIVE() && get_dis(cur_dot.sita, 
+            cur_dot.r) < (double)NOTE_RADIUS) {
             return true;
         }
     }
