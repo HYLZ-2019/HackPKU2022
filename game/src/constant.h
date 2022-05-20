@@ -20,3 +20,6 @@ const int SpeedMin = 3;
 const int SpeedMax = 10;
 
 // const double PI = acos(-1.0);
+
+// 总共有几个关卡（一旦stage变成MAX_STAGE，就视为通关）
+const int MAX_STAGE = 10;

@@ -26,12 +26,15 @@
 #ifndef SCREENS_H
 #define SCREENS_H
 
+#include <cassert>
+
 #include "raylib.h"
 #include "constant.h"
 #include "rope.h"
 #include "tiger.h"
 #include "notes.h"
 #include "world.h"
+
 
 //----------------------------------------------------------------------------------
 // Types and Structures Definition
