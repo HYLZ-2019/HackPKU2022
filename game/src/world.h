@@ -5,8 +5,8 @@
 #include "rope.h"
 #include "notes.h"
 
-
 /* 后端的所有信息。 */
+
 class World {
   public:
     Tiger tiger;

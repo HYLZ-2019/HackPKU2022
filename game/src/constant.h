@@ -6,7 +6,7 @@
 const int FPS = 60; // 游戏的帧率
 const double Pi = acos(-1);
 
-// TODO(wy) : 修改至你喜欢的大小
+// TODO: 需要调参
 const int BLOCK_NUMBER = 720; // 2pi被分割成多少个角度
 
 const double UP_STEP_LENGTH = 0.5; //老虎的上升/下降速度
