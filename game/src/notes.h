@@ -1,49 +1,104 @@
 #ifndef NOTESH
 #define NOTESH
-#include "screens.h"
+#include "constant.h"
 #include <vector>
+#include <ctime>
+#include <random>
 
-extern World* world; // 可以直接读取全局信息。不要修改自己(world.notes)以外的全局信息。
+const int time_stamp = 15;
+const int score[4] = {5, 10, 20, -5};
 
-class Note;
+inline int random_number() {
+    srand(time(0));
+    return rand();
+}
+
+class Note {
+    public:
+        int type; //音符类型
+        double sita, r; // 极坐标描述位置(这里给出的r是离地高度)
+        bool alive; // 是否存活
+        // TODO: 待调参
+        int speed; // 速度底线（根据游戏进程常量处理）
+        int time; // 音符自己的时间戳
+        int points; // 得分情况
+        int delta;
+        int del_speed;
+        Note() {}
+        Note(int type, double sita, double r);
+
+        inline double random_speed() {
+            return (double)(random_number() % (SpeedMax - speed - 1)
+                 + speed);
+        }
+
+        inline int get_cur_sita() {
+            return sita * 720.0 / PI / 2.0;
+        }
+
+        inline double get_sita(int pos) {
+            return (double)pos / 720.0 * PI * 2.0;
+        }
+
+        inline void update_pos() {
+            return ;
+        }
+
+        bool get_collision() {
+            return true;
+        }
+
+        bool out_of_range() {
+            return true;
+        }
+};
 
 class NotesInfo {
   public:
     std::vector<Note*> notes;
+    int time;
     
     /* 更新所有音符的状态（包括生成新音符，改变已有音符的位置，消灭过期音符等） */
-    void updateNotes(){
-        return;
-    }
+    NotesInfo() : time(0) {}
 
-    void addNotes(){
-        return;
-    }
-};
-
-/* 所有音符的基类 */
-class Note {
-  public:
-    // 位置
-    double sita;
-    double r;
-    // 吸收后能得多少分
-    int points;
-    
-    virtual void update();
-};
+    void updateNotes() ;
+    void addNotes(int type) ; 
+} ;
 
 /* 普通音符 */
 class NormalNote : Note {
-    void update(){
-        return;
-    }
+    public:
+        NormalNote() {}
+        NormalNote(int type, double sita, double r) {
+            Note(type, sita, r);
+            //TODO(增加分数赋值)
+        }
+
+        void update_pos();
 };
 
+class FasterNote : Note {
+    public:
+        FasterNote() {}
+        FasterNote(int type, double sita, double r) {
+            Note(type, sita, r);
+            //TODO(增加分数赋值)
+        }
+        void update_pos();
+
+}; 
+
 class ExplosiveNote : Note {
-    void update(){
-        return;
-    }
+    public:
+        ExplosiveNote() {}
+        ExplosiveNote(int type, double sita, double r) ;
+
+        inline double random_speed() {
+            return (double)(random_number() % (HighSpeed - speed - 1)
+                 + speed);
+        }
+
+        void update_pos();
 };
 
 #endif

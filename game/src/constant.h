@@ -1,3 +1,6 @@
+#ifndef CONSTZANT_H
+#define CONSTZANT_H
+
 #include <cmath>
 
 const int FPS = 60; // 游戏的帧率
@@ -30,3 +33,5 @@ const int HighSpeed = 20;
 
 // 总共有几个关卡（一旦stage变成MAX_STAGE，就视为通关）
 const int MAX_STAGE = 10;
+
+#endif
