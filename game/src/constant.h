@@ -13,11 +13,17 @@ const double MAX_HEIGHT = 50;
 const int NOTE_RADIUS = 10;//判定点大小
 
 // 屏幕长款
-const int screenWidth = 800;
-const int screenHeight = 800;
+const int screenWidth = 1200;
+const int screenHeight = 1200;
 
-// 地球半径
+// 地球config
 const int Earth_RADIUS = 400;
+const int Earth_posX = 200;
+const int Earth_posY = 200;
+
+
+// 纹理个数
+const int Texture_number = 2;
 
 // 运动速度
   // 常规音符

@@ -24,6 +24,7 @@
 **********************************************************************************************/
 #include "raylib.h"
 #include "screens.h"
+#include "cstdio"
 
 //----------------------------------------------------------------------------------
 // Module Variables Definition (local)
@@ -63,12 +64,27 @@ void UpdateGameplayScreen(void)
 }
 
 // Gameplay Screen Draw logic
-void DrawGameplayScreen(const World* world)
+void DrawGameplayScreen(const World* world, Shader shader)
 {
     // TODO: Draw GAMEPLAY screen here!
-    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
-    DrawTextEx(font, "GAMEPLAY SCREEN / YYYY", (Vector2){ 20, 10 }, font.baseSize*3.0f, 4, MAROON);
-    DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, MAROON);
+    ClearBackground(RAYWHITE);
+
+        BeginShaderMode(shader);
+
+            DrawTexture(world->texture[0], world->texture[0].width, 0, WHITE);
+            DrawTexture(world->texture[0], 0, 0, WHITE);
+            DrawTexture(world->texture[0], 0, world->texture[0].height, WHITE);
+            DrawTexture(world->texture[0], world->texture[0].width, world->texture[0].height, WHITE);
+            DrawTexture(world->texture[0], 0, 2*world->texture[0].height, WHITE);
+            DrawTexture(world->texture[0], world->texture[0].width, 2*world->texture[0].height, WHITE);
+
+        EndShaderMode();
+        // printf("*************,%d",world->Earth_sita);
+            DrawTexturePro(world->texture[1], world->sourceRec, world->destRec, world->origin, (float)world->Earth_sita, WHITE);
+    // DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
+    // DrawTextEx(font, "GAMEPLAY SCREEN / YYYY", (Vector2){ 20, 10 }, font.baseSize*3.0f, 4, MAROON);
+    // DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, MAROON);
+
 }
 
 void DrawStartScreen(const World* world)
