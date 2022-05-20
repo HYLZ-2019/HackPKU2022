@@ -7,5 +7,6 @@ void World::updateWorld() {
     if (points > pointsNeededForNextStage(currentStage)){
         currentStage += 1;
     }
-    return;
+    Earth_sita++;
+    return ;
 }

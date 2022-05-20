@@ -25,6 +25,8 @@ class World {
         Earth_sita = 0;
         texture[0] = LoadTexture("resources/space.png");
         texture[1] = LoadTexture("resources/moon.png");
+        texture[2] = LoadTexture("resources/scarf.png");
+        // texture[3] = LoadTexture("resources/");
         // Source rectangle (part of the texture to use for drawing)
         sourceRec = { 0.0f, 0.0f, (float)texture[1].width, (float)texture[1].height };
         // Destination rectangle (screen rectangle where drawing part of texture)
@@ -39,7 +41,7 @@ class World {
     }
 
     /* 调用tiger, rope, notes的update*/
-    void updateWorld() ;
+    void updateWorld();
 };
 
 #endif

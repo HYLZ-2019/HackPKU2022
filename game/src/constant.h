@@ -26,7 +26,7 @@ const int Earth_posY = 200;
 
 
 // 纹理个数
-const int Texture_number = 2;
+const int Texture_number = 3;
 
 // 运动速度
   // 常规音符
