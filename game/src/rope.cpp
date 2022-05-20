@@ -132,3 +132,12 @@ void RopeInfo :: breakRope(int left, int right) { //请在调用updateRope()后�
     
     getSegs();
 }
+
+//get the Rope's data
+void RopeInfo :: getRopeData(std::vector<std::pair <int,int> >& seg, std::vector<std::pair <double, double> >& PAs) const {
+    seg = segments;
+    PAs.clear();
+    for (int i = 0; i < BLOCK_NUMBER; ++i) 
+        PAs.push_back(std::make_pair(dots[i].sita, dots[i].r));
+    return;
+}

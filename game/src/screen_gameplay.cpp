@@ -37,7 +37,7 @@ static int finishScreen = 0;
 //----------------------------------------------------------------------------------
 
 Vector2 TransitionCoordinate(double sita, double rho){
-    return (Vector2){rho*cos(sita),rho*sin(sita)};
+    return (Vector2){(float)(rho*cos(sita)), (float)(rho*sin(sita))};
 }
 
 // Gameplay Screen Initialization logic
@@ -47,8 +47,8 @@ void InitGameplayScreen(void)
     world = new World();
     framesCounter = 0;
     finishScreen = 0;
-    world->tiger.initTiger(0);
-    world->rope.initRope();
+    world -> tiger.initTiger(0);
+    world -> rope.initRope();
 }
 
 // Gameplay Screen Update logic
@@ -67,6 +67,32 @@ void UpdateGameplayScreen(void)
         world->updateWorld();
     }
     return;
+}
+
+void DrawRope(const World* world) {
+    std::vector <std::pair <double, double> > PolarAngels;
+    std::vector <std::pair <int, int> > seg;
+    world -> rope.getRopeData(seg, PolarAngels);
+    for (int i = 0, sze = seg.size(); i < sze; ++i) {
+        int l = seg[i].first, r = seg[i].second;
+        int numPoints = r - l;
+        if (numPoints <= 0) numPoints += BLOCK_NUMBER;
+        Vector2 *pointsP = (Vector2 *)malloc(numPoints * sizeof(Vector2));
+        for (int j = l, k = 0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
+            //pointsP[k] = TransitionCoordinate(PolarAngels[j].first, 
+            //                                  PolarAngels[j].second);
+            pointsP[k] = TransitionCoordinate(PolarAngels[j].first - world -> NorthPolarAngel, 
+                                              PolarAngels[j].second - world -> NorthPolarAngel);
+            pointsP[k].x += EARTH_POSX, pointsP[k].y += EARTH_POSY;
+        }
+        for (int j = 0; j < numPoints - 1; ++j)
+            DrawLineEx(pointsP[j], pointsP[j + 1], 10.0, RED);
+        //printf("++++++++++ DrawRope() seg %d numPoints = %d\n", i, numPoints);                        
+        // Draw a line defining thickness
+        //DrawLineStrip(pointsP, numPoints, RED);
+        //DrawLine(int startPosX, int startPosY, int endPosX, int endPosY, Color color);
+    }
+    //printf("%d\n", seg.size());
 }
 
 // Gameplay Screen Draw logic
@@ -89,18 +115,27 @@ void DrawGameplayScreen(const World* world, Shader shader)
             DrawTexturePro(world->texture[1], world->sourceRec, world->destRec, world->origin, (float)world->Earth_sita, WHITE);
 
 
-
+            DrawRope(world);
 
             Rectangle frameRec = {0.0f,0.0f,(float)world->texture[2].width/6, (float)world->texture[2].height};
             frameRec.x = (float)(world->tiger.position)*(float)world->texture[2].width/6;
             Vector2 tiger_origin = TransitionCoordinate(world->tiger.sita,world->tiger.r+EARTH_RADIUS);
-            Rectangle destRec = { SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f, (float)world->texture[2].width/6, (float)world->texture[2].height };
-            // print("%d,%d",)
-            // printf("%lf,%lf,%d\n",world->tiger.sita,world->tiger.r,world->tiger.position);
-            DrawTexturePro(world->texture[2], frameRec, destRec, (Vector2){(float)world->texture[2].width/12,world->tiger.r+EARTH_RADIUS}, 0,/*PI/(2.0*DEG2RAD)*/ WHITE);
+            Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[2].width/6, (float)world->texture[2].height };
+            DrawTexturePro(world->texture[2], frameRec, destRec, (Vector2){(float)world->texture[2].width/12,(float)(world->tiger.r+EARTH_RADIUS)}, 0,WHITE);
             // world->tiger->sita;
             // world->tiger->r;(float)world->texture[2].width/3,(float)world->texture[2].height*2
-            // world->tiger->pos;
+            // world->tiger->pos
+            // printf("hhhhhhhh!\n");
+            for(int i = 0; i < world->notes.notes.size(); i++){
+                // world->notes.notes[i].sita;
+                // world->notes.notes[i].r;
+                // printf("%lf,%lf\n",world->notes.notes[i]->sita,world->notes.notes[i]->r);
+                Rectangle frameRec = {0.0f,0.0f,(float)world->texture[3].width, (float)world->texture[3].height};
+                // Vector2 tiger_origin = TransitionCoordinate(world->notes.notes[i]->sita,world->notes.notes[i]->r+EARTH_RADIUS);
+                Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[3].width/6, (float)world->texture[3].height };
+                DrawTexturePro(world->texture[3], frameRec, destRec, (Vector2){(float)world->texture[3].width/2,(float)(world->notes.notes[i]->r+EARTH_RADIUS)}, world->notes.notes[i]->sita*DEG2RAD,WHITE);
+            }
+
 
 
 

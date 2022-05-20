@@ -20,16 +20,21 @@ const int NOTE_RADIUS = 10;//判定点大小
 
 // 屏幕长款
 const int SCREEN_WIDTH = 1200;
-const int SCREEN_HEIGHT = 1200;
+const int SCREEN_HEIGHT = 900;
 
 // 地球config
 const int EARTH_RADIUS = 400;
-const int EARTH_POSX = 200;
-const int EARTH_POSY = 200;
+const int EARTH_POSX = SCREEN_WIDTH/2;
+const int EARTH_POSY = SCREEN_HEIGHT*2/3;
+
+// note config
+const int NOTE_WIDTH = 100;
+const int NOTE_HEIGHT = 100;
+
 
 
 // 纹理个数
-const int TEXTURE_CNT = 3;
+const int TEXTURE_CNT = 4;
 
 const int MOVE_SPEED = 120;
 
