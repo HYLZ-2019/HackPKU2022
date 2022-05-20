@@ -58,7 +58,7 @@ void UpdateGameplayScreen(void)
 }
 
 // Gameplay Screen Draw logic
-void DrawGameplayScreen(void)
+void DrawGameplayScreen(World* world)
 {
     // TODO: Draw GAMEPLAY screen here!
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
