@@ -17,8 +17,19 @@ class World {
         currentStage = 0;
     }
     
+    int pointsNeededForNextStage(int stage){
+        assert(stage < MAX_STAGE);
+        return (stage+1) * 100;
+    }
+
     /* 调用tiger, rope, notes的update*/
     void updateWorld(){
+        tiger.updateTiger();
+        rope.updateRope();
+        notes.updateNotes();      
+        if (points > pointsNeededForNextStage(currentStage)){
+            currentStage += 1;
+        }
         return;
     }
 };
