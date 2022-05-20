@@ -22,7 +22,6 @@
 *     3. This notice may not be removed or altered from any source distribution.
 *
 **********************************************************************************************/
-
 #include "raylib.h"
 #include "screens.h"
 
@@ -64,6 +63,11 @@ void DrawGameplayScreen(const World* world)
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
     DrawTextEx(font, "GAMEPLAY SCREEN / YYYY", (Vector2){ 20, 10 }, font.baseSize*3.0f, 4, MAROON);
     DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, MAROON);
+}
+
+void DrawStartScreen(const World* world)
+{
+    DrawRectangle(0,0, GetScreenHeight(),GetScreenHeight(),PURPLE);
 }
 
 // Gameplay Screen Unload logic

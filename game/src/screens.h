@@ -27,7 +27,7 @@
 #define SCREENS_H
 
 #include "raylib.h"
-
+#include "constant.h"
 #include "rope.h"
 #include "tiger.h"
 #include "notes.h"
