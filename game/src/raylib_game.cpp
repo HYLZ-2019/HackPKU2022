@@ -85,9 +85,9 @@ int main(void)
     // Setup and init first screen
     // currentScreen = LOGO;
     // Dont waste time, go directly to game
-    currentScreen = GAMEPLAY;
+    currentScreen = TITLE;
     //InitLogoScreen();
-    InitGameplayScreen();
+    InitTitleScreen();
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
