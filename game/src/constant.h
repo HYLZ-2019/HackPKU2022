@@ -8,12 +8,12 @@ const int FPS = 60; // 游戏的帧率
 // TODO: 需要调参
 const int BLOCK_NUMBER = 720; // 2pi被分割成多少个角度
 
-const double UP_STEP_LENGTH = 0.5; //老虎的上升/下降速度
+const double MOVE_STEP_LENGTH = 3; //老虎的上升/下降速度
 const double DOWN_STEP_LENGTH = 1;
 
 const double MAX_HEIGHT = 50;  //高度上限
 
-const double ROPE_DOWN_STEP = 0.3; //绳子的自然下坠速度
+const double ROPE_DOWN_STEP = 1; //绳子的自然下坠速度
 
 // TODO(xy) : 给出你觉得合适的判定点大小
 const int NOTE_RADIUS = 10;//判定点大小
@@ -31,7 +31,7 @@ const int EARTH_POSY = 200;
 // 纹理个数
 const int TEXTURE_CNT = 3;
 
-
+const int MOVE_SPEED = 120;
 
 // 运动速度
   // 常规音符
