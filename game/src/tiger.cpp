@@ -5,7 +5,7 @@ void Tiger :: initTiger(double pos) {
     sita = pos;
     r = 0;
     position = 0;
-    index = floor(pos * BLOCK_NUMBER / (2 * Pi));
+    index = floor(pos * BLOCK_NUMBER / (2 * PI));
     times = 0;
     return;
 }
