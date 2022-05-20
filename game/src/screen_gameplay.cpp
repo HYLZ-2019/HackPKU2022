@@ -125,11 +125,11 @@ void DrawGameplayScreen(const World* world, Shader shader)
             // world->tiger->sita;
             // world->tiger->r;(float)world->texture[2].width/3,(float)world->texture[2].height*2
             // world->tiger->pos
-            printf("hhhhhhhh!\n");
+            // printf("hhhhhhhh!\n");
             for(int i = 0; i < world->notes.notes.size(); i++){
                 // world->notes.notes[i].sita;
                 // world->notes.notes[i].r;
-                printf("%lf,%lf\n",world->notes.notes[i]->sita,world->notes.notes[i]->r);
+                // printf("%lf,%lf\n",world->notes.notes[i]->sita,world->notes.notes[i]->r);
                 Rectangle frameRec = {0.0f,0.0f,(float)world->texture[3].width, (float)world->texture[3].height};
                 // Vector2 tiger_origin = TransitionCoordinate(world->notes.notes[i]->sita,world->notes.notes[i]->r+EARTH_RADIUS);
                 Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[3].width/6, (float)world->texture[3].height };
