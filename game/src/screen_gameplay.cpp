@@ -95,6 +95,11 @@ void DrawRope(const World* world) {
     //printf("%d\n", seg.size());
 }
 
+void ShowSTATE(const World* world) {
+    DrawText(TextFormat("POINTS: %d, CURRENT_STAGE:%d", world -> points, world -> currentStage), 
+             50, 20, 20, RED);
+}
+
 // Gameplay Screen Draw logic
 void DrawGameplayScreen(const World* world, Shader shader)
 {
@@ -116,6 +121,7 @@ void DrawGameplayScreen(const World* world, Shader shader)
 
 
             DrawRope(world);
+            ShowSTATE(world);
 
             Rectangle frameRec = {0.0f,0.0f,(float)world->texture[2].width/6, (float)world->texture[2].height};
             frameRec.x = (float)(world->tiger.position)*(float)world->texture[2].width/6;

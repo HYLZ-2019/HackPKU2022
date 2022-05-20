@@ -22,7 +22,7 @@ World :: World() {
 
 int World::pointsNeededForNextStage(int stage) {
     assert(stage < MAX_STAGE);
-    return (stage+1) * 100;
+    return (stage + 1) * 100;
 }
 
 /* 调用tiger, rope, notes的update*/

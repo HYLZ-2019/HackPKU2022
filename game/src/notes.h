@@ -14,7 +14,7 @@ inline int random_number() {
 }
 
 inline double get_sita(int pos) {
-    return (double)pos / 720.0 * PI * 2.0;
+    return  2.0 * PI * pos / BLOCK_NUMBER;
 }
 
 class Note {
@@ -26,13 +26,13 @@ class Note {
         int speed; // 速度底线（根据游戏进程常量处理）
         int time; // 音符自己的时间戳
         int points; // 得分情况
-        int delta;
-        int del_speed;
+        int delta;                                                             //警告：未初始化
+        int del_speed;                                                         //警告：未初始化
         Note() {}
         Note(int type, double sita, double r);
 
         inline double random_speed() {
-            return (double)(random_number() % (NOTE_MID_SPEED - speed - 1)
+            return (double)(random_number() % (NOTE_MID_SPEED - speed - 1)     
                  + speed);
         }
 
@@ -42,7 +42,7 @@ class Note {
         }
 
         inline int get_cur_sita() {
-            return sita * 720.0 / PI / 2.0;
+            return floor(sita * BLOCK_NUMBER / 2.0 / PI);
         }
 
         inline void update_pos() {
