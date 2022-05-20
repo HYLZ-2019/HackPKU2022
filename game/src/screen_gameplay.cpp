@@ -70,6 +70,11 @@ void DrawStartScreen(const World* world)
     DrawRectangle(0,0, GetScreenHeight(),GetScreenHeight(),PURPLE);
 }
 
+void DrawFinishScreen(const World* world)
+{
+    DrawRectangle(0,0, GetScreenHeight(),GetScreenHeight(),PURPLE);
+}
+
 // Gameplay Screen Unload logic
 void UnloadGameplayScreen(void)
 {

@@ -9,9 +9,14 @@ const int BLOCK_NUMBER = 720; // 2pi被分割成多少个角度
 const int NOTE_RADIUS = 10;//判定点大小
 
 // 屏幕长款
-static const int screenWidth = 800;
-static const int screenHeight = 800;
+const int screenWidth = 800;
+const int screenHeight = 800;
 
-const int Earth_RADIUS = 40
+// 地球半径
+const int Earth_RADIUS = 400;
+
+// 运动速度
+const int SpeedMin = 3;
+const int SpeedMax = 10;
 
 // const double PI = acos(-1.0);
