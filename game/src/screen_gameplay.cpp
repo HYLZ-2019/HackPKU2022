@@ -43,6 +43,8 @@ void InitGameplayScreen(void)
     world = new World();
     framesCounter = 0;
     finishScreen = 0;
+    world->tiger.initTiger(0);
+    world->rope.initRope();
 }
 
 // Gameplay Screen Update logic

@@ -2,7 +2,7 @@
 #include "tiger.h"
     
 //初始化老虎。pos为当前帧老虎所在的极角方向，pos \in [0, 2Pi)
-void Tiger :: initTigher(double pos) {
+void Tiger :: initTiger(double pos) {
     sita = pos;
     r = 0;
     index = floor(pos * BLOCK_NUMBER / (2 * Pi));
