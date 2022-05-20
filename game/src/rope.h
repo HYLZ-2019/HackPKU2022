@@ -41,7 +41,7 @@ class RopeInfo {
     void breakRope(int left, int right); 
 
     //get the Rope's data
-    void getRopeData(std::vector<std::pair <int,int> >& seg, std::vector<std::pair <double, double> >& PAs) const;
+    void getRopeData(std::vector<std::pair <int,int> >& seg, std::vector<std::pair<std::pair <double, double>, ROPEDOT_STATE > >& PAs) const;
   private:
     void getSegs();
 };

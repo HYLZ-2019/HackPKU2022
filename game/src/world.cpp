@@ -11,7 +11,7 @@ World :: World() {
     Image moon = LoadImage("resources/moon.png");
     ImageResize(&moon,EARTH_RADIUS,EARTH_RADIUS);
     texture[1] = LoadTextureFromImage(moon);
-    printf("%d,%d\n",texture[1].width,texture[1].height);
+    // printf("%d,%d\n",texture[1].width,texture[1].height);
     texture[2] = LoadTexture("resources/tiger.png");
 
     Image purple_note = LoadImage("resources/purple_note.png");

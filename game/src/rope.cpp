@@ -124,6 +124,7 @@ void RopeInfo :: getSegs() {
 
 //请在调用updateRope()后使用
 void RopeInfo :: breakRope(int left, int right) { //请在调用updateRope()后使用
+    printf("%d,%d\n",left,right);
     for (int i = 0; i < BLOCK_NUMBER; ++i) 
         if (InRange(i, left, right)) {
             dots[i].r = 0;
@@ -134,10 +135,10 @@ void RopeInfo :: breakRope(int left, int right) { //请在调用updateRope()后�
 }
 
 //get the Rope's data
-void RopeInfo :: getRopeData(std::vector<std::pair <int,int> >& seg, std::vector<std::pair <double, double> >& PAs) const {
+void RopeInfo :: getRopeData(std::vector<std::pair <int,int> >& seg, std::vector<std::pair<std::pair <double, double>, ROPEDOT_STATE > >& PAs) const {
     seg = segments;
     PAs.clear();
     for (int i = 0; i < BLOCK_NUMBER; ++i) 
-        PAs.push_back(std::make_pair(dots[i].sita, dots[i].r));
+        PAs.push_back(std::make_pair(std::make_pair(dots[i].sita, dots[i].r), dots[i].status));
     return;
 }

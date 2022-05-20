@@ -70,8 +70,8 @@ void UpdateGameplayScreen(void)
 }
 
 void DrawRope(const World* world) {
-    std::vector <std::pair <double, double> > PolarAngels;
-    std::vector <std::pair <int, int> > seg;
+    std::vector <std::pair<std::pair <double, double>, ROPEDOT_STATE > > PolarAngels;
+    std::vector <std::pair <int,int> > seg;
     world -> rope.getRopeData(seg, PolarAngels);
     for (int i = 0, sze = seg.size(); i < sze; ++i) {
         int l = seg[i].first, r = seg[i].second;
@@ -81,12 +81,15 @@ void DrawRope(const World* world) {
         for (int j = l, k = 0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
             //pointsP[k] = TransitionCoordinate(PolarAngels[j].first, 
             //                                  PolarAngels[j].second);
-            pointsP[k] = TransitionCoordinate(PolarAngels[j].first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].second + (float)EARTH_RADIUS*2/3);
+            pointsP[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3);
             pointsP[k].x += EARTH_POSX, pointsP[k].y += EARTH_POSY;
         }
-        for (int j = 0; j < numPoints - 1; ++j)
-            DrawLineEx(pointsP[j], pointsP[j + 1], 10.0, RED);
+        for (int j = 0; j < numPoints - 1; ++j) {
+            if(PolarAngels[j].second == ROPEDOT_ZERO)DrawLineEx(pointsP[j], pointsP[j + 1], 10.0, GRAY);
+            if(PolarAngels[j].second == ROPEDOT_ALIVE)DrawLineEx(pointsP[j], pointsP[j + 1], 10.0, RED);
+            if(PolarAngels[j].second == ROPEDOT_DEAD)DrawLineEx(pointsP[j], pointsP[j + 1], 10.0, BLUE);
+        }
         //printf("++++++++++ DrawRope() seg %d numPoints = %d\n", i, numPoints);                        
         // Draw a line defining thickness
         //DrawLineStrip(pointsP, numPoints, RED);
