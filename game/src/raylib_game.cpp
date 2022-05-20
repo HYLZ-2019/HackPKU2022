@@ -19,6 +19,12 @@
     #include <emscripten/emscripten.h>
 #endif
 
+#if defined(PLATFORM_DESKTOP)
+    #define GLSL_VERSION            330
+#else   // PLATFORM_RPI, PLATFORM_ANDROID, PLATFORM_WEB
+    #define GLSL_VERSION            100
+#endif
+
 //----------------------------------------------------------------------------------
 // Shared Variables Definition (global)
 // NOTE: Those variables are shared between modules through screens.h
@@ -27,6 +33,7 @@ GameScreen currentScreen = GameScreen(0);
 Font font = { 0 };
 Music music = { 0 };
 Sound fxCoin = { 0 };
+Shader shader = { 0 };
 
 //----------------------------------------------------------------------------------
 // Local Variables Definition (local to this module)
@@ -62,7 +69,7 @@ int main(void)
 {
     // Initialization
     //---------------------------------------------------------
-    InitWindow(screenWidth, screenHeight, "raylib game template");
+    InitWindow(screenWidth, screenHeight, " YYYY ");
 
     InitAudioDevice();      // Initialize audio device
 
@@ -70,6 +77,7 @@ int main(void)
     font = LoadFont("resources/mecha.png");
     music = LoadMusicStream("resources/ambient.ogg");
     fxCoin = LoadSound("resources/coin.wav");
+    shader = LoadShader(0, TextFormat("resources/shaders/glsl%i/wave.fs", GLSL_VERSION));
 
     SetMusicVolume(music, 1.0f);
     PlayMusicStream(music);
@@ -82,11 +90,41 @@ int main(void)
     emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
 #else
     SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
+
+
+    int secondsLoc = GetShaderLocation(shader, "secondes");
+    int freqXLoc = GetShaderLocation(shader, "freqX");
+    int freqYLoc = GetShaderLocation(shader, "freqY");
+    int ampXLoc = GetShaderLocation(shader, "ampX");
+    int ampYLoc = GetShaderLocation(shader, "ampY");
+    int speedXLoc = GetShaderLocation(shader, "speedX");
+    int speedYLoc = GetShaderLocation(shader, "speedY");
+
+    // Shader uniform values that can be updated at any time
+    float freqX = 25.0f;
+    float freqY = 25.0f;
+    float ampX = 5.0f;
+    float ampY = 5.0f;
+    float speedX = 8.0f;
+    float speedY = 8.0f;
+
+    float screenSize[2] = { (float)GetScreenWidth(), (float)GetScreenHeight() };
+    SetShaderValue(shader, GetShaderLocation(shader, "size"), &screenSize, SHADER_UNIFORM_VEC2);
+    SetShaderValue(shader, freqXLoc, &freqX, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader, freqYLoc, &freqY, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader, ampXLoc, &ampX, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader, ampYLoc, &ampY, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader, speedXLoc, &speedX, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader, speedYLoc, &speedY, SHADER_UNIFORM_FLOAT);
+
+    float seconds = 0.0f;
     //--------------------------------------------------------------------------------------
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
+        seconds += GetFrameTime();
+        SetShaderValue(shader, secondsLoc, &seconds, SHADER_UNIFORM_FLOAT);
         UpdateDrawFrame();
     }
 #endif
@@ -107,6 +145,12 @@ int main(void)
     UnloadFont(font);
     UnloadMusicStream(music);
     UnloadSound(fxCoin);
+    UnloadShader(shader);         // Unload shader
+    // UnloadTexture(texture);       // Unload texture
+    for(int i=0;i<=Texture_number;i++){
+        UnloadTexture(world->texture[i]);
+    }
+    
 
     CloseAudioDevice();     // Close audio context
 
@@ -281,7 +325,7 @@ static void UpdateDrawFrame(void)
             case LOGO: DrawLogoScreen(); break;
             case TITLE: DrawTitleScreen(); break;
             case OPTIONS: DrawOptionsScreen(); break;
-            case GAMEPLAY: DrawGameplayScreen(world); break;
+            case GAMEPLAY: DrawGameplayScreen(world,shader); break;
             case ENDING: DrawEndingScreen(); break;
             default: break;
         }

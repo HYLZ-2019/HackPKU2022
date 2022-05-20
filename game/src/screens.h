@@ -85,7 +85,7 @@ int FinishOptionsScreen(void);
 //----------------------------------------------------------------------------------
 void InitGameplayScreen(void);
 void UpdateGameplayScreen(void);
-void DrawGameplayScreen(const World* world);
+void DrawGameplayScreen(const World* world,Shader shader);
 void UnloadGameplayScreen(void);
 int FinishGameplayScreen(void);
 
