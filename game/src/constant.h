@@ -16,7 +16,10 @@ const int screenHeight = 800;
 const int Earth_RADIUS = 400;
 
 // 运动速度
+  // 常规音符
 const int SpeedMin = 3;
 const int SpeedMax = 10;
+  // 爆炸音符
+const int HighSpeed = 20;
 
 // const double PI = acos(-1.0);
