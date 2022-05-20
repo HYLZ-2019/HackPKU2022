@@ -34,7 +34,7 @@ const int NOTE_HEIGHT = 100;
 
 
 // 纹理个数
-const int TEXTURE_CNT = 4;
+const int TEXTURE_CNT = 8;
 
 const int MOVE_SPEED = 120;
 

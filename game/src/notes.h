@@ -32,11 +32,7 @@ class Note {
         Note(int type, double sita, double r);
 
         inline double random_speed() {
-<<<<<<< HEAD
-            return (double)(random_number() % (NOTE_MID_SPEED - speed - 1)     
-=======
             return (double)(random_number() % (NOTE_HIGH_SPEED - speed - 1)
->>>>>>> 5e5785aa39f7005b94a35f603d5d6a5d03049070
                  + speed);
         }
 

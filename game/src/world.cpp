@@ -18,6 +18,18 @@ World :: World() {
     ImageResize(&purple_note,NOTE_WIDTH,NOTE_HEIGHT);
     texture[3] = LoadTextureFromImage(purple_note);
 
+    Image orange_note = LoadImage("resources/orange_note.png");
+    ImageResize(&orange_note,NOTE_WIDTH,NOTE_HEIGHT);
+    texture[4] = LoadTextureFromImage(orange_note);
+    
+    Image blue_note = LoadImage("resources/blue_note.png");
+    ImageResize(&blue_note,NOTE_WIDTH,NOTE_HEIGHT);
+    texture[5] = LoadTextureFromImage(blue_note);
+
+    Image wolf_note = LoadImage("resources/wolf_note.png");
+    ImageResize(&wolf_note,NOTE_WIDTH,NOTE_HEIGHT);
+    texture[6] = LoadTextureFromImage(wolf_note);
+
     // texture[3] = LoadTexture("resources/");
     // Source rectangle (part of the texture to use for drawing)
     sourceRec = { 0.0f, 0.0f, (float)texture[1].width, (float)texture[1].height };
