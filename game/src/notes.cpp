@@ -7,17 +7,23 @@ Note::Note(int type, double sita, double r) : type(type),
             sita(sita), r(r), alive(true), speed(NOTE_MIN_SPEED + world->currentStage)
                 , time(0), points(score[type]) {}
 
-ExplosiveNote::ExplosiveNote(int type, double sita, double r) {
-            Note(type, sita, r);
-            speed = NOTE_MIN_SPEED * 2 + world->currentStage;
+NormalNote::NormalNote(int type, double sita, double r) : Note(type, sita, r) {
+}
+
+FasterNote::FasterNote(int type, double sita, double r) : Note(type, sita, r) {
+}
+
+ExplosiveNote::ExplosiveNote(int type, double sita, double r)
+     : Note(type, sita, r) {
+    speed = NOTE_MIN_SPEED * 2 + world->currentStage;
 }
 
 void NotesInfo::addNotes(int type) {
     Note* cur;
-    printf("%d, %d\n",random_number(), random_number());
+    // printf("%d, %d\n",random_number(), random_number());
     double sita = get_sita(random_number() % BLOCK_NUMBER);
     double r = random_number() % ((int)MAX_HEIGHT - 10) + 5;
-    // printf("%lf,%lf\n",sita,r);
+    printf("%lf, %lf\n", sita, r);
     switch(type) {    
         case 0:
             cur = new NormalNote(type, sita, r);
@@ -32,12 +38,15 @@ void NotesInfo::addNotes(int type) {
             cur = new NormalNote(type, sita, r);
             break ;
     }
+    printf("%lf, %lf\n", cur->sita, cur->r);
     notes.push_back(cur);
 }
 
 void NormalNote::update_pos() {
     static int interval = FPS / time_stamp;
+    printf("NormalNote");
     if (time % FPS == 0) {
+        printf("NormalNote");
         delta = (random_number() & 1) ? 1 : -1;
         del_speed = (random_number() & 1) 
             ? random_speed() : -random_speed();
