@@ -9,7 +9,7 @@ const int time_stamp = 15;
 const int score[4] = {5, 10, 20, -5};
 
 inline int random_number() {
-    srand(time(0));
+    srand(1);
     return rand();
 }
 
