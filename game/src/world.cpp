@@ -31,7 +31,8 @@ void World::updateWorld(){
     if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) 
         deltaH = MOVE_STEP_LENGTH - DOWN_STEP_LENGTH;
     else if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S))
-        deltaH = - MOVE_STEP_LENGTH - DOWN_STEP_LENGTH; 
+        deltaH = - MOVE_STEP_LENGTH - DOWN_STEP_LENGTH;
+    else deltaH = -DOWN_STEP_LENGTH; 
     tiger.updateTiger(deltaH); 
     rope.updateRope();
     notes.updateNotes();      
