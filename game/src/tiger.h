@@ -9,6 +9,7 @@ class Tiger {
     double sita; // 0 ~ 2*pi.
     double r; // height.
     int index;
+    int pos;
     
     //初始化老虎。pos为当前帧老虎所在的极角方向，pos \in [0, 2Pi)
     void initTigher(double pos);
