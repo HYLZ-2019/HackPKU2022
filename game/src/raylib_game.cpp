@@ -77,7 +77,7 @@ int main(void)
     font = LoadFont("resources/mecha.png");
     music = LoadMusicStream("resources/ambient.ogg");
     fxCoin = LoadSound("resources/coin.wav");
-    shader = LoadShader(0, TextFormat("resources/shaders/glsl%i/wave.fs", GLSL_VERSION));
+    shader = LoadShader(0, TextFormat("resources/shaders/glsl%i/swirl.fs", GLSL_VERSION));
 
     SetMusicVolume(music, 1.0f);
     PlayMusicStream(music);
@@ -85,9 +85,9 @@ int main(void)
     // Setup and init first screen
     // currentScreen = LOGO;
     // Dont waste time, go directly to game
-    currentScreen = GAMEPLAY;
+    currentScreen = TITLE;
     //InitLogoScreen();
-    InitGameplayScreen();
+    InitTitleScreen();
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 60, 1);

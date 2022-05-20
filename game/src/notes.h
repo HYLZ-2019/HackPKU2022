@@ -1,5 +1,6 @@
 #ifndef NOTESH
 #define NOTESH
+#include "raylib.h"
 #include "constant.h"
 #include <vector>
 #include <ctime>
@@ -9,8 +10,7 @@ const int time_stamp = 15;
 const int score[4] = {5, 10, 20, -5};
 
 inline int random_number() {
-    srand(time(0));
-    return rand();
+    return GetRandomValue(0, 147483647);
 }
 
 inline double get_sita(int pos) {
@@ -32,7 +32,11 @@ class Note {
         Note(int type, double sita, double r);
 
         inline double random_speed() {
+<<<<<<< HEAD
             return (double)(random_number() % (NOTE_MID_SPEED - speed - 1)     
+=======
+            return (double)(random_number() % (NOTE_HIGH_SPEED - speed - 1)
+>>>>>>> 5e5785aa39f7005b94a35f603d5d6a5d03049070
                  + speed);
         }
 
@@ -45,7 +49,8 @@ class Note {
             return floor(sita * BLOCK_NUMBER / 2.0 / PI);
         }
 
-        inline void update_pos() {
+        virtual inline void update_pos() {
+            printf("Note");
             return ;
         }
 
@@ -68,7 +73,7 @@ class NotesInfo {
     /* 更新所有音符的状态（包括生成新音符，改变已有音符的位置，消灭过期音符等） */
     NotesInfo() : time(0) {}
 
-    void updateNotes() ;
+    virtual void updateNotes() ;
     void addNotes(int type) ; 
 } ;
 
@@ -76,22 +81,16 @@ class NotesInfo {
 class NormalNote : public Note {
     public:
         NormalNote() {}
-        NormalNote(int type, double sita, double r) {
-            Note(type, sita, r);
-            //TODO(增加分数赋值)
-        }
+        NormalNote(int type, double sita, double r);
 
-        void update_pos();
+        virtual void update_pos();
 };
 
 class FasterNote : public Note {
     public:
         FasterNote() {}
-        FasterNote(int type, double sita, double r) {
-            Note(type, sita, r);
-            //TODO(增加分数赋值)
-        }
-        void update_pos();
+        FasterNote(int type, double sita, double r) ;
+        virtual void update_pos();
 
 }; 
 

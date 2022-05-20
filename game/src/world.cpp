@@ -1,4 +1,5 @@
 #include "world.h"
+#include <cstdio>
 
 /* 后端的所有信息。 */
 World :: World() {
@@ -10,7 +11,13 @@ World :: World() {
     Image moon = LoadImage("resources/moon.png");
     ImageResize(&moon,EARTH_RADIUS,EARTH_RADIUS);
     texture[1] = LoadTextureFromImage(moon);
+    printf("%d,%d\n",texture[1].width,texture[1].height);
     texture[2] = LoadTexture("resources/tiger.png");
+
+    Image purple_note = LoadImage("resources/purple_note.png");
+    ImageResize(&purple_note,NOTE_WIDTH,NOTE_HEIGHT);
+    texture[3] = LoadTextureFromImage(purple_note);
+
     // texture[3] = LoadTexture("resources/");
     // Source rectangle (part of the texture to use for drawing)
     sourceRec = { 0.0f, 0.0f, (float)texture[1].width, (float)texture[1].height };
