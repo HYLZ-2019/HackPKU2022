@@ -83,8 +83,11 @@ int main(void)
     PlayMusicStream(music);
 
     // Setup and init first screen
-    currentScreen = LOGO;
-    InitLogoScreen();
+    // currentScreen = LOGO;
+    // Dont waste time, go directly to game
+    currentScreen = GAMEPLAY;
+    //InitLogoScreen();
+    InitGameplayScreen();
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
