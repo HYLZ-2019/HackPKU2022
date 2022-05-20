@@ -45,7 +45,7 @@ class Note {
             return sita * 720.0 / PI / 2.0;
         }
 
-        inline void update_pos() {
+        virtual inline void update_pos() {
             printf("Note");
             return ;
         }
@@ -69,7 +69,7 @@ class NotesInfo {
     /* 更新所有音符的状态（包括生成新音符，改变已有音符的位置，消灭过期音符等） */
     NotesInfo() : time(0) {}
 
-    void updateNotes() ;
+    virtual void updateNotes() ;
     void addNotes(int type) ; 
 } ;
 
@@ -79,14 +79,14 @@ class NormalNote : public Note {
         NormalNote() {}
         NormalNote(int type, double sita, double r);
 
-        void update_pos();
+        virtual void update_pos();
 };
 
 class FasterNote : public Note {
     public:
         FasterNote() {}
         FasterNote(int type, double sita, double r) ;
-        void update_pos();
+        virtual void update_pos();
 
 }; 
 

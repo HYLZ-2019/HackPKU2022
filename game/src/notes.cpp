@@ -62,6 +62,7 @@ void NormalNote::update_pos() {
 }
 
 void FasterNote::update_pos() {
+    printf("FasterNote");
     static int interval = FPS / time_stamp, cur_sita, delta;
     if (time % FPS == 0) {
         if (random_number() & 1) {
@@ -88,6 +89,7 @@ void FasterNote::update_pos() {
 }
 
 void ExplosiveNote::update_pos() {
+    printf("ExplosiveNote");
     static int interval = FPS / time_stamp, cur_sita, delta;
     if (time % FPS == 0) {
         // 随机游走
@@ -132,11 +134,11 @@ void NotesInfo::updateNotes() {
         cur_notes.pop_back();
     }
     if (time % FPS == 0) {
-        int ran = random_number() % MAX_STAGE;
-        if (ran < world->currentStage / 4) addNotes(2);
-        else if (ran < MAX_STAGE / 2) addNotes(0);
-        else if (ran < MAX_STAGE / 3 * 2) addNotes(1);
-        else if (ran < MAX_STAGE / 5 * 4) addNotes(3);
+        int ran = random_number() % (MAX_STAGE * 100);
+        if (ran < world->currentStage * 25) addNotes(2);
+        else if (ran < MAX_STAGE * 50) addNotes(0);
+        else if (ran < MAX_STAGE * 75) addNotes(1);
+        else if (ran < MAX_STAGE * 100) addNotes(3);
     }
     ++time;
     return;
