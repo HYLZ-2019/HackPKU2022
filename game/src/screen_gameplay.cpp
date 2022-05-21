@@ -261,12 +261,13 @@ void DrawGameplayScreen(const World* world, Shader shader)
                     if(wolf.ready){
                         t = TransitionCoordinate(wolf.s_sita - world->NorthPolarAngel, wolf.s_r + (float)EARTH_RADIUS*2/3);
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
+                        DrawLineEx(s,t,15,YELLOW);
                     }
                     else{
                         t = TransitionCoordinate(world->tiger.sita - world->NorthPolarAngel, world->tiger.r + (float)EARTH_RADIUS*2/3);
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
+                        DrawLineEx(s,t,3,YELLOW);
                     }
-                    DrawLineV(s,t,YELLOW);
                 }
             }
 
