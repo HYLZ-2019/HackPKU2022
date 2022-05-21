@@ -86,8 +86,8 @@ void DrawRope(const World* world) {
         int kk = 0;
         for (int j = l; j != r; j = (j + 1) % BLOCK_NUMBER, ++kk) {
         }
-        float range_left = std::min(30.0,PolarAngels[l].first.second);
-        float range_right = 30;
+        float range_left = std::min(20.0,PolarAngels[l].first.second);
+        float range_right = 20;
         for (int j = l,k=0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
             //pointsP[k] = TransitionCoordinate(PolarAngels[j].first, 
             //                                  PolarAngels[j].second);
@@ -121,27 +121,28 @@ void DrawRope(const World* world) {
                 if (type == ROPEDOT_ALIVE) printf("ALIVE, ");
                 if (type == ROPEDOT_DEAD) printf("DEAD, ");
             }
+            float thickness = 3.0;
             if ((j + 1) % BLOCK_NUMBER != r) {
                 if(type == ROPEDOT_ZERO){
-                    DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, GRAY);
-                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 6.0, GRAY);
-                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 6.0, GRAY);
-                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 6.0, GRAY);
-                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 6.0, GRAY);
+                    DrawLineEx(pointsP[k], pointsP[k + 1], thickness, GRAY);
+                    DrawLineEx(pointsP1[k], pointsP1[k + 1], thickness, GRAY);
+                    DrawLineEx(pointsP2[k], pointsP2[k + 1], thickness, GRAY);
+                    DrawLineEx(pointsP3[k], pointsP3[k + 1], thickness, GRAY);
+                    DrawLineEx(pointsP4[k], pointsP4[k + 1], thickness, GRAY);
                 }
                 if(type == ROPEDOT_ALIVE){
-                    DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, RED);
-                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 6.0, RED);
-                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 6.0, RED);
-                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 6.0, RED);
-                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 6.0, RED);
+                    DrawLineEx(pointsP[k], pointsP[k + 1], thickness, RED);
+                    DrawLineEx(pointsP1[k], pointsP1[k + 1], thickness, RED);
+                    DrawLineEx(pointsP2[k], pointsP2[k + 1], thickness, RED);
+                    DrawLineEx(pointsP3[k], pointsP3[k + 1], thickness, RED);
+                    DrawLineEx(pointsP4[k], pointsP4[k + 1], thickness, RED);
                 }
                 if(type == ROPEDOT_DEAD){
-                    DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, BLUE);
-                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 6.0, BLUE);
-                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 6.0, BLUE);
-                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 6.0, BLUE);
-                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 6.0, BLUE);
+                    DrawLineEx(pointsP[k], pointsP[k + 1], thickness, BLUE);
+                    DrawLineEx(pointsP1[k], pointsP1[k + 1], thickness, BLUE);
+                    DrawLineEx(pointsP2[k], pointsP2[k + 1], thickness, BLUE);
+                    DrawLineEx(pointsP3[k], pointsP3[k + 1], thickness, BLUE);
+                    DrawLineEx(pointsP4[k], pointsP4[k + 1], thickness, BLUE);
                 }
             }
         }
@@ -227,9 +228,9 @@ void DrawGameplayScreen(const World* world, Shader shader)
                 DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)(pic.width/2),(float)(note->r+pic.height/2+EARTH_RADIUS*2.0/3)}, 
               (-(float)world->NorthPolarAngel + note->sita)*RAD2DEG,WHITE);
                 
-                Vector2 tiger_origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
-                tiger_origin.x += EARTH_POSX, tiger_origin.y += EARTH_POSY;
-                DrawCircle(tiger_origin.x,tiger_origin.y,20,GREEN);
+                // Vector2 tiger_origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
+                // tiger_origin.x += EARTH_POSX, tiger_origin.y += EARTH_POSY;
+                // DrawCircle(tiger_origin.x,tiger_origin.y,20,GREEN);
 
                 if (note->type == 2){
                 // 最后1秒，闪烁叠加爆炸
