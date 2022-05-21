@@ -120,7 +120,6 @@ void RopeInfo :: getSegs() {
                 break;
             }
             dots[i].status = ROPEDOT_DEAD;
-            dots[i].die_time = 0;
         }
     }
 
