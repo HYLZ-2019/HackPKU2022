@@ -57,7 +57,7 @@ void InitEndingScreen(GameResults res)
 void UpdateEndingScreen(void)
 {
     // TODO: Update ENDING screen variables here!
-
+    framesCounter += 1;
     // Press enter or tap to return to TITLE screen
     if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
     {
@@ -77,6 +77,25 @@ void DrawEndingScreen(void)
         DrawTexturePro(youwinPic, source_rec, dest_rec, {0.0f, 0.0f}, 0.0f, WHITE);
         DrawText(TextFormat("%d", result.points), 950, 330, 60, ORANGE);
         DrawText(TextFormat("%02d:%02d", ((int)result.usedTime)/60, (int)(result.usedTime)%60), 950, 400, 60, ORANGE);
+    
+        // Firework 1: [0, 60], Firework 2: [30, 90]
+        int fwtime = framesCounter % 90;
+        Rectangle fwd_1 = {380.0, 50.0, 150.0, 150.0};
+        Rectangle fwd_2 = {600.0, 130.0, 200.0, 200.0};
+        Rectangle fwd_3 = {800.0, 10.0, 300.0, 300.0};
+        Rectangle fws_1 = {float(256.0*((fwtime/2)%6)), float(256.0*((fwtime/2)/6)), 256.0, 256.0};
+        Rectangle fws_2 = {float(256.0*(((fwtime-15)/2)%6)), float(256.0*(((fwtime-15)/2)/6)), 256.0, 256.0};
+        Rectangle fws_3 = {float(256.0*(((fwtime-30)/2)%6)), float(256.0*(((fwtime-30)/2)/6)), 256.0, 256.0};
+        if (0 <= fwtime && fwtime < 60){
+            DrawTexturePro(fireworks, fws_1, fwd_1, {0.0f, 0.0f}, 0.0f, WHITE);
+        }
+        if (15 <= fwtime && fwtime < 75){
+            DrawTexturePro(fireworks, fws_2, fwd_2, {0.0f, 0.0f}, 0.0f, WHITE);
+        }
+        if (30 <= fwtime && fwtime < 90){
+            DrawTexturePro(fireworks, fws_3, fwd_3, {0.0f, 0.0f}, 0.0f, WHITE);
+        }
+    
     }
     else {
         Rectangle source_rec = {0.0f, 0.0f, (float)gameoverPic.width, (float)gameoverPic.width};
