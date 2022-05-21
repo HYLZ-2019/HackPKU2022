@@ -167,7 +167,7 @@ void DrawGameplayScreen(const World* world, Shader shader)
 
         EndShaderMode();
         // printf("*************,%d",world->Earth_sita);
-            DrawTexturePro(world->texture[1], world->sourceRec, world->destRec, world->origin, (float)world -> NorthPolarAngel*RAD2DEG, WHITE);
+            DrawTexturePro(world->texture[1], world->sourceRec, world->destRec, world->origin, -(float)world -> NorthPolarAngel*RAD2DEG, WHITE);
 
 
             DrawRope(world);
