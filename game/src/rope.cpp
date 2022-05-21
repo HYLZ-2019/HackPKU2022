@@ -99,6 +99,7 @@ bool InRange(int x, int l, int r) {
 
 void RopeInfo :: getSegs() {
     int index = world -> tiger.index;
+    dots[index].status = ROPEDOT_ALIVE; //老虎在的那个点总是活的
 
     segments.clear();
     for (int z = 0; z < BLOCK_NUMBER; ++z) if (dots[z].status == ROPEDOT_ZERO) {
@@ -115,7 +116,7 @@ void RopeInfo :: getSegs() {
             dots[i].die_time = 0;
         }
     }
-
+    
     for (int i = index; ; i = (i + BLOCK_NUMBER - 1) % BLOCK_NUMBER) {
         if (dots[i].status == ROPEDOT_ZERO) break;
         dots[i].status = ROPEDOT_ALIVE;

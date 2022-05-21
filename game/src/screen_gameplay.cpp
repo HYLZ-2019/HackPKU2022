@@ -73,6 +73,7 @@ void DrawRope(const World* world) {
     std::vector <std::pair<std::pair <double, double>, ROPEDOT_STATE > > PolarAngels;
     std::vector <std::pair <int,int> > seg;
     world -> rope.getRopeData(seg, PolarAngels);
+    if (seg.size() > 1) printf("SegSize = %d\n", seg.size());
     for (int i = 0, sze = seg.size(); i < sze; ++i) {
         int l = seg[i].first, r = seg[i].second;
         int numPoints = r - l;
@@ -113,6 +114,11 @@ void DrawRope(const World* world) {
         for (int j = l; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
             if(k==kk/2)mid_num = j;
             int type = PolarAngels[j].second;
+            if (j == l && sze > 1) {
+                if (type == ROPEDOT_ZERO) printf("ZERO, ");
+                if (type == ROPEDOT_ALIVE) printf("ALIVE, ");
+                if (type == ROPEDOT_DEAD) printf("DEAD, ");
+            }
             if ((j + 1) % BLOCK_NUMBER != r) {
                 if(type == ROPEDOT_ZERO){
                     DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, GRAY);
@@ -167,6 +173,7 @@ void DrawRope(const World* world) {
         //DrawLineStrip(pointsP, numPoints, RED);
         //DrawLine(int startPosX, int startPosY, int endPosX, int endPosY, Color color);
     }
+    if (seg.size() > 1) printf("\n");
     //printf("%d\n", seg.size());
 }
 
@@ -247,7 +254,6 @@ void DrawGameplayScreen(const World* world, Shader shader)
     // DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
     // DrawTextEx(font, "GAMEPLAY SCREEN / YYYY", (Vector2){ 20, 10 }, font.baseSize*3.0f, 4, MAROON);
     // DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, MAROON);
-
 }
 
 void DrawStartScreen(const World* world)
