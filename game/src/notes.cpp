@@ -22,7 +22,7 @@ void NotesInfo::addNotes(int type) {
     Note* cur;
     // printf("%d, %d\n",random_number(), random_number());
     double sita = get_sita(random_number() % BLOCK_NUMBER);
-    double r = random_number() % ((int)MAX_HEIGHT - 10) + 5;
+    double r = random_number() % ((int)MAX_HEIGHT - 51) + 50;
     // printf("%lf, %lf\n", sita, r);
     switch(type) {    
         case 0:
@@ -61,7 +61,8 @@ void NormalNote::update_pos() {
     }
     r += ((del_speed - last_speed) / (double)r_interval * 
         (time % r_interval + 1) + last_speed) / FPS;
-    if (r < 0) r = 0, del_speed = -del_speed, last_speed = -last_speed;
+    if (r < MIN_HEIGHT) 
+        r = MIN_HEIGHT, del_speed = -del_speed, last_speed = -last_speed;
     if (r > MAX_HEIGHT) 
         r = MAX_HEIGHT, del_speed = -del_speed, last_speed = -last_speed;
     ++time;
@@ -94,7 +95,8 @@ void FasterNote::update_pos() {
     }
     r += ((del_speed - last_speed) / (double)r_interval * 
         (time % r_interval + 1) + last_speed) / FPS;
-    if (r < 0) r = 0, del_speed = -del_speed, last_speed = -last_speed;
+    if (r < MIN_HEIGHT) 
+        r = MIN_HEIGHT, del_speed = -del_speed, last_speed = -last_speed;
     if (r > MAX_HEIGHT) 
         r = MAX_HEIGHT, del_speed = -del_speed, last_speed = -last_speed;
     ++time;
@@ -118,7 +120,8 @@ void ExplosiveNote::update_pos() {
     }
     r += ((del_speed - last_speed) / (double)r_interval * 
         (time % r_interval + 1) + last_speed) / FPS;
-    if (r < 0) r = 0, del_speed = -del_speed, last_speed = -last_speed;
+    if (r < MIN_HEIGHT) 
+        r = MIN_HEIGHT, del_speed = -del_speed, last_speed = -last_speed;
     if (r > MAX_HEIGHT) 
         r = MAX_HEIGHT, del_speed = -del_speed, last_speed = -last_speed;
     ++time;
