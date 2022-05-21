@@ -86,7 +86,10 @@ void getPointInfo(double rangeL, double rangeR, int len, int index, PA_t p,
 
 Color getRopeColor(ROPEDOT_STATE status, int timer) { //给出绳粒子的状态, 返回绳粒子的颜色
     if (status == ROPEDOT_ALIVE) return RED;
-    if (status == ROPEDOT_DEAD) return BLUE;
+    if (status == ROPEDOT_DEAD) {
+        printf("%lf\n",timer);
+        return Fade(RED,(float)(100-timer)/(100));
+    }
     
     return GRAY;
 }
@@ -108,8 +111,9 @@ void DrawRope(const World* world) {
         Vector2 *pointsP4 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
         
         double rangeL = std::min(30.0, p[l].second), rangeR = 30;
+        int kk = 0;
         for (int j = l, k = 0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) 
-            getPointInfo(rangeL, rangeR, numPoints, k, p[j], 
+            kk++,getPointInfo(rangeL, rangeR, numPoints, k, p[j], 
                          pointsP[k], pointsP1[k], pointsP2[k], pointsP3[k], pointsP4[k]);
         
         int centreJ = 0;
@@ -123,11 +127,11 @@ void DrawRope(const World* world) {
             if ((j + 1) % BLOCK_NUMBER != r) {
                 Color col = getRopeColor(status, timer);
                 float thick = 4.0;
-                DrawLineEx(pointsP[k],  pointsP[k + 1],  thick, col);
-                DrawLineEx(pointsP1[k], pointsP1[k + 1], thick, col);
-                DrawLineEx(pointsP2[k], pointsP2[k + 1], thick, col);
-                DrawLineEx(pointsP3[k], pointsP3[k + 1], thick, col);
-                DrawLineEx(pointsP4[k], pointsP4[k + 1], thick, col);
+                DrawLineEx(pointsP[k],  pointsP[k + 1],  thick*((float)k/(float)kk), col);
+                DrawLineEx(pointsP1[k], pointsP1[k + 1], thick*((float)k/(float)kk), col);
+                DrawLineEx(pointsP2[k], pointsP2[k + 1], thick*((float)k/(float)kk), col);
+                DrawLineEx(pointsP3[k], pointsP3[k + 1], thick*((float)k/(float)kk), col);
+                DrawLineEx(pointsP4[k], pointsP4[k + 1], thick*((float)k/(float)kk), col);
             }
         }
 
