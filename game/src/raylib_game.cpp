@@ -64,6 +64,7 @@ static void UpdateDrawFrame(void);          // Update and draw one frame
 
 /* 游戏的所有全局信息。会在“new game”的时候new出来。 */
 World* world;
+static GameResults result;
 
 int main(void)
 {
@@ -83,10 +84,7 @@ int main(void)
     PlayMusicStream(music);
 
     // Setup and init first screen
-    // currentScreen = LOGO;
-    // Dont waste time, go directly to game
     currentScreen = TITLE;
-    //InitLogoScreen();
     InitTitleScreen();
 
 #if defined(PLATFORM_WEB)
@@ -165,6 +163,8 @@ int main(void)
 //----------------------------------------------------------------------------------
 // Module specific Functions Definition
 //----------------------------------------------------------------------------------
+
+
 // Change to next screen, no transition
 static void ChangeToScreen(int screen)
 {
@@ -173,7 +173,7 @@ static void ChangeToScreen(int screen)
     {
         case LOGO: UnloadLogoScreen(); break;
         case TITLE: UnloadTitleScreen(); break;
-        case GAMEPLAY: UnloadGameplayScreen(); break;
+        case GAMEPLAY: result = UnloadGameplayScreen(); break;
         case ENDING: UnloadEndingScreen(); break;
         default: break;
     }
@@ -184,7 +184,7 @@ static void ChangeToScreen(int screen)
         case LOGO: InitLogoScreen(); break;
         case TITLE: InitTitleScreen(); break;
         case GAMEPLAY: InitGameplayScreen(); break;
-        case ENDING: InitEndingScreen(); break;
+        case ENDING: InitEndingScreen(result); break;
         default: break;
     }
 
@@ -200,6 +200,7 @@ static void TransitionToScreen(int screen)
     transToScreen = screen;
     transAlpha = 0.0f;
 }
+
 
 // Update transition effect (fade-in, fade-out)
 static void UpdateTransition(void)
@@ -220,7 +221,7 @@ static void UpdateTransition(void)
                 case LOGO: UnloadLogoScreen(); break;
                 case TITLE: UnloadTitleScreen(); break;
                 case OPTIONS: UnloadOptionsScreen(); break;
-                case GAMEPLAY: UnloadGameplayScreen(); break;
+                case GAMEPLAY: result = UnloadGameplayScreen(); break;
                 case ENDING: UnloadEndingScreen(); break;
                 default: break;
             }
@@ -231,7 +232,7 @@ static void UpdateTransition(void)
                 case LOGO: InitLogoScreen(); break;
                 case TITLE: InitTitleScreen(); break;
                 case GAMEPLAY: InitGameplayScreen(); break;
-                case ENDING: InitEndingScreen(); break;
+                case ENDING: InitEndingScreen(result); break;
                 default: break;
             }
 

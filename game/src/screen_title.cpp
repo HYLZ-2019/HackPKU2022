@@ -65,7 +65,6 @@ void DrawTitleScreen(void)
 {
     // TODO: Draw TITLE screen here!
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), GREEN);
-    DrawTexture(titlepic, 0, 0, WHITE);
     Rectangle source_rec = {0.0f, 0.0f, (float)titlepic.width, (float)titlepic.width};
     Rectangle dest_rec = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
     DrawTexturePro(titlepic, source_rec, dest_rec, {0.0f, 0.0f}, 0.0f, WHITE);
