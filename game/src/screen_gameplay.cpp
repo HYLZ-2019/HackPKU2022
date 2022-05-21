@@ -37,7 +37,7 @@ static int finishScreen = 0;
 //----------------------------------------------------------------------------------
 
 Vector2 TransitionCoordinate(double sita, double rho){
-    return (Vector2){(float)(rho*cos(sita)), (float)(rho*sin(sita))};
+    return (Vector2){(float)(rho*sin(sita)), (float)(-rho*cos(sita))};
 }
 
 // Gameplay Screen Initialization logic
@@ -178,11 +178,11 @@ void DrawGameplayScreen(const World* world, Shader shader)
             DrawRope(world);
             ShowSTATE(world);
 
-            Rectangle frameRec = {0.0f,0.0f,(float)world->texture[World::TIGER].width/6, (float)world->texture[World::TIGER].height};
-            frameRec.x = (float)(world->tiger.position)*(float)world->texture[World::TIGER].width/6;
-            Vector2 tiger_origin = TransitionCoordinate(world->tiger.sita,world->tiger.r+EARTH_RADIUS);
-            Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[World::TIGER].width/6, (float)world->texture[World::TIGER].height };
-            DrawTexturePro(world->texture[World::TIGER], frameRec, destRec, (Vector2){(float)world->texture[World::TIGER].width/12,(float)(world->tiger.r+EARTH_RADIUS-50)}, 0,WHITE);
+            // 画老虎
+            Texture tiger = world->texture[World::TIGER];
+            Rectangle frameRec = {(float)world->tiger.position*(tiger.width/6), 0.0f, float(tiger.width/6.0), (float)tiger.height};
+            Rectangle destRec = {EARTH_POSX, EARTH_POSY, TIGER_WIDTH, TIGER_HEIGHT};
+            DrawTexturePro(tiger, frameRec, destRec, (Vector2){(float)(TIGER_WIDTH/2),(float)(world->tiger.r+tiger.height/2 + EARTH_RADIUS*2.0/3)}, 0,WHITE);
 
             for(int i = 0; i < world->notes.notes.size(); i++){
                 // world->notes.notes[i].sita;
@@ -201,7 +201,19 @@ void DrawGameplayScreen(const World* world, Shader shader)
                         break;
                     case 2:
                         // ExplosiveNote
-                        pic = world->texture[World::NOTE_BLUE];
+                        if (note->time < FPS*(NOTE_LANTENCY-3)){
+                            // 离爆炸还有三秒以上
+                            pic = world->texture[World::NOTE_RED];
+                        }
+                        else if (note->time >= FPS*(NOTE_LANTENCY-3)){
+                            // 闪烁警示
+                            if ((note->time/10)%2==0){
+                                pic = world->texture[World::NOTE_PINK];
+                            }
+                            else{
+                                pic = world->texture[World::NOTE_RED];
+                            }
+                        }
                         break;
                     case 3:
                         // WolfNote (Also of type NormalNote)
@@ -211,13 +223,27 @@ void DrawGameplayScreen(const World* world, Shader shader)
                 }
                 Rectangle frameRec = {0.0f,0.0f,(float)pic.width, (float)pic.height};
                 // Vector2 tiger_origin = TransitionCoordinate(world->notes.notes[i]->sita,world->notes.notes[i]->r+EARTH_RADIUS);
-                Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)pic.width/6, (float)pic.height };
-                DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)pic.width/2,(float)(note->r+(float)EARTH_RADIUS*2.0/3+30)}, 
-              (-(float)world->NorthPolarAngel + note->sita+PI*7/12)*RAD2DEG,WHITE);
+                Rectangle destRec = { EARTH_POSX, EARTH_POSY, NOTE_WIDTH, NOTE_HEIGHT };
+                DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)(pic.width/2),(float)(note->r+pic.height/2+EARTH_RADIUS*2.0/3)}, 
+              (-(float)world->NorthPolarAngel + note->sita)*RAD2DEG,WHITE);
                 
                 Vector2 tiger_origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
                 tiger_origin.x += EARTH_POSX, tiger_origin.y += EARTH_POSY;
                 DrawCircle(tiger_origin.x,tiger_origin.y,20,GREEN);
+
+                if (note->type == 2){
+                // 最后1秒，闪烁叠加爆炸
+                    if (note->time >= FPS*(NOTE_LANTENCY-1)){
+                        int frame = note->time - (FPS*NOTE_LANTENCY - FPS*1);
+                        int frames_per_pic = (FPS*1) / 25;
+                        int cur_frame = frame / frames_per_pic;
+                        Texture explode = world->texture[World::EXPLOSION];
+                        Rectangle exs = { float((cur_frame%5)*204.8), float((cur_frame/5)*204.8), float(204.8), float(204.8)};
+                        Rectangle exd = { EARTH_POSX, EARTH_POSY, (float)200, (float)200 };
+                        DrawTexturePro(explode, exs, exd, (Vector2){(float)(200/2),(float)(note->r+200/2+(float)EARTH_RADIUS*2.0/3)}, 
+              (-(float)world->NorthPolarAngel + note->sita)*RAD2DEG,WHITE);
+                    }
+                }
             }
 
 

@@ -28,15 +28,16 @@ const int EARTH_POSX = SCREEN_WIDTH/2;
 const int EARTH_POSY = SCREEN_HEIGHT*2/3;
 
 // note config
-const int NOTE_WIDTH = 300;
-const int NOTE_HEIGHT = 100;
+const int NOTE_WIDTH = 50;
+const int NOTE_HEIGHT = 80;
 
+// tiger size
+const int TIGER_WIDTH = 100;
+const int TIGER_HEIGHT = 100;
 
 
 // 纹理个数
-const int STAFF_CUT_NUM = 0;
-const int TEXTURE_CNT = 8+STAFF_CUT_NUM;
-
+const int TEXTURE_CNT = 10;
 
 const int MOVE_SPEED = 120;
 

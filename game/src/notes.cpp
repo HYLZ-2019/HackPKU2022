@@ -193,6 +193,8 @@ bool ExplosiveNote::break_rope() {
     if (time % (FPS * NOTE_LANTENCY) != 0 || time == 0) {
         return false; 
     }
+    if (time % (FPS * NOTE_LANTENCY) != 0 || time == 0) return false; 
+    printf("enter\n");
 
     PlaySound(fxBoom);
 
