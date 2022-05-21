@@ -12,12 +12,14 @@ class Wolf {
         double s_sita, s_r; 
         bool flag2;
         bool ready;
+        bool ready2;
         int time1, time2;
         bool alive; // 是否在场
         int delta;                                                            
         double del_speed;
         double last_speed;
-        double angle;
+        double angle1;
+        double angle2;
 
         Wolf() : time(0), alive(false), flag1(false), flag2(false), 
             del_speed(0), last_speed(0) {

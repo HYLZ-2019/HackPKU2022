@@ -1,4 +1,6 @@
 #include "screens.h"
+
+extern World* world;
     
 //初始化老虎。pos为当前帧老虎所在的极角方向，pos \in [0, 2Pi)
 void Tiger :: initTiger(double pos) {
@@ -20,6 +22,10 @@ void Tiger :: updateTiger(double delH) {
     r += delH;
     if (r < 0) r = 0;
     if (r > MAX_HEIGHT) r = MAX_HEIGHT;
+
+    if (world->wolf.flag2 && world->wolf.ready2 && 
+        std::fabs(world->wolf.s_r - r) < TIGER_HEIGHT / 2)
+            world->points -= 200;
 
     if(times%6==0) position = (position+1)%6;
     times ++;

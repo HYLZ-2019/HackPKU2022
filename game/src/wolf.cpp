@@ -34,6 +34,9 @@ void Wolf::update_pos() {
 }
 
 void Wolf::init_wolf(int t) {
+    // 切换到狼的bgm
+    SetMusicVolume(music, 2.0f);
+    music = wolfMusic;
     time = 0, alive = true;
     sita = get_sita(random_number() % BLOCK_NUMBER);
     r = random_number() % ((int)MAX_HEIGHT - 10) + 5;
@@ -42,12 +45,12 @@ void Wolf::init_wolf(int t) {
 }
 
 void Wolf::wolf_skill_1() {
-    l_sita = sita, l_r = r, angle = world->NorthPolarAngel, 
+    l_sita = sita, l_r = r, angle1 = world->NorthPolarAngel, 
         flag1 = true, time1 = 0;
 }
 
 void Wolf::wolf_skill_2() {
-    flag2 = true, ready = false, time2 = 0;
+    flag2 = true, ready = ready2 = false, time2 = 0;
 }
 
 void Wolf::update_wolf() {
@@ -55,6 +58,9 @@ void Wolf::update_wolf() {
     // printf("enter_wolf\n");
     if (time / FPS >= life && !flag1 && !flag2) {
         alive = false;
+        // 狼消失后，切换回老虎的bgm
+        SetMusicVolume(music, 1.0f);
+        music = tigerMusic;
         return ;
     }
     // printf("enter_wolf!\n");
@@ -72,20 +78,22 @@ void Wolf::update_wolf() {
                 ready = true;
                 s_sita = world->tiger.sita;
                 s_r = world->tiger.r;
+                angle2 = world->NorthPolarAngel;
             }    
         } else {
-            if (time2 == FPS * 4) flag2 = false;
+            if (time2 > FPS * 4) ready2 = true;
+            if (time2 > FPS * 5) flag2 = false;
         }
     }
     // printf("enter_wolf2!\n");
     if (time % FPS == 0) {
-        printf("%d, %d\n", flag1, flag2);
+        //printf("%d, %d\n", flag1, flag2);
     }
     if (time % (FPS * 30) == 0 && time) {
-        printf("skill_1\n");
-        wolf_skill_1();
+        //printf("skill_1\n");
+        // wolf_skill_1();
     } else if (time % (FPS * 20) == 0 && time) {
-        printf("skill_2\n");
+        //printf("skill_2\n");
         wolf_skill_2();
     } else {
         if (!flag2) update_pos();

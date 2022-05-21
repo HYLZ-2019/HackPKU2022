@@ -142,7 +142,7 @@ void DrawRope(const World* world) {
 
 void ShowSTATE(const World* world) {
     DrawText(TextFormat("POINTS: %d, CURRENT_STAGE:%d", world -> points, world -> currentStage), 
-             50, 20, 20, RED);
+             50, 30, 30, RED);
 }
 
 // Gameplay Screen Draw logic
@@ -217,9 +217,9 @@ void DrawGameplayScreen(const World* world, Shader shader)
                 DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)(pic.width/2),(float)(note->r+pic.height/2+EARTH_RADIUS*2.0/3)}, 
               (-(float)world->NorthPolarAngel + note->sita)*RAD2DEG,WHITE);
 
-                Vector2 origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
-                origin.x += EARTH_POSX, origin.y += EARTH_POSY;
-                DrawCircle(origin.x,origin.y,20,GREEN);
+                // Vector2 origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
+                // origin.x += EARTH_POSX, origin.y += EARTH_POSY;
+                // DrawCircle(origin.x,origin.y,20,GREEN);
                 // Vector2 tiger_origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
                 // tiger_origin.x += EARTH_POSX, tiger_origin.y += EARTH_POSY;
                 // DrawCircle(tiger_origin.x,tiger_origin.y,20,GREEN);
@@ -250,31 +250,36 @@ void DrawGameplayScreen(const World* world, Shader shader)
                 (-(float)world->NorthPolarAngel + wolf.sita)*RAD2DEG,WHITE);
                 if(wolf.flag1){
                     // printf("wolf is on  the = %lf, %lf\n", wolf.x, wolf.y);
-                    Vector2 t = TransitionCoordinate(wolf.l_sita - wolf.angle, wolf.l_r + (float)EARTH_RADIUS*2/3);
+                    Vector2 t = TransitionCoordinate(wolf.l_sita - wolf.angle1, wolf.l_r + (float)EARTH_RADIUS*2/3);
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
                     DrawCircle(t.x, t.y ,(float)WOLF_SKILL1_RADIUS,Fade(BLACK,0.2+0.8*(float)wolf.time1/(float)(15*FPS)));
                 }
                 if(wolf.flag2){
-                    Vector2 s,t;
+                    Vector2 s,t,st;
                     s = TransitionCoordinate(wolf.sita - world->NorthPolarAngel, wolf.r + (float)EARTH_RADIUS*2/3);
                     s.x += EARTH_POSX, s.y += EARTH_POSY;
-                    if(wolf.ready){
-                        t = TransitionCoordinate(wolf.s_sita - world->NorthPolarAngel, wolf.s_r + (float)EARTH_RADIUS*2/3);
+                    float theta = 10;
+                    if(wolf.ready2){
+                        t = TransitionCoordinate(wolf.s_sita - wolf.angle2, wolf.s_r + (float)EARTH_RADIUS*2/3);
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
-                        DrawLineEx(s,t,15,YELLOW);
-                    }
-                    else{
+                        st.x = theta*(t.x-s.x)+s.x;
+                        st.y = theta*(t.y-s.y)+s.y;
+                        DrawLineEx(s,st,10,YELLOW);
+                    } else if (wolf.ready) {
+                        t = TransitionCoordinate(wolf.s_sita - wolf.angle2, wolf.s_r + (float)EARTH_RADIUS*2/3);
+                        t.x += EARTH_POSX, t.y += EARTH_POSY;
+                        st.x = theta*(t.x-s.x)+s.x;
+                        st.y = theta*(t.y-s.y)+s.y;
+                        DrawLineEx(s,st,3,YELLOW);
+                    } else {
                         t = TransitionCoordinate(world->tiger.sita - world->NorthPolarAngel, world->tiger.r + (float)EARTH_RADIUS*2/3);
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
-                        DrawLineEx(s,t,3,YELLOW);
+                        st.x = theta*(t.x-s.x)+s.x;
+                        st.y = theta*(t.y-s.y)+s.y;
+                        DrawLineEx(s,st,3,YELLOW);
                     }
                 }
             }
-
-
-
-
-
 
     // DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
     // DrawTextEx(font, "GAMEPLAY SCREEN / YYYY", (Vector2){ 20, 10 }, font.baseSize*3.0f, 4, MAROON);
