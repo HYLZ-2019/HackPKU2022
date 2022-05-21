@@ -34,6 +34,9 @@ void Wolf::update_pos() {
 }
 
 void Wolf::init_wolf(int t) {
+    // 切换到狼的bgm
+    SetMusicVolume(music, 2.0f);
+    music = wolfMusic;
     time = 0, alive = true;
     sita = get_sita(random_number() % BLOCK_NUMBER);
     r = random_number() % ((int)MAX_HEIGHT - 10) + 5;
@@ -55,6 +58,9 @@ void Wolf::update_wolf() {
     // printf("enter_wolf\n");
     if (time / FPS >= life && !flag1 && !flag2) {
         alive = false;
+        // 狼消失后，切换回老虎的bgm
+        SetMusicVolume(music, 1.0f);
+        music = tigerMusic;
         return ;
     }
     // printf("enter_wolf!\n");
