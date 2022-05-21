@@ -18,7 +18,7 @@ World :: World() {
     // printf("%d,%d\n",texture[1].width,texture[1].height);
     //texture[2] = LoadTexture("resources/tiger.png");
     Image tiger = LoadImage("resources/tiger.png");
-    ImageResize(&tiger,NOTE_WIDTH,NOTE_HEIGHT*3/2);
+    ImageResize(&tiger,NOTE_WIDTH,NOTE_HEIGHT);
     texture[World::TIGER] = LoadTextureFromImage(tiger);
 
     Image purple_note = LoadImage("resources/purple_note.png");
