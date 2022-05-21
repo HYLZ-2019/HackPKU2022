@@ -40,10 +40,10 @@ const int MOVE_SPEED = 120;
 
 // 运动速度
   // 常规音符
-const int NOTE_MIN_SPEED = 3;
-const int NOTE_MID_SPEED = 10;
+const int NOTE_MIN_SPEED = 60;
+const int NOTE_MID_SPEED = 120;
   // 爆炸音符
-const int NOTE_HIGH_SPEED = 20;
+const int NOTE_HIGH_SPEED = 240;
 
 // 总共有几个关卡（一旦stage变成MAX_STAGE，就视为通关）
 const int MAX_STAGE = 10;
