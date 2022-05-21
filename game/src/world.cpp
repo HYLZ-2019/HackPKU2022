@@ -29,6 +29,19 @@ World :: World() {
     Image wolf_note = LoadImage("resources/wolf_note.png");
     ImageResize(&wolf_note,NOTE_WIDTH,NOTE_HEIGHT);
     texture[6] = LoadTextureFromImage(wolf_note);
+    
+    Image staff = LoadImage("resources/staff.png");
+    ImageResize(&staff,NOTE_WIDTH,NOTE_HEIGHT);
+    texture[7] = LoadTextureFromImage(staff);
+    // Image staff = LoadImage("resources/tiger.png");
+    // Image staff_z;
+    // for(int i = 0; i<STAFF_CUT_NUM; i++){
+    //     Rectangle frameRec = {0.0f,0.0f,(float)staff.width/(float)STAFF_CUT_NUM, (float)staff.height};
+    //     frameRec.x = (float)(i)*(float)staff.width/(float)STAFF_CUT_NUM;
+    //     staff_z = ImageFromImage(staff,frameRec);
+    //     printf("%lf,%lf\n",staff.height,staff.width);
+    //     texture[7+i] = LoadTextureFromImage(staff_z);
+    // }
 
     // texture[3] = LoadTexture("resources/");
     // Source rectangle (part of the texture to use for drawing)
