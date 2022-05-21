@@ -12,8 +12,8 @@ World :: World() {
     NorthPolarAngel = 0;
     texture[World::SPACE] = LoadTexture("resources/space.png");
     //texture[0] = LoadTexture("resources/space.png");
-    Image moon = LoadImage("resources/noon.png");
-    ImageResize(&moon,EARTH_RADIUS*3/4,EARTH_RADIUS*3/4);
+    Image moon = LoadImage("resources/Moon_new.png");
+    ImageResize(&moon,EARTH_RADIUS*2/3,EARTH_RADIUS*2/3);
     //texture[1] = LoadTextureFromImage(moon);
     texture[World::MOON] = LoadTextureFromImage(moon);
     // printf("%d,%d\n",texture[1].width,texture[1].height);

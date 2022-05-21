@@ -1,6 +1,4 @@
-#include "constant.h"
-#include "world.h"
-#include "rope.h"
+#include "screens.h"
 
 //初始化绳粒子
 RopeDot :: RopeDot(int index) {
@@ -45,6 +43,7 @@ RopeDot NextDot(const RopeDot& dL, const RopeDot &dC, const RopeDot& dR) { //不
     else avg = dC.r;
 
     nxt.r = std :: max(avg - ROPE_DOWN_STEP, (double)0);
+    if (dL.status == ROPEDOT_ZERO && dC.status == ROPEDOT_ALIVE && dC.r == 0) nxt.r = 0;
     if (nxt.status == ROPEDOT_DEAD) nxt.die_time = nxt.die_time + 1;
     return nxt;
 }
@@ -52,10 +51,11 @@ RopeDot NextDot(const RopeDot& dL, const RopeDot &dC, const RopeDot& dR) { //不
 void RopeInfo :: updateRope(){ 
     int index = world -> tiger.index;
     dots[index].status = ROPEDOT_ALIVE;
-    dots[index].die_time = -1;
+    dots[index].die_time = 0;
     dots[index].r = world -> tiger.r;
     
     std::vector <RopeDot> vec;
+    vec.clear();
     for (int i = 0; i < BLOCK_NUMBER; ++i) {
         if (i == index) continue;
         vec.push_back(NextDot(dots[(i + BLOCK_NUMBER - 1) % BLOCK_NUMBER], 
@@ -71,13 +71,16 @@ void RopeInfo :: updateRope(){
     }
 
     int End = index;
+    bool touchDown = false;
     while (dots[End].status == ROPEDOT_ALIVE) End = (End + BLOCK_NUMBER - 1) % BLOCK_NUMBER;
     for (int i = (End + 1) % BLOCK_NUMBER; i != index; i = (i + 1) % BLOCK_NUMBER) {
         if (dots[i].r == 0) {//消失Case 2: 有牵引的线的接地端连续的0触地
             dots[i].status = ROPEDOT_ZERO; 
+            touchDown = true;
         }
         else {
-            dots[(i - 1 + BLOCK_NUMBER) % BLOCK_NUMBER].status = ROPEDOT_ALIVE;
+            if (touchDown)
+                dots[(i - 1 + BLOCK_NUMBER) % BLOCK_NUMBER].status = ROPEDOT_ALIVE;
             break;
         }
     }
@@ -107,9 +110,9 @@ void RopeInfo :: getSegs() {
         for (int i = (z + 1) % BLOCK_NUMBER; ; i = (i + 1) % BLOCK_NUMBER) {
             if (dots[i].status == ROPEDOT_ZERO) {
                 segments.push_back(std::make_pair((z + 1) % BLOCK_NUMBER, i));
-                for (int o = (z + 1) % BLOCK_NUMBER; o != i; 
-                    o = (o + 1) % BLOCK_NUMBER) {
-                    dots[i].sl = (z + 1) % BLOCK_NUMBER, dots[i].sr = i;
+                for (int j = (z + 1) % BLOCK_NUMBER; j != i; 
+                    j = (j + 1) % BLOCK_NUMBER) {
+                    dots[j].sl = (z + 1) % BLOCK_NUMBER, dots[j].sr = i;
                 }
                 int sze = segments.size();
                 bool isALIVE = InRange(index, (z + 1) % BLOCK_NUMBER, i);
@@ -120,7 +123,7 @@ void RopeInfo :: getSegs() {
             dots[i].die_time = 0;
         }
     }
-    
+
     for (int i = index; ; i = (i + BLOCK_NUMBER - 1) % BLOCK_NUMBER) {
         if (dots[i].status == ROPEDOT_ZERO) break;
         dots[i].status = ROPEDOT_ALIVE;
@@ -139,10 +142,16 @@ void RopeInfo :: breakRope(int left, int right) { //请在调用updateRope()后�
 }
 
 //get the Rope's data
-void RopeInfo :: getRopeData(std::vector<std::pair <int,int> >& seg, std::vector<std::pair<std::pair <double, double>, ROPEDOT_STATE > >& PAs) const {
+void RopeInfo :: getRopeData(std::vector<std::pair <int,int> >& seg, std::vector<PA_t>& PAs) const {
     seg = segments;
     PAs.clear();
     for (int i = 0; i < BLOCK_NUMBER; ++i) 
-        PAs.push_back(std::make_pair(std::make_pair(dots[i].sita, dots[i].r), dots[i].status));
+        PAs.push_back(PA_t(dots[i].sita, dots[i].r));
+    return;
+}
+
+void RopeInfo :: Index2Type(int index, ROPEDOT_STATE& status, int& die_time) const {
+    status = dots[index].status;
+    die_time = dots[index].die_time;
     return;
 }
