@@ -20,10 +20,9 @@ ExplosiveNote::ExplosiveNote(int type, double sita, double r)
 
 void NotesInfo::addNotes(int type) {
     Note* cur;
-    // printf("%d, %d\n",random_number(), random_number());
     double sita = get_sita(random_number() % BLOCK_NUMBER);
     double r = random_number() % ((int)MAX_HEIGHT - 10) + 5;
-    // printf("%lf, %lf\n", sita, r);
+    
     switch(type) {    
         case 0:
             cur = new NormalNote(type, sita, r);
@@ -38,7 +37,7 @@ void NotesInfo::addNotes(int type) {
             cur = new NormalNote(type, sita, r);
             break ;
     }
-    // printf("%lf, %lf\n", cur->sita, cur->r);
+    
     notes.push_back(cur);
 }
 
@@ -129,21 +128,14 @@ void NotesInfo::updateNotes() {
         Note *e = notes.back();
         notes.pop_back();
         if (e->get_collision()) {
-            if (e -> type == 2) {
-                puts("The blue note get collition........");
-            }
             world->points += e->points;
             (e->type == 3) ?  PlaySound(fxWeird) : PlaySound(fxCoin);
             delete e;
         } else if (e->out_of_range()) {
-            if (e -> type == 2) {
-                puts("The blue note out of range and disappear........");
-            }
             delete e;
         } else {
             e->update_pos();
             if (e->type == 2) {
-                // printf("????\n");
                 if (e->break_rope()) {
                     delete e;
                     continue ;
@@ -194,7 +186,6 @@ bool ExplosiveNote::break_rope() {
         return false; 
     }
     if (time % (FPS * NOTE_LANTENCY) != 0 || time == 0) return false; 
-    printf("enter\n");
 
     PlaySound(fxBoom);
 
