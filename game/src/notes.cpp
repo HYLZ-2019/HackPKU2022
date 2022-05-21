@@ -130,6 +130,7 @@ void NotesInfo::updateNotes() {
         notes.pop_back();
         if (e->get_collision()) {
             world->points += e->points;
+            (e->type == 3) ?  PlaySound(fxWeird) : PlaySound(fxCoin);
             delete e;
         } else if (e->out_of_range()) {
             delete e;
@@ -152,10 +153,11 @@ void NotesInfo::updateNotes() {
     static int x = 0;
     if (time % FPS == x) {
         int ran = random_number() % (MAX_STAGE * 100);
-        if (ran < world->currentStage * 25) addNotes(2);
+        if (ran < world->currentStage * 30) addNotes(2);
         else if (ran < MAX_STAGE * 50) addNotes(0);
         else if (ran < MAX_STAGE * 75) addNotes(1);
-        else if (ran < MAX_STAGE * 100) addNotes(3);
+        else if (world->currentStage) addNotes(3);
+        else addNotes(0);
         x = (x - 1 + FPS) % FPS;
     }
     ++time;
@@ -190,6 +192,7 @@ bool ExplosiveNote::break_rope() {
     int pos = random_number() % (r - l) + l;
     if (pos >= BLOCK_NUMBER) pos -= BLOCK_NUMBER;
     world->rope.breakRope(l, pos);
+    PlaySound(fxBoom);
     printf("%d, %d, %d\n", l, pos, r);
     return true;
 }

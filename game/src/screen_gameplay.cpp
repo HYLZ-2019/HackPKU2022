@@ -162,42 +162,59 @@ void DrawGameplayScreen(const World* world, Shader shader)
 
         BeginShaderMode(shader);
 
-            DrawTexture(world->texture[0], world->texture[0].width, 0, WHITE);
-            DrawTexture(world->texture[0], 0, 0, WHITE);
-            DrawTexture(world->texture[0], 0, world->texture[0].height, WHITE);
-            DrawTexture(world->texture[0], world->texture[0].width, world->texture[0].height, WHITE);
-            DrawTexture(world->texture[0], 0, 2*world->texture[0].height, WHITE);
-            DrawTexture(world->texture[0], world->texture[0].width, 2*world->texture[0].height, WHITE);
+            DrawTexture(world->texture[World::SPACE], world->texture[World::SPACE].width, 0, WHITE);
+            DrawTexture(world->texture[World::SPACE], 0, 0, WHITE);
+            DrawTexture(world->texture[World::SPACE], 0, world->texture[World::SPACE].height, WHITE);
+            DrawTexture(world->texture[World::SPACE], world->texture[World::SPACE].width, world->texture[World::SPACE].height, WHITE);
+            DrawTexture(world->texture[World::SPACE], 0, 2*world->texture[World::SPACE].height, WHITE);
+            DrawTexture(world->texture[World::SPACE], world->texture[World::SPACE].width, 2*world->texture[World::SPACE].height, WHITE);
 
         EndShaderMode();
         // printf("*************,%d",world->Earth_sita);
-            DrawTexturePro(world->texture[1], world->sourceRec, world->destRec, world->origin, -(float)world -> NorthPolarAngel*RAD2DEG, WHITE);
+            DrawTexturePro(world->texture[World::MOON], world->sourceRec, world->destRec, world->origin, -(float)world -> NorthPolarAngel*RAD2DEG, WHITE);
 
 
             DrawRope(world);
             ShowSTATE(world);
 
-            Rectangle frameRec = {0.0f,0.0f,(float)world->texture[2].width/6, (float)world->texture[2].height};
-            frameRec.x = (float)(world->tiger.position)*(float)world->texture[2].width/6;
+            Rectangle frameRec = {0.0f,0.0f,(float)world->texture[World::TIGER].width/6, (float)world->texture[World::TIGER].height};
+            frameRec.x = (float)(world->tiger.position)*(float)world->texture[World::TIGER].width/6;
             Vector2 tiger_origin = TransitionCoordinate(world->tiger.sita,world->tiger.r+EARTH_RADIUS);
-            Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[2].width/6, (float)world->texture[2].height };
-            DrawTexturePro(world->texture[2], frameRec, destRec, (Vector2){(float)world->texture[2].width/12,(float)(world->tiger.r+EARTH_RADIUS)}, 0,WHITE);
-            // world->tiger->sita;
-            // world->tiger->r;(float)world->texture[2].width/3,(float)world->texture[2].height*2
-            // world->tiger->pos
-            // printf("hhhhhhhh!\n");
+            Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[World::TIGER].width/6, (float)world->texture[World::TIGER].height };
+            DrawTexturePro(world->texture[World::TIGER], frameRec, destRec, (Vector2){(float)world->texture[World::TIGER].width/12,(float)(world->tiger.r+EARTH_RADIUS)}, 0,WHITE);
+
             for(int i = 0; i < world->notes.notes.size(); i++){
                 // world->notes.notes[i].sita;
                 // // world->notes.notes[i].r;
                 // printf("%lf\n",world->notes.notes[i]->r);
-                int frameType = world->notes.notes[i]->type + 3;
-                Rectangle frameRec = {0.0f,0.0f,(float)world->texture[frameType].width, (float)world->texture[frameType].height};
+                Note* note = world->notes.notes[i];
+                Texture pic;
+                switch (note->type) {
+                    case 0:
+                        // NormalNote
+                        pic = world->texture[World::NOTE_ORANGE];
+                        break;
+                    case 1:
+                        // FasterNote
+                        pic = world->texture[World::NOTE_PURPLE];
+                        break;
+                    case 2:
+                        // ExplosiveNote
+                        pic = world->texture[World::NOTE_BLUE];
+                        break;
+                    case 3:
+                        // WolfNote (Also of type NormalNote)
+                        pic = world->texture[World::NOTE_WOLF];
+                        break;
+                    assert(false);
+                }
+                Rectangle frameRec = {0.0f,0.0f,(float)pic.width, (float)pic.height};
                 // Vector2 tiger_origin = TransitionCoordinate(world->notes.notes[i]->sita,world->notes.notes[i]->r+EARTH_RADIUS);
-                Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[frameType].width/6, (float)world->texture[frameType].height };
-                DrawTexturePro(world->texture[frameType], frameRec, destRec, (Vector2){(float)world->texture[frameType].width/2,(float)(world->notes.notes[i]->r+(float)EARTH_RADIUS*2.0/3+30)}, 
-              (-(float)world->NorthPolarAngel + world->notes.notes[i]->sita+PI*7/12)*RAD2DEG,WHITE);
+                Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)pic.width/6, (float)pic.height };
+                DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)pic.width/2,(float)(note->r+(float)EARTH_RADIUS*2.0/3+30)}, 
+              (-(float)world->NorthPolarAngel + note->sita+PI*7/12)*RAD2DEG,WHITE);
                 
-                Vector2 tiger_origin = TransitionCoordinate(world->notes.notes[i]->sita- world -> NorthPolarAngel, world->notes.notes[i]->r + (float)EARTH_RADIUS*2/3);
+                Vector2 tiger_origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
                 tiger_origin.x += EARTH_POSX, tiger_origin.y += EARTH_POSY;
                 DrawCircle(tiger_origin.x,tiger_origin.y,20,GREEN);
             }
@@ -223,10 +240,18 @@ void DrawFinishScreen(const World* world)
 }
 
 // Gameplay Screen Unload logic
-void UnloadGameplayScreen(void)
+GameResults UnloadGameplayScreen(void)
 {
     // TODO: Unload GAMEPLAY screen variables here!
+    // 返回一个实例
+    GameResults res;
+    res.points = world->points;
+    res.maxpoints = world->maxpoints;
+    res.currentStage = world->currentStage;
+    time_t currentTime = time(0);
+    res.usedTime = difftime(currentTime, world->beginTime);
     delete world;
+    return res;
 }
 
 // Gameplay Screen should finish?

@@ -41,6 +41,14 @@
 //----------------------------------------------------------------------------------
 typedef enum GameScreen { LOGO = 0, TITLE, OPTIONS, GAMEPLAY, ENDING } GameScreen;
 
+class GameResults {
+  public:
+    int points;
+    int maxpoints;
+    int currentStage;
+    double usedTime;
+};
+
 //----------------------------------------------------------------------------------
 // Global Variables Declaration (shared by several modules)
 //----------------------------------------------------------------------------------
@@ -48,6 +56,8 @@ extern GameScreen currentScreen;
 extern Font font;
 extern Music music;
 extern Sound fxCoin;
+extern Sound fxBoom;
+extern Sound fxWeird;
 
 #ifdef __cplusplus
 extern "C" {            // Prevents name mangling of functions
@@ -86,13 +96,13 @@ int FinishOptionsScreen(void);
 void InitGameplayScreen(void);
 void UpdateGameplayScreen(void);
 void DrawGameplayScreen(const World* world,Shader shader);
-void UnloadGameplayScreen(void);
+GameResults UnloadGameplayScreen(void);
 int FinishGameplayScreen(void);
 
 //----------------------------------------------------------------------------------
 // Ending Screen Functions Declaration
 //----------------------------------------------------------------------------------
-void InitEndingScreen(void);
+void InitEndingScreen(GameResults res);
 void UpdateEndingScreen(void);
 void DrawEndingScreen(void);
 void UnloadEndingScreen(void);
