@@ -118,7 +118,9 @@ void DrawRope(const World* world) {
             ROPEDOT_STATE status;
             int timer;
             (world -> rope).Index2Type(j, status, timer);
-
+            if (sze > 1 && i != 0 && j == l) {
+                printf("DEAD SEG%d Timer: [%d]\n", i, timer);
+            } 
           
             if ((j + 1) % BLOCK_NUMBER != r) {
                 Color col = getRopeColor(status, timer);
