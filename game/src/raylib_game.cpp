@@ -82,7 +82,7 @@ int main(void)
     fxCoin = LoadSound("resources/coin.wav");
     fxBoom = LoadSound("resources/boom.wav");
     fxWeird = LoadSound("resources/weird.wav");
-    shader = LoadShader(0, TextFormat("resources/shaders/glsl%i/swirl.fs", GLSL_VERSION));
+    shader = LoadShader(0, TextFormat("resources/shaders/glsl%i/wave.fs", GLSL_VERSION));
 
     SetMusicVolume(music, 1.0f);
     PlayMusicStream(music);

@@ -29,11 +29,14 @@ class World {
       MOON,
       SPACE,
       TIGER,
+      EXPLOSION,
       NOTE_PURPLE,
       NOTE_ORANGE,
       NOTE_BLUE,
-      NOTE_WOLF,
-      WOLF
+      WOLF,
+      NOTE_RED,
+      NOTE_PINK,
+      NOTE_WOLF
     }; // 所有图片的编号
 
     Rectangle sourceRec;

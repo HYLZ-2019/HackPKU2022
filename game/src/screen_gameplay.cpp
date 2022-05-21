@@ -37,7 +37,7 @@ static int finishScreen = 0;
 //----------------------------------------------------------------------------------
 
 Vector2 TransitionCoordinate(double sita, double rho){
-    return (Vector2){(float)(rho*cos(sita)), (float)(rho*sin(sita))};
+    return (Vector2){(float)(rho*sin(sita)), (float)(-rho*cos(sita))};
 }
 
 // Gameplay Screen Initialization logic
@@ -86,15 +86,17 @@ void DrawRope(const World* world) {
         int kk = 0;
         for (int j = l; j != r; j = (j + 1) % BLOCK_NUMBER, ++kk) {
         }
+        float range_left = std::min(20.0,PolarAngels[l].first.second);
+        float range_right = 20;
         for (int j = l,k=0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
             //pointsP[k] = TransitionCoordinate(PolarAngels[j].first, 
             //                                  PolarAngels[j].second);
             pointsP[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3-30*(float)(k)/(float)(kk));
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3-range_right*(float)(k)/(float)(kk)-range_left);
             pointsP[k].x += EARTH_POSX, pointsP[k].y += EARTH_POSY;
             
             pointsP1[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3-15*(float)(k)/(float)(kk));
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3-(range_right/2)*(float)(k)/(float)(kk)-range_left/2);
             pointsP1[k].x += EARTH_POSX, pointsP1[k].y += EARTH_POSY;
 
             pointsP2[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
@@ -102,11 +104,11 @@ void DrawRope(const World* world) {
             pointsP2[k].x += EARTH_POSX, pointsP2[k].y += EARTH_POSY;
 
             pointsP3[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+15*(float)(k)/(float)(kk));
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+(range_right/2)*(float)(k)/(float)(kk)+range_left/2);
             pointsP3[k].x += EARTH_POSX, pointsP3[k].y += EARTH_POSY;
             
             pointsP4[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+30*(float)(k)/(float)(kk));
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+range_right*(float)(k)/(float)(kk)+range_left);
             pointsP4[k].x += EARTH_POSX, pointsP4[k].y += EARTH_POSY;
         }
         int mid_num = 0;
@@ -119,59 +121,31 @@ void DrawRope(const World* world) {
                 if (type == ROPEDOT_ALIVE) printf("ALIVE, ");
                 if (type == ROPEDOT_DEAD) printf("DEAD, ");
             }
+            float thickness = 3.0;
             if ((j + 1) % BLOCK_NUMBER != r) {
                 if(type == ROPEDOT_ZERO){
-                    DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, GRAY);
-                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 6.0, GRAY);
-                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 6.0, GRAY);
-                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 6.0, GRAY);
-                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 6.0, GRAY);
+                    DrawLineEx(pointsP[k], pointsP[k + 1], thickness, GRAY);
+                    DrawLineEx(pointsP1[k], pointsP1[k + 1], thickness, GRAY);
+                    DrawLineEx(pointsP2[k], pointsP2[k + 1], thickness, GRAY);
+                    DrawLineEx(pointsP3[k], pointsP3[k + 1], thickness, GRAY);
+                    DrawLineEx(pointsP4[k], pointsP4[k + 1], thickness, GRAY);
                 }
                 if(type == ROPEDOT_ALIVE){
-                    DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, RED);
-                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 6.0, RED);
-                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 6.0, RED);
-                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 6.0, RED);
-                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 6.0, RED);
+                    DrawLineEx(pointsP[k], pointsP[k + 1], thickness, RED);
+                    DrawLineEx(pointsP1[k], pointsP1[k + 1], thickness, RED);
+                    DrawLineEx(pointsP2[k], pointsP2[k + 1], thickness, RED);
+                    DrawLineEx(pointsP3[k], pointsP3[k + 1], thickness, RED);
+                    DrawLineEx(pointsP4[k], pointsP4[k + 1], thickness, RED);
                 }
                 if(type == ROPEDOT_DEAD){
-                    DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, BLUE);
-                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 6.0, BLUE);
-                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 6.0, BLUE);
-                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 6.0, BLUE);
-                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 6.0, BLUE);
+                    DrawLineEx(pointsP[k], pointsP[k + 1], thickness, BLUE);
+                    DrawLineEx(pointsP1[k], pointsP1[k + 1], thickness, BLUE);
+                    DrawLineEx(pointsP2[k], pointsP2[k + 1], thickness, BLUE);
+                    DrawLineEx(pointsP3[k], pointsP3[k + 1], thickness, BLUE);
+                    DrawLineEx(pointsP4[k], pointsP4[k + 1], thickness, BLUE);
                 }
             }
         }
-        
-        // int type = 0;
-        // for(int j=l,i=0;i<k-1;j = (j + 1) % BLOCK_NUMBER, ++i){
-        //     Vector2 center = TransitionCoordinate((PolarAngels[j].first.first+PolarAngels[(j+1)%BLOCK_NUMBER].first.first)/2 - world -> NorthPolarAngel, 
-        //                                       PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3);
-        //     center.x += EARTH_POSX, center.y += EARTH_POSY;
-        //     Vector2 *positions = (Vector2 *)malloc(4 * sizeof(Vector2));
-        //     Vector2 *texcoords = (Vector2 *)malloc(4 * sizeof(Vector2));
-        //     positions[0] = pointsP[i];
-        //     positions[0].x-=center.x;positions[0].y-=center.y;
-        //     positions[1] = pointsP[i+1];
-        //     positions[1].x-=center.x;positions[1].y-=center.y;
-        //     positions[2] = pointsP4[i+1];
-        //     positions[2].x-=center.x;positions[2].y-=center.y;
-        //     positions[3] = pointsP4[i];
-        //     positions[3].x-=center.x;positions[3].y-=center.y;
-
-        //     texcoords[0] = (Vector2){0.0f,0.0f};
-        //     texcoords[1] = (Vector2){1.0f,0.0f};
-        //     texcoords[2] = (Vector2){1.0f,1.0f};
-        //     texcoords[3] = (Vector2){0.0f,1.0f};
-        //     DrawTexturePoly(world->texture[7], center, positions, texcoords, 4, WHITE);
-        //     // printf("%d\n",type);
-        //     // type=(type+1)%STAFF_CUT_NUM;
-        // }
-        //printf("++++++++++ DrawRope() seg %d numPoints = %d\n", i, numPoints);                        
-        // Draw a line defining thickness
-        //DrawLineStrip(pointsP, numPoints, RED);
-        //DrawLine(int startPosX, int startPosY, int endPosX, int endPosY, Color color);
     }
     if (seg.size() > 1) printf("\n");
     //printf("%d\n", seg.size());
@@ -205,11 +179,11 @@ void DrawGameplayScreen(const World* world, Shader shader)
             DrawRope(world);
             ShowSTATE(world);
 
-            Rectangle frameRec = {0.0f,0.0f,(float)world->texture[World::TIGER].width/6, (float)world->texture[World::TIGER].height};
-            frameRec.x = (float)(world->tiger.position)*(float)world->texture[World::TIGER].width/6;
-            Vector2 tiger_origin = TransitionCoordinate(world->tiger.sita,world->tiger.r+EARTH_RADIUS);
-            Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[World::TIGER].width/6, (float)world->texture[World::TIGER].height };
-            DrawTexturePro(world->texture[World::TIGER], frameRec, destRec, (Vector2){(float)world->texture[World::TIGER].width/12,(float)(world->tiger.r+EARTH_RADIUS)}, 0,WHITE);
+            // 画老虎
+            Texture tiger = world->texture[World::TIGER];
+            Rectangle frameRec = {(float)world->tiger.position*(tiger.width/6), 0.0f, float(tiger.width/6.0), (float)tiger.height};
+            Rectangle destRec = {EARTH_POSX, EARTH_POSY, TIGER_WIDTH, TIGER_HEIGHT};
+            DrawTexturePro(tiger, frameRec, destRec, (Vector2){(float)(TIGER_WIDTH/2),(float)(world->tiger.r+tiger.height/2 + EARTH_RADIUS*2.0/3)}, 0,WHITE);
 
             for(int i = 0; i < world->notes.notes.size(); i++){
                 // world->notes.notes[i].sita;
@@ -228,7 +202,19 @@ void DrawGameplayScreen(const World* world, Shader shader)
                         break;
                     case 2:
                         // ExplosiveNote
-                        pic = world->texture[World::NOTE_BLUE];
+                        if (note->time < FPS*(NOTE_LANTENCY-3)){
+                            // 离爆炸还有三秒以上
+                            pic = world->texture[World::NOTE_RED];
+                        }
+                        else if (note->time >= FPS*(NOTE_LANTENCY-3)){
+                            // 闪烁警示
+                            if ((note->time/10)%2==0){
+                                pic = world->texture[World::NOTE_PINK];
+                            }
+                            else{
+                                pic = world->texture[World::NOTE_RED];
+                            }
+                        }
                         break;
                     case 3:
                         // WolfNote (Also of type NormalNote)
@@ -238,13 +224,30 @@ void DrawGameplayScreen(const World* world, Shader shader)
                 }
                 Rectangle frameRec = {0.0f,0.0f,(float)pic.width, (float)pic.height};
                 // Vector2 tiger_origin = TransitionCoordinate(world->notes.notes[i]->sita,world->notes.notes[i]->r+EARTH_RADIUS);
-                Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)pic.width/6, (float)pic.height };
-                DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)pic.width/2,(float)(note->r+(float)EARTH_RADIUS*2.0/3+30)}, 
-              (-(float)world->NorthPolarAngel + note->sita+PI*7/12)*RAD2DEG,WHITE);
-                
+                Rectangle destRec = { EARTH_POSX, EARTH_POSY, NOTE_WIDTH, NOTE_HEIGHT };
+                DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)(pic.width/2),(float)(note->r+pic.height/2+EARTH_RADIUS*2.0/3)}, 
+              (-(float)world->NorthPolarAngel + note->sita)*RAD2DEG,WHITE);
+
                 Vector2 origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
                 origin.x += EARTH_POSX, origin.y += EARTH_POSY;
                 DrawCircle(origin.x,origin.y,20,GREEN);
+                // Vector2 tiger_origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
+                // tiger_origin.x += EARTH_POSX, tiger_origin.y += EARTH_POSY;
+                // DrawCircle(tiger_origin.x,tiger_origin.y,20,GREEN);
+
+                if (note->type == 2){
+                // 最后1秒，闪烁叠加爆炸
+                    if (note->time >= FPS*(NOTE_LANTENCY-1)){
+                        int frame = note->time - (FPS*NOTE_LANTENCY - FPS*1);
+                        int frames_per_pic = (FPS*1) / 25;
+                        int cur_frame = frame / frames_per_pic;
+                        Texture explode = world->texture[World::EXPLOSION];
+                        Rectangle exs = { float((cur_frame%5)*204.8), float((cur_frame/5)*204.8), float(204.8), float(204.8)};
+                        Rectangle exd = { EARTH_POSX, EARTH_POSY, (float)200, (float)200 };
+                        DrawTexturePro(explode, exs, exd, (Vector2){(float)(200/2),(float)(note->r+200/2+(float)EARTH_RADIUS*2.0/3)}, 
+              (-(float)world->NorthPolarAngel + note->sita)*RAD2DEG,WHITE);
+                    }
+                }
             }
 
             if(world->wolf.alive){
@@ -269,7 +272,8 @@ void DrawGameplayScreen(const World* world, Shader shader)
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
                     }
                     else{
-                        t = tiger_origin;
+                        t = TransitionCoordinate(world->tiger.sita - world->NorthPolarAngel, world->tiger.r + (float)EARTH_RADIUS*2/3);
+                        t.x += EARTH_POSX, t.y += EARTH_POSY;
                     }
                     DrawLineV(s,t,YELLOW);
                 }
