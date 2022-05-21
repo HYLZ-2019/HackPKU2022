@@ -33,6 +33,7 @@
 #include "rope.h"
 #include "tiger.h"
 #include "notes.h"
+#include "wolf.h"
 #include "world.h"
 
 

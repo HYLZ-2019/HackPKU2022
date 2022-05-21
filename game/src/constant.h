@@ -12,6 +12,7 @@ const double MOVE_STEP_LENGTH = 3; //老虎的上升/下降速度
 const double DOWN_STEP_LENGTH = 1;
 
 const double MAX_HEIGHT = 300;  //高度上限
+const double MIN_HEIGHT = 50;
 
 const double ROPE_DOWN_STEP = 1; //绳子的自然下坠速度
 
@@ -37,7 +38,7 @@ const int TIGER_HEIGHT = 100;
 
 
 // 纹理个数
-const int TEXTURE_CNT = 10;
+const int TEXTURE_CNT = 11;
 
 const int MOVE_SPEED = 120;
 
@@ -48,6 +49,11 @@ const int NOTE_MID_SPEED = 120;
 // 爆炸音符
 const int NOTE_HIGH_SPEED = 240;
 // 爆炸音符的蓄力秒数
+
+const int WOLF_MIN_SPEED = 60;
+const int WOLF_MAX_SPEED = 240;
+const int WOLF_SKILL1_RADIUS = 250;
+
 const int NOTE_LANTENCY = 10;
 const int EXPLOSION_RANGE = 20; // BLOCK
 

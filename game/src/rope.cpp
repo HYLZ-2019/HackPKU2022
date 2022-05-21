@@ -153,5 +153,6 @@ void RopeInfo :: getRopeData(std::vector<std::pair <int,int> >& seg, std::vector
 void RopeInfo :: Index2Type(int index, ROPEDOT_STATE& status, int& die_time) const {
     status = dots[index].status;
     die_time = dots[index].die_time;
+    // printf("hhh%d\n",die_time);
     return;
 }

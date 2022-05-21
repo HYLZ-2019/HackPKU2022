@@ -86,7 +86,10 @@ void getPointInfo(double rangeL, double rangeR, int len, int index, PA_t p,
 
 Color getRopeColor(ROPEDOT_STATE status, int timer) { //给出绳粒子的状态, 返回绳粒子的颜色
     if (status == ROPEDOT_ALIVE) return RED;
-    if (status == ROPEDOT_DEAD) return BLUE;
+    if (status == ROPEDOT_DEAD) {
+        printf("%lf\n",timer);
+        return Fade(RED,(float)(100-timer)/(100));
+    }
     
     return GRAY;
 }
@@ -108,8 +111,9 @@ void DrawRope(const World* world) {
         Vector2 *pointsP4 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
         
         double rangeL = std::min(30.0, p[l].second), rangeR = 30;
+        int kk = 0;
         for (int j = l, k = 0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) 
-            getPointInfo(rangeL, rangeR, numPoints, k, p[j], 
+            kk++,getPointInfo(rangeL, rangeR, numPoints, k, p[j], 
                          pointsP[k], pointsP1[k], pointsP2[k], pointsP3[k], pointsP4[k]);
         
         int centreJ = 0;
@@ -123,11 +127,11 @@ void DrawRope(const World* world) {
             if ((j + 1) % BLOCK_NUMBER != r) {
                 Color col = getRopeColor(status, timer);
                 float thick = 4.0;
-                DrawLineEx(pointsP[k],  pointsP[k + 1],  thick, col);
-                DrawLineEx(pointsP1[k], pointsP1[k + 1], thick, col);
-                DrawLineEx(pointsP2[k], pointsP2[k + 1], thick, col);
-                DrawLineEx(pointsP3[k], pointsP3[k + 1], thick, col);
-                DrawLineEx(pointsP4[k], pointsP4[k + 1], thick, col);
+                DrawLineEx(pointsP[k],  pointsP[k + 1],  thick*((float)k/(float)kk), col);
+                DrawLineEx(pointsP1[k], pointsP1[k + 1], thick*((float)k/(float)kk), col);
+                DrawLineEx(pointsP2[k], pointsP2[k + 1], thick*((float)k/(float)kk), col);
+                DrawLineEx(pointsP3[k], pointsP3[k + 1], thick*((float)k/(float)kk), col);
+                DrawLineEx(pointsP4[k], pointsP4[k + 1], thick*((float)k/(float)kk), col);
             }
         }
 
@@ -215,7 +219,10 @@ void DrawGameplayScreen(const World* world, Shader shader)
                 Rectangle destRec = { EARTH_POSX, EARTH_POSY, NOTE_WIDTH, NOTE_HEIGHT };
                 DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)(pic.width/2),(float)(note->r+pic.height/2+EARTH_RADIUS*2.0/3)}, 
               (-(float)world->NorthPolarAngel + note->sita)*RAD2DEG,WHITE);
-                
+
+                Vector2 origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
+                origin.x += EARTH_POSX, origin.y += EARTH_POSY;
+                DrawCircle(origin.x,origin.y,20,GREEN);
                 // Vector2 tiger_origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
                 // tiger_origin.x += EARTH_POSX, tiger_origin.y += EARTH_POSY;
                 // DrawCircle(tiger_origin.x,tiger_origin.y,20,GREEN);
@@ -234,6 +241,39 @@ void DrawGameplayScreen(const World* world, Shader shader)
                     }
                 }
             }
+
+            if(world->wolf.alive){
+                // world->wolf.sita;
+                Texture pic = world->texture[World::WOLF];
+                Wolf wolf = world->wolf;//wolf;
+                // printf("%lf,%lf\n",wolf.sita,wolf.r);
+                Rectangle frameRec = {0.0f,0.0f,(float)pic.width, (float)pic.height};
+                Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)pic.width, (float)pic.height };
+                DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)pic.width/2,(float)(wolf.r+pic.height/2+(float)EARTH_RADIUS*2.0/3)}, 
+                (-(float)world->NorthPolarAngel + wolf.sita)*RAD2DEG,WHITE);
+                if(wolf.flag1){
+                    // printf("wolf is on  the = %lf, %lf\n", wolf.x, wolf.y);
+                    Vector2 t = TransitionCoordinate(wolf.l_sita - wolf.angle, wolf.l_r + (float)EARTH_RADIUS*2/3);
+                        t.x += EARTH_POSX, t.y += EARTH_POSY;
+                    DrawCircle(t.x, t.y ,(float)WOLF_SKILL1_RADIUS,Fade(BLACK,0.2+0.8*(float)wolf.time1/(float)(15*FPS)));
+                }
+                if(wolf.flag2){
+                    Vector2 s,t;
+                    s = TransitionCoordinate(wolf.sita - world->NorthPolarAngel, wolf.r + (float)EARTH_RADIUS*2/3);
+                    s.x += EARTH_POSX, s.y += EARTH_POSY;
+                    if(wolf.ready){
+                        t = TransitionCoordinate(wolf.s_sita - world->NorthPolarAngel, wolf.s_r + (float)EARTH_RADIUS*2/3);
+                        t.x += EARTH_POSX, t.y += EARTH_POSY;
+                        DrawLineEx(s,t,15,YELLOW);
+                    }
+                    else{
+                        t = TransitionCoordinate(world->tiger.sita - world->NorthPolarAngel, world->tiger.r + (float)EARTH_RADIUS*2/3);
+                        t.x += EARTH_POSX, t.y += EARTH_POSY;
+                        DrawLineEx(s,t,3,YELLOW);
+                    }
+                }
+            }
+
 
 
 
