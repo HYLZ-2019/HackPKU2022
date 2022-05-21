@@ -105,7 +105,7 @@ void ExplosiveNote::update_pos() {
     static int r_interval = FPS / 2;
     if (time % r_interval == 0) {
         // delta = (random_number() & 1) ? 2 : -2;
-        delta = (random_number() % 5) - 2;
+        delta = (random_number() % 5) - 2;  //delta sita
         del_speed = (random_number() & 1) ? random_speed()
             : -random_speed();
     }
@@ -129,10 +129,16 @@ void NotesInfo::updateNotes() {
         Note *e = notes.back();
         notes.pop_back();
         if (e->get_collision()) {
+            if (e -> type == 2) {
+                puts("The blue note get collition........");
+            }
             world->points += e->points;
             (e->type == 3) ?  PlaySound(fxWeird) : PlaySound(fxCoin);
             delete e;
         } else if (e->out_of_range()) {
+            if (e -> type == 2) {
+                puts("The blue note out of range and disappear........");
+            }
             delete e;
         } else {
             e->update_pos();
@@ -184,18 +190,26 @@ bool Note::get_collision() {
 }
 
 bool ExplosiveNote::break_rope() {
-    if (time % FPS == 0) {
-        printf("enter ? \n");
+    if (time % (FPS * NOTE_LANTENCY) != 0 || time == 0) {
+        return false; 
     }
-    if (time % (FPS * NOTE_LANTENCY) != 0 || time == 0) return false; 
-    printf("enter\n");
+
+    PlaySound(fxBoom);
+
+    //接下来要算一个可靠的爆炸区间
     int l = world->rope.segments[0].first;
     int r = world->rope.segments[0].second;
+    int len = r - l;
+    if (len < 0) len += BLOCK_NUMBER;
+    if (len <= 1) { //相当于现在没有ALIVE线，只有老虎在的那一个点
+        return true; //没有实际爆炸效果
+    }
+
     if (r < l) r += BLOCK_NUMBER; 
-    int pos = random_number() % (r - l) + l;
-    if (pos >= BLOCK_NUMBER) pos -= BLOCK_NUMBER;
-    world->rope.breakRope(l, pos);
-    PlaySound(fxBoom);
-    printf("%d, %d, %d\n", l, pos, r);
+    int blowL = (l + random_number() % (len - 1));
+    int blowR = std::min(blowL + EXPLOSION_RANGE, r);
+
+    world->rope.breakRope(blowL % BLOCK_NUMBER, blowR % BLOCK_NUMBER);
+    printf("break [%d, %d] in [%d, %d\n]\n", l, r, blowL, blowR);
     return true;
 }

@@ -60,7 +60,7 @@ int World::pointsNeededForNextStage(int stage) {
 }
 
 /* 调用tiger, rope, notes的update*/
-void World::updateWorld(){
+void World::updateWorld() {
     double deltaH = 0;
     if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) 
         deltaH = MOVE_STEP_LENGTH - DOWN_STEP_LENGTH;

@@ -48,6 +48,7 @@ const int NOTE_MID_SPEED = 120;
 const int NOTE_HIGH_SPEED = 240;
 // 爆炸音符的蓄力秒数
 const int NOTE_LANTENCY = 10;
+const int EXPLOSION_RANGE = 20; // BLOCK
 
 // 总共有几个关卡（一旦stage变成MAX_STAGE，就视为通关）
 const int MAX_STAGE = 10;
