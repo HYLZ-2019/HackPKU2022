@@ -116,7 +116,7 @@ void RopeInfo :: getSegs() {
         }
     }
 
-    for (int i = index; i; i = (i + BLOCK_NUMBER - 1) % BLOCK_NUMBER) {
+    for (int i = index; ; i = (i + BLOCK_NUMBER - 1) % BLOCK_NUMBER) {
         if (dots[i].status == ROPEDOT_ZERO) break;
         dots[i].status = ROPEDOT_ALIVE;
     }
