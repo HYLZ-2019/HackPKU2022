@@ -4,7 +4,7 @@ extern World* world;
 // 可以直接读取全局信息。不要修改自己(world.notes)以外的全局信息。
 
 Note::Note(int type, double sita, double r) : type(type), 
-            sita(sita), r(r), alive(true), speed(NOTE_MIN_SPEED + world->currentStage)
+            sita(sita), r(r), alive(true), speed(NOTE_MIN_SPEED + world->currentStage * 2)
                 , time(0), points(score[type]) {}
 
 NormalNote::NormalNote(int type, double sita, double r) : Note(type, sita, r) {
@@ -15,7 +15,7 @@ FasterNote::FasterNote(int type, double sita, double r) : Note(type, sita, r) {
 
 ExplosiveNote::ExplosiveNote(int type, double sita, double r)
      : Note(type, sita, r) {
-    speed = NOTE_MIN_SPEED * 2 + world->currentStage;
+    speed = NOTE_MIN_SPEED * 3 + world->currentStage;
 }
 
 void NotesInfo::addNotes(int type) {
@@ -44,10 +44,13 @@ void NotesInfo::addNotes(int type) {
 
 void NormalNote::update_pos() {
     static int interval = FPS / time_stamp;
+    static int r_interval = FPS / 2;
     // printf("NormalNote");
-    if (time % FPS == 0) {
+    if (time % r_interval == 0) {
         // printf("NormalNote");
-        delta = (random_number() & 1) ? 1 : -1;
+        // delta = (random_number() & 1) ? 1 : -1;
+        last_speed = del_speed;
+        delta = (random_number() % 3) - 1;
         del_speed = (random_number() & 1) 
             ? random_speed() : -random_speed();
     }
@@ -56,18 +59,23 @@ void NormalNote::update_pos() {
         cur_sita = (cur_sita + delta + BLOCK_NUMBER) % BLOCK_NUMBER;
         sita = get_sita(cur_sita);
     }
-    r += del_speed / (double)FPS;
-    if (r < 0) r = 0, del_speed = -del_speed;
+    r += ((del_speed - last_speed) / (double)r_interval * 
+        (time % r_interval + 1) + last_speed) / FPS;
+    if (r < 0) r = 0, del_speed = -del_speed, last_speed = -last_speed;
+    if (r > MAX_HEIGHT) 
+        r = MAX_HEIGHT, del_speed = -del_speed, last_speed = -last_speed;
     ++time;
 }
 
 void FasterNote::update_pos() {
     // printf("FasterNote");
-    static int interval = FPS / time_stamp, cur_sita, delta;
-    if (time % FPS == 0) {
+    static int interval = FPS / time_stamp; 
+    static int r_interval = FPS / 2;
+    if (time % r_interval == 0) {
         if (random_number() & 1) {
             // 随机游走
-            delta = (random_number() & 1) ? 1 : -1;
+            // delta = (random_number() & 1) ? 1 : -1;
+            delta = (random_number() % 3) - 1;
             del_speed = (random_number() & 1) 
                 ? random_speed() : -random_speed();
         } else {
@@ -83,17 +91,21 @@ void FasterNote::update_pos() {
         cur_sita = (cur_sita + delta + BLOCK_NUMBER) % BLOCK_NUMBER;
         sita = get_sita(cur_sita);
     }
-    r += del_speed / (double)FPS;
-    if (r < 0) r = 0, del_speed = -del_speed;
+    r += ((del_speed - last_speed) / (double)r_interval * 
+        (time % r_interval + 1) + last_speed) / FPS;
+    if (r < 0) r = 0, del_speed = -del_speed, last_speed = -last_speed;
+    if (r > MAX_HEIGHT) 
+        r = MAX_HEIGHT, del_speed = -del_speed, last_speed = -last_speed;
     ++time;
 }
 
 void ExplosiveNote::update_pos() {
-    // printf("ExplosiveNote");
-    static int interval = FPS / time_stamp, cur_sita, delta;
-    if (time % FPS == 0) {
-        // 随机游走
-        delta = (random_number() & 1) ? 1 : -1;
+    // printf("E)xplosiveNote");
+    static int interval = FPS / time_stamp;
+    static int r_interval = FPS / 2;
+    if (time % r_interval == 0) {
+        // delta = (random_number() & 1) ? 2 : -2;
+        delta = (random_number() % 5) - 2;
         del_speed = (random_number() & 1) ? random_speed()
             : -random_speed();
     }
@@ -102,8 +114,11 @@ void ExplosiveNote::update_pos() {
         cur_sita = (cur_sita + delta + BLOCK_NUMBER) % BLOCK_NUMBER;
         sita = get_sita(cur_sita);
     }
-    r += del_speed / (double)FPS;
-    if (r < 0) r = 0, del_speed = -del_speed;
+    r += ((del_speed - last_speed) / (double)r_interval * 
+        (time % r_interval + 1) + last_speed) / FPS;
+    if (r < 0) r = 0, del_speed = -del_speed, last_speed = -last_speed;
+    if (r > MAX_HEIGHT) 
+        r = MAX_HEIGHT, del_speed = -del_speed, last_speed = -last_speed;
     ++time;
 }
 
@@ -121,6 +136,7 @@ void NotesInfo::updateNotes() {
         } else {
             e->update_pos();
             if (e->type == 2) {
+                // printf("????\n");
                 if (e->break_rope()) {
                     delete e;
                     continue ;
@@ -133,12 +149,14 @@ void NotesInfo::updateNotes() {
         notes.push_back(cur_notes.back());
         cur_notes.pop_back();
     }
-    if (time % FPS == 0) {
+    static int x = 0;
+    if (time % FPS == x) {
         int ran = random_number() % (MAX_STAGE * 100);
         if (ran < world->currentStage * 25) addNotes(2);
         else if (ran < MAX_STAGE * 50) addNotes(0);
         else if (ran < MAX_STAGE * 75) addNotes(1);
         else if (ran < MAX_STAGE * 100) addNotes(3);
+        x = (x - 1 + FPS) % FPS;
     }
     ++time;
     return;
@@ -161,6 +179,9 @@ bool Note::get_collision() {
 }
 
 bool ExplosiveNote::break_rope() {
+    if (time % FPS == 0) {
+        printf("enter ? \n");
+    }
     if (time % (FPS * 60) != 0 || time == 0) return false; 
     printf("enter\n");
     int l = world->rope.segments[0].first;
@@ -169,5 +190,6 @@ bool ExplosiveNote::break_rope() {
     int pos = random_number() % (r - l) + l;
     if (pos >= BLOCK_NUMBER) pos -= BLOCK_NUMBER;
     world->rope.breakRope(l, pos);
+    printf("%d, %d, %d\n", l, pos, r);
     return true;
 }

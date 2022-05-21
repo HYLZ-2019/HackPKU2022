@@ -26,13 +26,14 @@ class Note {
         int speed; // 速度底线（根据游戏进程常量处理）
         int time; // 音符自己的时间戳
         int points; // 得分情况
-        int delta;                                                             //警告：未初始化
-        int del_speed;                                                         //警告：未初始化
+        int delta;                                                            
+        double del_speed;
+        double last_speed;
         Note() {}
         Note(int type, double sita, double r);
 
-        inline double random_speed() {
-            return (double)(random_number() % (NOTE_HIGH_SPEED - speed - 1)
+        virtual inline double random_speed() {
+            return (double)(random_number() % (NOTE_MID_SPEED - speed - 1)
                  + speed);
         }
 
@@ -50,7 +51,7 @@ class Note {
             return ;
         }
 
-        inline bool break_rope() {
+        virtual inline bool break_rope() {
             return false;
         }
 
@@ -69,7 +70,7 @@ class NotesInfo {
     /* 更新所有音符的状态（包括生成新音符，改变已有音符的位置，消灭过期音符等） */
     NotesInfo() : time(0) {}
 
-    virtual void updateNotes() ;
+    void updateNotes() ;
     void addNotes(int type) ; 
 } ;
 
@@ -95,13 +96,13 @@ class ExplosiveNote : public Note {
         ExplosiveNote() {}
         ExplosiveNote(int type, double sita, double r) ;
 
-        inline double random_speed() {
+        virtual inline double random_speed() {
             return (double)(random_number() % (NOTE_HIGH_SPEED - speed - 1)
                  + speed);
         }
 
-        void update_pos();
-        bool break_rope();
+        virtual void update_pos();
+        virtual bool break_rope();
 };
 
 #endif
