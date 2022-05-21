@@ -69,28 +69,7 @@ void UpdateGameplayScreen(void)
     return;
 }
 
-void DrawRope(const World* world) {
-    std::vector <std::pair<std::pair <double, double>, ROPEDOT_STATE > > PolarAngels;
-    std::vector <std::pair <int,int> > seg;
-    world -> rope.getRopeData(seg, PolarAngels);
-    if (seg.size() > 1) printf("SegSize = %d\n", seg.size());
-    for (int i = 0, sze = seg.size(); i < sze; ++i) {
-        int l = seg[i].first, r = seg[i].second;
-        int numPoints = r - l;
-        if (numPoints <= 0) numPoints += BLOCK_NUMBER;
-        Vector2 *pointsP = (Vector2 *)malloc(numPoints * sizeof(Vector2));
-        Vector2 *pointsP1 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
-        Vector2 *pointsP2 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
-        Vector2 *pointsP3 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
-        Vector2 *pointsP4 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
-        int kk = 0;
-        for (int j = l; j != r; j = (j + 1) % BLOCK_NUMBER, ++kk) {
-        }
-        float range_left = std::min(30.0,PolarAngels[l].first.second);
-        float range_right = 30;
-        for (int j = l,k=0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
-            //pointsP[k] = TransitionCoordinate(PolarAngels[j].first, 
-            //                                  PolarAngels[j].second);
+/*
             pointsP[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
                                               PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3-range_right*(float)(k)/(float)(kk)-range_left);
             pointsP[k].x += EARTH_POSX, pointsP[k].y += EARTH_POSY;
@@ -110,44 +89,71 @@ void DrawRope(const World* world) {
             pointsP4[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
                                               PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+range_right*(float)(k)/(float)(kk)+range_left);
             pointsP4[k].x += EARTH_POSX, pointsP4[k].y += EARTH_POSY;
-        }
-        int mid_num = 0;
-        int k = 0;
-        for (int j = l; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
-            if(k==kk/2)mid_num = j;
-            int type = PolarAngels[j].second;
-            if (j == l && sze > 1) {
-                if (type == ROPEDOT_ZERO) printf("ZERO");
-                if (type == ROPEDOT_ALIVE) printf("ALIVE");
-                if (type == ROPEDOT_DEAD) printf("DEAD");
-                printf("[%.2lf][%.2lf], ", PolarAngels[j].first.second, PolarAngels[(j + 1) % BLOCK_NUMBER].first.second);
-            }
+*/
+
+void Rela2EARTH(Vector2& v) {
+    v.x += EARTH_POSX, v.y += EARTH_POSY;
+}
+
+void getPointInfo(double rangeL, double rangeR, int len, int index, PA_t p, 
+                  Vector2& pointP, Vector2& pointP1, Vector2& pointP2, Vector2& pointP3, Vector2& pointP4) {
+    p.second += EARTH_RADIUS * 2 / 3;
+    double k = (double)index / len;
+    Rela2EARTH(pointP  = TransitionCoordinate(p.first - world -> NorthPolarAngel, p.second - k * rangeR - rangeL));
+    Rela2EARTH(pointP1 = TransitionCoordinate(p.first - world -> NorthPolarAngel, p.second - k * rangeR / 2 - rangeL / 2));
+    Rela2EARTH(pointP2 = TransitionCoordinate(p.first - world -> NorthPolarAngel, p.second));
+    Rela2EARTH(pointP3 = TransitionCoordinate(p.first - world -> NorthPolarAngel, p.second + k * rangeR / 2 + rangeL / 2));
+    Rela2EARTH(pointP4 = TransitionCoordinate(p.first - world -> NorthPolarAngel, p.second + k * rangeR + rangeL));
+}
+
+Color getRopeColor(ROPEDOT_STATE status, int timer) { //给出绳粒子的状态, 返回绳粒子的颜色
+    if (status == ROPEDOT_ALIVE) return RED;
+    if (status == ROPEDOT_DEAD) return BLUE;
+    
+    return GRAY;
+}
+
+void DrawRope(const World* world) {
+    std::vector <std::pair <double, double> > p;
+    //std::vector <std::pair<std::pair <double, double>, ROPEDOT_STATE > > PolarAngels;
+    std::vector <std::pair <int,int> > seg;
+    world -> rope.getRopeData(seg, p);
+    //if (seg.size() > 1) printf("SegSize = %d\n", seg.size());
+    for (int i = 0, sze = seg.size(); i < sze; ++i) {
+        int l = seg[i].first, r = seg[i].second;
+        int numPoints = r - l;
+        if (numPoints <= 0) numPoints += BLOCK_NUMBER;
+        Vector2 *pointsP  = (Vector2 *)malloc(numPoints * sizeof(Vector2));
+        Vector2 *pointsP1 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
+        Vector2 *pointsP2 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
+        Vector2 *pointsP3 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
+        Vector2 *pointsP4 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
+        
+        double rangeL = std::min(30.0, p[l].second), rangeR = 30;
+        for (int j = l, k = 0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) 
+            getPointInfo(rangeL, rangeR, numPoints, k, p[j], 
+                         pointsP[k], pointsP1[k], pointsP2[k], pointsP3[k], pointsP4[k]);
+        
+        int centreJ = 0;
+        for (int j = l, k = 0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
+            if(k == numPoints / 2) centreJ = j;
+            ROPEDOT_STATE status;
+            int timer;
+            (world -> rope).Index2Type(j, status, timer);
+
+          
             if ((j + 1) % BLOCK_NUMBER != r) {
-                if(type == ROPEDOT_ZERO){
-                    DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, GRAY);
-                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 6.0, GRAY);
-                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 6.0, GRAY);
-                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 6.0, GRAY);
-                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 6.0, GRAY);
-                }
-                if(type == ROPEDOT_ALIVE){
-                    DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, RED);
-                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 6.0, RED);
-                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 6.0, RED);
-                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 6.0, RED);
-                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 6.0, RED);
-                }
-                if(type == ROPEDOT_DEAD){
-                    DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, BLUE);
-                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 6.0, BLUE);
-                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 6.0, BLUE);
-                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 6.0, BLUE);
-                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 6.0, BLUE);
-                }
+                Color col = getRopeColor(status, timer);
+                float thick = 4.0;
+                DrawLineEx(pointsP[k],  pointsP[k + 1],  thick, col);
+                DrawLineEx(pointsP1[k], pointsP1[k + 1], thick, col);
+                DrawLineEx(pointsP2[k], pointsP2[k + 1], thick, col);
+                DrawLineEx(pointsP3[k], pointsP3[k + 1], thick, col);
+                DrawLineEx(pointsP4[k], pointsP4[k + 1], thick, col);
             }
         }
     }
-    if (seg.size() > 1) printf("\n");
+    //if (seg.size() > 1) printf("\n");
     //printf("%d\n", seg.size());
 }
 

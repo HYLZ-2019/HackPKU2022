@@ -1,6 +1,4 @@
-#include "constant.h"
-#include "world.h"
-#include "rope.h"
+#include "screens.h"
 
 //初始化绳粒子
 RopeDot :: RopeDot(int index) {
@@ -144,10 +142,16 @@ void RopeInfo :: breakRope(int left, int right) { //请在调用updateRope()后�
 }
 
 //get the Rope's data
-void RopeInfo :: getRopeData(std::vector<std::pair <int,int> >& seg, std::vector<std::pair<std::pair <double, double>, ROPEDOT_STATE > >& PAs) const {
+void RopeInfo :: getRopeData(std::vector<std::pair <int,int> >& seg, std::vector<PA_t>& PAs) const {
     seg = segments;
     PAs.clear();
     for (int i = 0; i < BLOCK_NUMBER; ++i) 
-        PAs.push_back(std::make_pair(std::make_pair(dots[i].sita, dots[i].r), dots[i].status));
+        PAs.push_back(PA_t(dots[i].sita, dots[i].r));
+    return;
+}
+
+void RopeInfo :: Index2Type(int index, ROPEDOT_STATE& status, int& die_time) const {
+    status = dots[index].status;
+    die_time = dots[index].die_time;
     return;
 }
