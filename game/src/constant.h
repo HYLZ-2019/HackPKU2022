@@ -34,7 +34,7 @@ const int NOTE_HEIGHT = 100;
 
 
 // 纹理个数
-const int STAFF_CUT_NUM = 10;
+const int STAFF_CUT_NUM = 0;
 const int TEXTURE_CNT = 8+STAFF_CUT_NUM;
 
 
