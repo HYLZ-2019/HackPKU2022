@@ -28,7 +28,7 @@ const int EARTH_POSX = SCREEN_WIDTH/2;
 const int EARTH_POSY = SCREEN_HEIGHT*2/3;
 
 // note config
-const int NOTE_WIDTH = 300;
+const int NOTE_WIDTH = 400;
 const int NOTE_HEIGHT = 70;
 
 
