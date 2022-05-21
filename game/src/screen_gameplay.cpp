@@ -250,7 +250,7 @@ void DrawGameplayScreen(const World* world, Shader shader)
                 (-(float)world->NorthPolarAngel + wolf.sita)*RAD2DEG,WHITE);
                 if(wolf.flag1){
                     // printf("wolf is on  the = %lf, %lf\n", wolf.x, wolf.y);
-                    Vector2 t = TransitionCoordinate(wolf.l_sita - wolf.angle, wolf.l_r + (float)EARTH_RADIUS*2/3);
+                    Vector2 t = TransitionCoordinate(wolf.l_sita - wolf.angle1, wolf.l_r + (float)EARTH_RADIUS*2/3);
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
                     DrawCircle(t.x, t.y ,(float)WOLF_SKILL1_RADIUS,Fade(BLACK,0.2+0.8*(float)wolf.time1/(float)(15*FPS)));
                 }
@@ -258,12 +258,15 @@ void DrawGameplayScreen(const World* world, Shader shader)
                     Vector2 s,t;
                     s = TransitionCoordinate(wolf.sita - world->NorthPolarAngel, wolf.r + (float)EARTH_RADIUS*2/3);
                     s.x += EARTH_POSX, s.y += EARTH_POSY;
-                    if(wolf.ready){
-                        t = TransitionCoordinate(wolf.s_sita - world->NorthPolarAngel, wolf.s_r + (float)EARTH_RADIUS*2/3);
+                    if(wolf.ready2){
+                        t = TransitionCoordinate(wolf.s_sita - wolf.angle2, wolf.s_r + (float)EARTH_RADIUS*2/3);
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
-                        DrawLineEx(s,t,15,YELLOW);
-                    }
-                    else{
+                        DrawLineEx(s,t,10,YELLOW);
+                    } else if (wolf.ready) {
+                        t = TransitionCoordinate(wolf.s_sita - wolf.angle2, wolf.s_r + (float)EARTH_RADIUS*2/3);
+                        t.x += EARTH_POSX, t.y += EARTH_POSY;
+                        DrawLineEx(s,t,3,YELLOW);
+                    } else {
                         t = TransitionCoordinate(world->tiger.sita - world->NorthPolarAngel, world->tiger.r + (float)EARTH_RADIUS*2/3);
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
                         DrawLineEx(s,t,3,YELLOW);
