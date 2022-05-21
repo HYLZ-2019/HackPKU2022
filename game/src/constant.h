@@ -28,13 +28,13 @@ const int EARTH_POSX = SCREEN_WIDTH/2;
 const int EARTH_POSY = SCREEN_HEIGHT*2/3;
 
 // note config
-const int NOTE_WIDTH = 250;
-const int NOTE_HEIGHT = 100;
+const int NOTE_WIDTH = 50;
+const int NOTE_HEIGHT = 80;
 
 
 
 // 纹理个数
-const int TEXTURE_CNT = 8;
+const int TEXTURE_CNT = 10;
 
 const int MOVE_SPEED = 120;
 
@@ -44,6 +44,7 @@ const int NOTE_MIN_SPEED = 60;
 const int NOTE_MID_SPEED = 120;
   // 爆炸音符
 const int NOTE_HIGH_SPEED = 240;
+const int NOTE_EXPLODE_SECONDS = 5;
 
 // 总共有几个关卡（一旦stage变成MAX_STAGE，就视为通关）
 const int MAX_STAGE = 10;

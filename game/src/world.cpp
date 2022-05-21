@@ -8,7 +8,8 @@ World :: World() {
     currentStage = 0;
     Earth_sita = 0;
     beginTime = time(0);
-    NorthPolarAngel = PI / 2.0;
+    // 是弧度制！
+    NorthPolarAngel = 0;
     texture[World::SPACE] = LoadTexture("resources/space.png");
     //texture[0] = LoadTexture("resources/space.png");
     Image moon = LoadImage("resources/moon.png");
@@ -18,6 +19,7 @@ World :: World() {
     // printf("%d,%d\n",texture[1].width,texture[1].height);
     //texture[2] = LoadTexture("resources/tiger.png");
     texture[World::TIGER] = LoadTexture("resources/tiger.png");
+    texture[World::EXPLOSION] = LoadTexture("resources/explosion.png");
 
     Image purple_note = LoadImage("resources/purple_note.png");
     ImageResize(&purple_note,NOTE_WIDTH,NOTE_HEIGHT);
@@ -33,6 +35,14 @@ World :: World() {
     ImageResize(&blue_note,NOTE_WIDTH,NOTE_HEIGHT);
     //texture[5] = LoadTextureFromImage(blue_note);
     texture[World::NOTE_BLUE] = LoadTextureFromImage(blue_note);
+
+    Image pink_note = LoadImage("resources/pink_note.png");
+    ImageResize(&pink_note,NOTE_WIDTH,NOTE_HEIGHT);
+    texture[World::NOTE_PINK] = LoadTextureFromImage(pink_note);
+
+    Image red_note = LoadImage("resources/red_note.png");
+    ImageResize(&red_note,NOTE_WIDTH,NOTE_HEIGHT);
+    texture[World::NOTE_RED] = LoadTextureFromImage(red_note);
 
     Image wolf_note = LoadImage("resources/wolf_note.png");
     ImageResize(&wolf_note,NOTE_WIDTH,NOTE_HEIGHT);
