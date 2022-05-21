@@ -41,11 +41,13 @@ const int TEXTURE_CNT = 8+STAFF_CUT_NUM;
 const int MOVE_SPEED = 120;
 
 // 运动速度
-  // 常规音符
+// 常规音符
 const int NOTE_MIN_SPEED = 60;
 const int NOTE_MID_SPEED = 120;
-  // 爆炸音符
+// 爆炸音符
 const int NOTE_HIGH_SPEED = 240;
+// 爆炸音符的蓄力秒数
+const int NOTE_LANTENCY = 10;
 
 // 总共有几个关卡（一旦stage变成MAX_STAGE，就视为通关）
 const int MAX_STAGE = 10;

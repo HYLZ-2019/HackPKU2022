@@ -184,7 +184,7 @@ bool ExplosiveNote::break_rope() {
     if (time % FPS == 0) {
         printf("enter ? \n");
     }
-    if (time % (FPS * 60) != 0 || time == 0) return false; 
+    if (time % (FPS * NOTE_LANTENCY) != 0 || time == 0) return false; 
     printf("enter\n");
     int l = world->rope.segments[0].first;
     int r = world->rope.segments[0].second;

@@ -124,7 +124,6 @@ void RopeInfo :: getSegs() {
 
 //请在调用updateRope()后使用
 void RopeInfo :: breakRope(int left, int right) { //请在调用updateRope()后使用
-    printf("%d,%d\n",left,right);
     for (int i = 0; i < BLOCK_NUMBER; ++i) 
         if (InRange(i, left, right)) {
             dots[i].r = 0;
