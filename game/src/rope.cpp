@@ -107,6 +107,10 @@ void RopeInfo :: getSegs() {
         for (int i = (z + 1) % BLOCK_NUMBER; ; i = (i + 1) % BLOCK_NUMBER) {
             if (dots[i].status == ROPEDOT_ZERO) {
                 segments.push_back(std::make_pair((z + 1) % BLOCK_NUMBER, i));
+                for (int o = (z + 1) % BLOCK_NUMBER; o != i; 
+                    o = (o + 1) % BLOCK_NUMBER) {
+                    dots[i].sl = (z + 1) % BLOCK_NUMBER, dots[i].sr = i;
+                }
                 int sze = segments.size();
                 bool isALIVE = InRange(index, (z + 1) % BLOCK_NUMBER, i);
                 if (isALIVE) swap(segments[0], segments[sze - 1]);
