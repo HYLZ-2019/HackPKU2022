@@ -91,7 +91,7 @@ void Wolf::update_wolf() {
     }
     if (time % (FPS * 30) == 0 && time) {
         //printf("skill_1\n");
-        //wolf_skill_1();
+        // wolf_skill_1();
     } else if (time % (FPS * 20) == 0 && time) {
         //printf("skill_2\n");
         wolf_skill_2();
