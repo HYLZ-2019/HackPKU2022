@@ -45,12 +45,12 @@ void Wolf::init_wolf(int t) {
 }
 
 void Wolf::wolf_skill_1() {
-    l_sita = sita, l_r = r, angle = world->NorthPolarAngel, 
+    l_sita = sita, l_r = r, angle1 = world->NorthPolarAngel, 
         flag1 = true, time1 = 0;
 }
 
 void Wolf::wolf_skill_2() {
-    flag2 = true, ready = false, time2 = 0;
+    flag2 = true, ready = ready2 = false, time2 = 0;
 }
 
 void Wolf::update_wolf() {
@@ -78,9 +78,11 @@ void Wolf::update_wolf() {
                 ready = true;
                 s_sita = world->tiger.sita;
                 s_r = world->tiger.r;
+                angle2 = world->NorthPolarAngel;
             }    
         } else {
-            if (time2 == FPS * 4) flag2 = false;
+            if (time2 > FPS * 4) ready2 = true;
+            if (time2 > FPS * 5) flag2 = false;
         }
     }
     // printf("enter_wolf2!\n");
