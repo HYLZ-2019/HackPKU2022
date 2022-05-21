@@ -142,7 +142,7 @@ void DrawRope(const World* world) {
 
 void ShowSTATE(const World* world) {
     DrawText(TextFormat("POINTS: %d, CURRENT_STAGE:%d", world -> points, world -> currentStage), 
-             50, 20, 20, RED);
+             50, 40, 40, RED);
 }
 
 // Gameplay Screen Draw logic
