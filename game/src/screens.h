@@ -41,6 +41,14 @@
 //----------------------------------------------------------------------------------
 typedef enum GameScreen { LOGO = 0, TITLE, OPTIONS, GAMEPLAY, ENDING } GameScreen;
 
+class GameResults {
+  public:
+    int points;
+    int maxpoints;
+    int currentStage;
+    double usedTime;
+};
+
 //----------------------------------------------------------------------------------
 // Global Variables Declaration (shared by several modules)
 //----------------------------------------------------------------------------------
@@ -86,13 +94,13 @@ int FinishOptionsScreen(void);
 void InitGameplayScreen(void);
 void UpdateGameplayScreen(void);
 void DrawGameplayScreen(const World* world,Shader shader);
-void UnloadGameplayScreen(void);
+GameResults UnloadGameplayScreen(void);
 int FinishGameplayScreen(void);
 
 //----------------------------------------------------------------------------------
 // Ending Screen Functions Declaration
 //----------------------------------------------------------------------------------
-void InitEndingScreen(void);
+void InitEndingScreen(GameResults res);
 void UpdateEndingScreen(void);
 void DrawEndingScreen(void);
 void UnloadEndingScreen(void);

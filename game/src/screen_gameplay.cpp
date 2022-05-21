@@ -219,10 +219,18 @@ void DrawFinishScreen(const World* world)
 }
 
 // Gameplay Screen Unload logic
-void UnloadGameplayScreen(void)
+GameResults UnloadGameplayScreen(void)
 {
     // TODO: Unload GAMEPLAY screen variables here!
+    // 返回一个实例
+    GameResults res;
+    res.points = world->points;
+    res.maxpoints = world->maxpoints;
+    res.currentStage = world->currentStage;
+    time_t currentTime = time(0);
+    res.usedTime = difftime(currentTime, world->beginTime);
     delete world;
+    return res;
 }
 
 // Gameplay Screen should finish?

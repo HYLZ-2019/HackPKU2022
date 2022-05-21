@@ -13,7 +13,9 @@ class World {
     RopeInfo rope;
     NotesInfo notes;
     int points; // 清零时game over
+    int maxpoints; // 被打爆之前的最高分
     int currentStage;
+    time_t beginTime;
 
     double NorthPolarAngel;
     
@@ -30,5 +32,6 @@ class World {
     /* 调用tiger, rope, notes的update*/
     void updateWorld();
 };
+
 
 #endif

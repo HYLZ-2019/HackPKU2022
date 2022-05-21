@@ -4,8 +4,10 @@
 /* 后端的所有信息。 */
 World :: World() {
     points = 0;
+    maxpoints = 0;
     currentStage = 0;
     Earth_sita = 0;
+    beginTime = time(0);
     NorthPolarAngel = PI / 2.0;
     texture[0] = LoadTexture("resources/space.png");
     Image moon = LoadImage("resources/moon.png");
@@ -57,6 +59,9 @@ void World::updateWorld(){
     notes.updateNotes();      
     if (points > pointsNeededForNextStage(currentStage)){
         currentStage += 1;
+    }
+    if (points > maxpoints){
+        maxpoints = points;
     }
     Earth_sita-=0.1;
     NorthPolarAngel += 2 * PI / BLOCK_NUMBER;

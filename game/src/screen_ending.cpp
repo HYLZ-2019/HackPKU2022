@@ -31,24 +31,33 @@
 //----------------------------------------------------------------------------------
 static int framesCounter = 0;
 static int finishScreen = 0;
+static GameResults result;
+
+Texture gameoverPic;
+Texture youwinPic;
+Texture fireworks;
 
 //----------------------------------------------------------------------------------
 // Ending Screen Functions Definition
 //----------------------------------------------------------------------------------
 
 // Ending Screen Initialization logic
-void InitEndingScreen(void)
+void InitEndingScreen(GameResults res)
 {
     // TODO: Initialize ENDING screen variables here!
+    result = res;
     framesCounter = 0;
     finishScreen = 0;
+    gameoverPic = LoadTexture("resources/gameover.png");
+    youwinPic = LoadTexture("resources/youwin.png");
+    fireworks = LoadTexture("resources/Firework.png");
 }
 
 // Ending Screen Update logic
 void UpdateEndingScreen(void)
 {
     // TODO: Update ENDING screen variables here!
-
+    framesCounter += 1;
     // Press enter or tap to return to TITLE screen
     if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
     {
@@ -61,9 +70,42 @@ void UpdateEndingScreen(void)
 void DrawEndingScreen(void)
 {
     // TODO: Draw ENDING screen here!
-    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLUE);
-    DrawTextEx(font, "ENDING SCREEN", (Vector2){ 20, 10 }, font.baseSize*3.0f, 4, DARKBLUE);
-    DrawText("PRESS ENTER or TAP to RETURN to TITLE SCREEN", 120, 220, 20, DARKBLUE);
+    bool win = result.currentStage == MAX_STAGE;
+    if (win) {
+        Rectangle source_rec = {0.0f, 0.0f, (float)youwinPic.width, (float)youwinPic.width};
+        Rectangle dest_rec = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+        DrawTexturePro(youwinPic, source_rec, dest_rec, {0.0f, 0.0f}, 0.0f, WHITE);
+        DrawText(TextFormat("%d", result.points), 950, 330, 60, ORANGE);
+        DrawText(TextFormat("%02d:%02d", ((int)result.usedTime)/60, (int)(result.usedTime)%60), 950, 400, 60, ORANGE);
+    
+        // Firework 1: [0, 60], Firework 2: [30, 90]
+        int fwtime = framesCounter % 90;
+        Rectangle fwd_1 = {380.0, 50.0, 150.0, 150.0};
+        Rectangle fwd_2 = {600.0, 130.0, 200.0, 200.0};
+        Rectangle fwd_3 = {800.0, 10.0, 300.0, 300.0};
+        Rectangle fws_1 = {float(256.0*((fwtime/2)%6)), float(256.0*((fwtime/2)/6)), 256.0, 256.0};
+        Rectangle fws_2 = {float(256.0*(((fwtime-15)/2)%6)), float(256.0*(((fwtime-15)/2)/6)), 256.0, 256.0};
+        Rectangle fws_3 = {float(256.0*(((fwtime-30)/2)%6)), float(256.0*(((fwtime-30)/2)/6)), 256.0, 256.0};
+        if (0 <= fwtime && fwtime < 60){
+            DrawTexturePro(fireworks, fws_1, fwd_1, {0.0f, 0.0f}, 0.0f, WHITE);
+        }
+        if (15 <= fwtime && fwtime < 75){
+            DrawTexturePro(fireworks, fws_2, fwd_2, {0.0f, 0.0f}, 0.0f, WHITE);
+        }
+        if (30 <= fwtime && fwtime < 90){
+            DrawTexturePro(fireworks, fws_3, fwd_3, {0.0f, 0.0f}, 0.0f, WHITE);
+        }
+    
+    }
+    else {
+        Rectangle source_rec = {0.0f, 0.0f, (float)gameoverPic.width, (float)gameoverPic.width};
+        Rectangle dest_rec = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+        DrawTexturePro(gameoverPic, source_rec, dest_rec, {0.0f, 0.0f}, 0.0f, WHITE);
+        DrawText(TextFormat("%d", result.points), 950, 260, 60, BLACK);
+        DrawText(TextFormat("%d", result.maxpoints), 950, 330, 60, BLACK);
+        DrawText(TextFormat("%02d:%02d", ((int)result.usedTime)/60, (int)(result.usedTime)%60), 950, 400, 60, BLACK);
+
+    }
 }
 
 // Ending Screen Unload logic
