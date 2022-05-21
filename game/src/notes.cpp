@@ -205,6 +205,5 @@ bool ExplosiveNote::break_rope() {
     int blowR = std::min(blowL + EXPLOSION_RANGE, r);
 
     world->rope.breakRope(blowL % BLOCK_NUMBER, blowR % BLOCK_NUMBER);
-    printf("break [%d, %d] in [%d, %d\n]\n", l, r, blowL, blowR);
     return true;
 }
