@@ -4,6 +4,7 @@
 #include "tiger.h"
 #include "rope.h"
 #include "notes.h"
+#include <map>
 
 /* 后端的所有信息。 */
 
@@ -22,6 +23,16 @@ class World {
     // 地球旋转角
     float Earth_sita;
     Texture texture[TEXTURE_CNT];
+    enum {
+      MOON,
+      SPACE,
+      TIGER,
+      NOTE_PURPLE,
+      NOTE_ORANGE,
+      NOTE_BLUE,
+      NOTE_WOLF
+    }; // 所有图片的编号
+
     Rectangle sourceRec;
     Rectangle destRec;
     Vector2 origin;  

@@ -9,36 +9,43 @@ World :: World() {
     Earth_sita = 0;
     beginTime = time(0);
     NorthPolarAngel = PI / 2.0;
-    texture[0] = LoadTexture("resources/space.png");
+    texture[World::SPACE] = LoadTexture("resources/space.png");
+    //texture[0] = LoadTexture("resources/space.png");
     Image moon = LoadImage("resources/moon.png");
     ImageResize(&moon,EARTH_RADIUS,EARTH_RADIUS);
-    texture[1] = LoadTextureFromImage(moon);
+    //texture[1] = LoadTextureFromImage(moon);
+    texture[World::MOON] = LoadTextureFromImage(moon);
     // printf("%d,%d\n",texture[1].width,texture[1].height);
-    texture[2] = LoadTexture("resources/tiger.png");
+    //texture[2] = LoadTexture("resources/tiger.png");
+    texture[World::TIGER] = LoadTexture("resources/tiger.png");
 
     Image purple_note = LoadImage("resources/purple_note.png");
     ImageResize(&purple_note,NOTE_WIDTH,NOTE_HEIGHT);
-    texture[3] = LoadTextureFromImage(purple_note);
+    //texture[3] = LoadTextureFromImage(purple_note);
+    texture[World::NOTE_PURPLE] = LoadTextureFromImage(purple_note);
 
     Image orange_note = LoadImage("resources/orange_note.png");
     ImageResize(&orange_note,NOTE_WIDTH,NOTE_HEIGHT);
-    texture[4] = LoadTextureFromImage(orange_note);
+    texture[World::NOTE_ORANGE] = LoadTextureFromImage(orange_note);
+    //texture[4] = LoadTextureFromImage(orange_note);
     
     Image blue_note = LoadImage("resources/blue_note.png");
     ImageResize(&blue_note,NOTE_WIDTH,NOTE_HEIGHT);
-    texture[5] = LoadTextureFromImage(blue_note);
+    //texture[5] = LoadTextureFromImage(blue_note);
+    texture[World::NOTE_BLUE] = LoadTextureFromImage(blue_note);
 
     Image wolf_note = LoadImage("resources/wolf_note.png");
     ImageResize(&wolf_note,NOTE_WIDTH,NOTE_HEIGHT);
-    texture[6] = LoadTextureFromImage(wolf_note);
+    //texture[6] = LoadTextureFromImage(wolf_note);
+    texture[World::NOTE_WOLF] = LoadTextureFromImage(wolf_note);
 
     // texture[3] = LoadTexture("resources/");
     // Source rectangle (part of the texture to use for drawing)
-    sourceRec = { 0.0f, 0.0f, (float)texture[1].width, (float)texture[1].height };
+    sourceRec = { 0.0f, 0.0f, (float)texture[World::MOON].width, (float)texture[World::MOON].height };
     // Destination rectangle (screen rectangle where drawing part of texture)
-    destRec = { EARTH_POSX, EARTH_POSY, texture[1].width*2.0f, texture[1].height*2.0f };
+    destRec = { EARTH_POSX, EARTH_POSY, texture[World::MOON].width*2.0f, texture[World::MOON].height*2.0f };
     // Origin of the texture (rotation/scale point), it's relative to destination rectangle size
-    origin = { (float)texture[1].width, (float)texture[1].height };
+    origin = { (float)texture[World::MOON].width, (float)texture[World::MOON].height };
 }
 
 int World::pointsNeededForNextStage(int stage) {
