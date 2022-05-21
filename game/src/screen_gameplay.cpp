@@ -86,15 +86,17 @@ void DrawRope(const World* world) {
         int kk = 0;
         for (int j = l; j != r; j = (j + 1) % BLOCK_NUMBER, ++kk) {
         }
+        float range_left = std::min(30.0,PolarAngels[l].first.second);
+        float range_right = 30;
         for (int j = l,k=0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
             //pointsP[k] = TransitionCoordinate(PolarAngels[j].first, 
             //                                  PolarAngels[j].second);
             pointsP[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3-30*(float)(k)/(float)(kk));
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3-range_right*(float)(k)/(float)(kk)-range_left);
             pointsP[k].x += EARTH_POSX, pointsP[k].y += EARTH_POSY;
             
             pointsP1[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3-15*(float)(k)/(float)(kk));
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3-(range_right/2)*(float)(k)/(float)(kk)-range_left/2);
             pointsP1[k].x += EARTH_POSX, pointsP1[k].y += EARTH_POSY;
 
             pointsP2[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
@@ -102,11 +104,11 @@ void DrawRope(const World* world) {
             pointsP2[k].x += EARTH_POSX, pointsP2[k].y += EARTH_POSY;
 
             pointsP3[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+15*(float)(k)/(float)(kk));
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+(range_right/2)*(float)(k)/(float)(kk)+range_left/2);
             pointsP3[k].x += EARTH_POSX, pointsP3[k].y += EARTH_POSY;
             
             pointsP4[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+30*(float)(k)/(float)(kk));
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+range_right*(float)(k)/(float)(kk)+range_left);
             pointsP4[k].x += EARTH_POSX, pointsP4[k].y += EARTH_POSY;
         }
         int mid_num = 0;
@@ -144,35 +146,6 @@ void DrawRope(const World* world) {
                 }
             }
         }
-        
-        // int type = 0;
-        // for(int j=l,i=0;i<k-1;j = (j + 1) % BLOCK_NUMBER, ++i){
-        //     Vector2 center = TransitionCoordinate((PolarAngels[j].first.first+PolarAngels[(j+1)%BLOCK_NUMBER].first.first)/2 - world -> NorthPolarAngel, 
-        //                                       PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3);
-        //     center.x += EARTH_POSX, center.y += EARTH_POSY;
-        //     Vector2 *positions = (Vector2 *)malloc(4 * sizeof(Vector2));
-        //     Vector2 *texcoords = (Vector2 *)malloc(4 * sizeof(Vector2));
-        //     positions[0] = pointsP[i];
-        //     positions[0].x-=center.x;positions[0].y-=center.y;
-        //     positions[1] = pointsP[i+1];
-        //     positions[1].x-=center.x;positions[1].y-=center.y;
-        //     positions[2] = pointsP4[i+1];
-        //     positions[2].x-=center.x;positions[2].y-=center.y;
-        //     positions[3] = pointsP4[i];
-        //     positions[3].x-=center.x;positions[3].y-=center.y;
-
-        //     texcoords[0] = (Vector2){0.0f,0.0f};
-        //     texcoords[1] = (Vector2){1.0f,0.0f};
-        //     texcoords[2] = (Vector2){1.0f,1.0f};
-        //     texcoords[3] = (Vector2){0.0f,1.0f};
-        //     DrawTexturePoly(world->texture[7], center, positions, texcoords, 4, WHITE);
-        //     // printf("%d\n",type);
-        //     // type=(type+1)%STAFF_CUT_NUM;
-        // }
-        //printf("++++++++++ DrawRope() seg %d numPoints = %d\n", i, numPoints);                        
-        // Draw a line defining thickness
-        //DrawLineStrip(pointsP, numPoints, RED);
-        //DrawLine(int startPosX, int startPosY, int endPosX, int endPosY, Color color);
     }
     if (seg.size() > 1) printf("\n");
     //printf("%d\n", seg.size());
@@ -210,7 +183,7 @@ void DrawGameplayScreen(const World* world, Shader shader)
             frameRec.x = (float)(world->tiger.position)*(float)world->texture[World::TIGER].width/6;
             Vector2 tiger_origin = TransitionCoordinate(world->tiger.sita,world->tiger.r+EARTH_RADIUS);
             Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[World::TIGER].width/6, (float)world->texture[World::TIGER].height };
-            DrawTexturePro(world->texture[World::TIGER], frameRec, destRec, (Vector2){(float)world->texture[World::TIGER].width/12,(float)(world->tiger.r+EARTH_RADIUS)}, 0,WHITE);
+            DrawTexturePro(world->texture[World::TIGER], frameRec, destRec, (Vector2){(float)world->texture[World::TIGER].width/12,(float)(world->tiger.r+EARTH_RADIUS-50)}, 0,WHITE);
 
             for(int i = 0; i < world->notes.notes.size(); i++){
                 // world->notes.notes[i].sita;

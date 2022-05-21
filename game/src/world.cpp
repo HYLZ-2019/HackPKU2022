@@ -11,13 +11,15 @@ World :: World() {
     NorthPolarAngel = PI / 2.0;
     texture[World::SPACE] = LoadTexture("resources/space.png");
     //texture[0] = LoadTexture("resources/space.png");
-    Image moon = LoadImage("resources/moon.png");
-    ImageResize(&moon,EARTH_RADIUS,EARTH_RADIUS);
+    Image moon = LoadImage("resources/noon.png");
+    ImageResize(&moon,EARTH_RADIUS*3/4,EARTH_RADIUS*3/4);
     //texture[1] = LoadTextureFromImage(moon);
     texture[World::MOON] = LoadTextureFromImage(moon);
     // printf("%d,%d\n",texture[1].width,texture[1].height);
     //texture[2] = LoadTexture("resources/tiger.png");
-    texture[World::TIGER] = LoadTexture("resources/tiger.png");
+    Image tiger = LoadImage("resources/tiger.png");
+    ImageResize(&tiger,NOTE_WIDTH,NOTE_HEIGHT*3/2);
+    texture[World::TIGER] = LoadTextureFromImage(tiger);
 
     Image purple_note = LoadImage("resources/purple_note.png");
     ImageResize(&purple_note,NOTE_WIDTH,NOTE_HEIGHT);
