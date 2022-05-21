@@ -16,6 +16,7 @@ class RopeDot {
   public:
     double sita; // 0 ~ 2*pi
     double r; // Height.
+    int sl, sr;
     ROPEDOT_STATE status;
     int die_time; // 只有ROPEDOT_DEAD的点有这个属性，它记录了这个点变成死的以来过了多少帧。 0表示刚刚死或者活着
     RopeDot(int index); //index为[0, BLOCK_NUMBER)范围内的整数，表明点在的极角方向

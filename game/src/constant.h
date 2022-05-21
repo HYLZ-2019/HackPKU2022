@@ -31,6 +31,9 @@ const int EARTH_POSY = SCREEN_HEIGHT*2/3;
 const int NOTE_WIDTH = 50;
 const int NOTE_HEIGHT = 80;
 
+// tiger size
+const int TIGER_WIDTH = 100;
+const int TIGER_HEIGHT = 100;
 
 
 // 纹理个数
@@ -39,12 +42,14 @@ const int TEXTURE_CNT = 10;
 const int MOVE_SPEED = 120;
 
 // 运动速度
-  // 常规音符
+// 常规音符
 const int NOTE_MIN_SPEED = 60;
 const int NOTE_MID_SPEED = 120;
-  // 爆炸音符
+// 爆炸音符
 const int NOTE_HIGH_SPEED = 240;
-const int NOTE_EXPLODE_SECONDS = 5;
+// 爆炸音符的蓄力秒数
+const int NOTE_LANTENCY = 10;
+const int EXPLOSION_RANGE = 20; // BLOCK
 
 // 总共有几个关卡（一旦stage变成MAX_STAGE，就视为通关）
 const int MAX_STAGE = 10;

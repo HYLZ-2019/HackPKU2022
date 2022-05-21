@@ -73,6 +73,7 @@ void DrawRope(const World* world) {
     std::vector <std::pair<std::pair <double, double>, ROPEDOT_STATE > > PolarAngels;
     std::vector <std::pair <int,int> > seg;
     world -> rope.getRopeData(seg, PolarAngels);
+    if (seg.size() > 1) printf("SegSize = %d\n", seg.size());
     for (int i = 0, sze = seg.size(); i < sze; ++i) {
         int l = seg[i].first, r = seg[i].second;
         int numPoints = r - l;
@@ -82,66 +83,70 @@ void DrawRope(const World* world) {
         Vector2 *pointsP2 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
         Vector2 *pointsP3 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
         Vector2 *pointsP4 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
-        for (int j = l, k = 0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
+        int kk = 0;
+        for (int j = l; j != r; j = (j + 1) % BLOCK_NUMBER, ++kk) {
+        }
+        float range_left = std::min(30.0,PolarAngels[l].first.second);
+        float range_right = 30;
+        for (int j = l,k=0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
             //pointsP[k] = TransitionCoordinate(PolarAngels[j].first, 
             //                                  PolarAngels[j].second);
             pointsP[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3);
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3-range_right*(float)(k)/(float)(kk)-range_left);
             pointsP[k].x += EARTH_POSX, pointsP[k].y += EARTH_POSY;
             
             pointsP1[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+20);
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3-(range_right/2)*(float)(k)/(float)(kk)-range_left/2);
             pointsP1[k].x += EARTH_POSX, pointsP1[k].y += EARTH_POSY;
-            
+
             pointsP2[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+40);
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3-0*(float)(k)/(float)(kk));
             pointsP2[k].x += EARTH_POSX, pointsP2[k].y += EARTH_POSY;
-            
+
             pointsP3[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+60);
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+(range_right/2)*(float)(k)/(float)(kk)+range_left/2);
             pointsP3[k].x += EARTH_POSX, pointsP3[k].y += EARTH_POSY;
             
             pointsP4[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
-                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+80);
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+range_right*(float)(k)/(float)(kk)+range_left);
             pointsP4[k].x += EARTH_POSX, pointsP4[k].y += EARTH_POSY;
         }
-        /*for (int j = 0; j < numPoints - 1; ++j) { 
-            if(PolarAngels[j].second == ROPEDOT_ZERO)DrawLineEx(pointsP[j], pointsP[j + 1], 10.0, GRAY);
-            if(PolarAngels[j].second == ROPEDOT_ALIVE)DrawLineEx(pointsP[j], pointsP[j + 1], 10.0, RED);
-            if(PolarAngels[j].second == ROPEDOT_DEAD)DrawLineEx(pointsP[j], pointsP[j + 1], 10.0, BLUE);
-        }*/
-
-        for (int j = l, k = 0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
+        int mid_num = 0;
+        int k = 0;
+        for (int j = l; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
+            if(k==kk/2)mid_num = j;
             int type = PolarAngels[j].second;
+            if (j == l && sze > 1) {
+                if (type == ROPEDOT_ZERO) printf("ZERO, ");
+                if (type == ROPEDOT_ALIVE) printf("ALIVE, ");
+                if (type == ROPEDOT_DEAD) printf("DEAD, ");
+            }
             if ((j + 1) % BLOCK_NUMBER != r) {
                 if(type == ROPEDOT_ZERO){
-                    DrawLineEx(pointsP[k], pointsP[k + 1], 10.0, GRAY);
-                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 10.0, GRAY);
-                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 10.0, GRAY);
-                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 10.0, GRAY);
-                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 10.0, GRAY);
+                    DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, GRAY);
+                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 6.0, GRAY);
+                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 6.0, GRAY);
+                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 6.0, GRAY);
+                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 6.0, GRAY);
                 }
                 if(type == ROPEDOT_ALIVE){
-                    DrawLineEx(pointsP[k], pointsP[k + 1], 10.0, RED);
-                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 10.0, RED);
-                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 10.0, RED);
-                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 10.0, RED);
-                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 10.0, RED);
+                    DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, RED);
+                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 6.0, RED);
+                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 6.0, RED);
+                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 6.0, RED);
+                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 6.0, RED);
                 }
                 if(type == ROPEDOT_DEAD){
-                    DrawLineEx(pointsP[k], pointsP[k + 1], 10.0, BLUE);
-                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 10.0, BLUE);
-                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 10.0, BLUE);
-                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 10.0, BLUE);
-                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 10.0, BLUE);
+                    DrawLineEx(pointsP[k], pointsP[k + 1], 6.0, BLUE);
+                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 6.0, BLUE);
+                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 6.0, BLUE);
+                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 6.0, BLUE);
+                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 6.0, BLUE);
                 }
             }
         }
-        //printf("++++++++++ DrawRope() seg %d numPoints = %d\n", i, numPoints);                        
-        // Draw a line defining thickness
-        //DrawLineStrip(pointsP, numPoints, RED);
-        //DrawLine(int startPosX, int startPosY, int endPosX, int endPosY, Color color);
     }
+    if (seg.size() > 1) printf("\n");
     //printf("%d\n", seg.size());
 }
 
@@ -173,11 +178,11 @@ void DrawGameplayScreen(const World* world, Shader shader)
             DrawRope(world);
             ShowSTATE(world);
 
-            Rectangle frameRec = {0.0f,0.0f,(float)world->texture[World::TIGER].width/6, (float)world->texture[World::TIGER].height};
-            frameRec.x = (float)(world->tiger.position)*(float)world->texture[World::TIGER].width/6;
-            Vector2 tiger_origin = TransitionCoordinate(world->tiger.sita,world->tiger.r+EARTH_RADIUS);
-            Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)world->texture[World::TIGER].width/6, (float)world->texture[World::TIGER].height };
-            DrawTexturePro(world->texture[World::TIGER], frameRec, destRec, (Vector2){(float)world->texture[World::TIGER].width/12,(float)(world->tiger.r+EARTH_RADIUS)}, 0,WHITE);
+            // 画老虎
+            Texture tiger = world->texture[World::TIGER];
+            Rectangle frameRec = {(float)world->tiger.position*(tiger.width/6), 0.0f, float(tiger.width/6.0), (float)tiger.height};
+            Rectangle destRec = {EARTH_POSX, EARTH_POSY, TIGER_WIDTH, TIGER_HEIGHT};
+            DrawTexturePro(tiger, frameRec, destRec, (Vector2){(float)(TIGER_WIDTH/2),(float)(world->tiger.r+tiger.height/2 + EARTH_RADIUS*2.0/3)}, 0,WHITE);
 
             for(int i = 0; i < world->notes.notes.size(); i++){
                 // world->notes.notes[i].sita;
@@ -196,11 +201,11 @@ void DrawGameplayScreen(const World* world, Shader shader)
                         break;
                     case 2:
                         // ExplosiveNote
-                        if (note->time < FPS*(NOTE_EXPLODE_SECONDS-3)){
+                        if (note->time < FPS*(NOTE_LANTENCY-3)){
                             // 离爆炸还有三秒以上
                             pic = world->texture[World::NOTE_RED];
                         }
-                        else if (note->time >= FPS*(NOTE_EXPLODE_SECONDS-3)){
+                        else if (note->time >= FPS*(NOTE_LANTENCY-3)){
                             // 闪烁警示
                             if ((note->time/10)%2==0){
                                 pic = world->texture[World::NOTE_PINK];
@@ -228,8 +233,8 @@ void DrawGameplayScreen(const World* world, Shader shader)
 
                 if (note->type == 2){
                 // 最后1秒，闪烁叠加爆炸
-                    if (note->time >= FPS*(NOTE_EXPLODE_SECONDS-1)){
-                        int frame = note->time - (FPS*NOTE_EXPLODE_SECONDS - FPS*1);
+                    if (note->time >= FPS*(NOTE_LANTENCY-1)){
+                        int frame = note->time - (FPS*NOTE_LANTENCY - FPS*1);
                         int frames_per_pic = (FPS*1) / 25;
                         int cur_frame = frame / frames_per_pic;
                         Texture explode = world->texture[World::EXPLOSION];
@@ -248,7 +253,6 @@ void DrawGameplayScreen(const World* world, Shader shader)
     // DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
     // DrawTextEx(font, "GAMEPLAY SCREEN / YYYY", (Vector2){ 20, 10 }, font.baseSize*3.0f, 4, MAROON);
     // DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, MAROON);
-
 }
 
 void DrawStartScreen(const World* world)

@@ -33,6 +33,8 @@ GameScreen currentScreen = GameScreen(0);
 Font font = { 0 };
 Music music = { 0 };
 Sound fxCoin = { 0 };
+Sound fxBoom = { 0 };
+Sound fxWeird = { 0 };
 Shader shader = { 0 };
 
 //----------------------------------------------------------------------------------
@@ -78,7 +80,9 @@ int main(void)
     font = LoadFont("resources/mecha.png");
     music = LoadMusicStream("resources/ambient.ogg");
     fxCoin = LoadSound("resources/coin.wav");
-    shader = LoadShader(0, TextFormat("resources/shaders/glsl%i/swirl.fs", GLSL_VERSION));
+    fxBoom = LoadSound("resources/boom.wav");
+    fxWeird = LoadSound("resources/weird.wav");
+    shader = LoadShader(0, TextFormat("resources/shaders/glsl%i/wave.fs", GLSL_VERSION));
 
     SetMusicVolume(music, 1.0f);
     PlayMusicStream(music);
@@ -145,6 +149,8 @@ int main(void)
     UnloadFont(font);
     UnloadMusicStream(music);
     UnloadSound(fxCoin);
+    UnloadSound(fxBoom);
+    UnloadSound(fxWeird);
     UnloadShader(shader);         // Unload shader
     // UnloadTexture(texture);       // Unload texture
     for(int i=0;i<=TEXTURE_CNT;i++){

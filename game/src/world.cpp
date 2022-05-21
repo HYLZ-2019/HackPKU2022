@@ -12,14 +12,14 @@ World :: World() {
     NorthPolarAngel = 0;
     texture[World::SPACE] = LoadTexture("resources/space.png");
     //texture[0] = LoadTexture("resources/space.png");
-    Image moon = LoadImage("resources/moon.png");
-    ImageResize(&moon,EARTH_RADIUS,EARTH_RADIUS);
+    Image moon = LoadImage("resources/noon.png");
+    ImageResize(&moon,EARTH_RADIUS*3/4,EARTH_RADIUS*3/4);
     //texture[1] = LoadTextureFromImage(moon);
     texture[World::MOON] = LoadTextureFromImage(moon);
     // printf("%d,%d\n",texture[1].width,texture[1].height);
     //texture[2] = LoadTexture("resources/tiger.png");
-    texture[World::TIGER] = LoadTexture("resources/tiger.png");
     texture[World::EXPLOSION] = LoadTexture("resources/explosion.png");
+    texture[World::TIGER] = LoadTexture("resources/tiger.png");
 
     Image purple_note = LoadImage("resources/purple_note.png");
     ImageResize(&purple_note,NOTE_WIDTH,NOTE_HEIGHT);
@@ -49,6 +49,12 @@ World :: World() {
     //texture[6] = LoadTextureFromImage(wolf_note);
     texture[World::NOTE_WOLF] = LoadTextureFromImage(wolf_note);
 
+    
+    // Image staff = LoadImage("resources/staff.png");
+    // ImageResize(&staff,NOTE_WIDTH,NOTE_HEIGHT);
+    // // texture[7] = LoadTextureFromImage(staff);
+    // texture[World::NOTE_WOLF] = LoadTextureFromImage(staff);
+
     // texture[3] = LoadTexture("resources/");
     // Source rectangle (part of the texture to use for drawing)
     sourceRec = { 0.0f, 0.0f, (float)texture[World::MOON].width, (float)texture[World::MOON].height };
@@ -64,7 +70,7 @@ int World::pointsNeededForNextStage(int stage) {
 }
 
 /* 调用tiger, rope, notes的update*/
-void World::updateWorld(){
+void World::updateWorld() {
     double deltaH = 0;
     if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) 
         deltaH = MOVE_STEP_LENGTH - DOWN_STEP_LENGTH;
