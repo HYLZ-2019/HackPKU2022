@@ -12,6 +12,7 @@ const double MOVE_STEP_LENGTH = 3; //老虎的上升/下降速度
 const double DOWN_STEP_LENGTH = 1;
 
 const double MAX_HEIGHT = 300;  //高度上限
+const double MIN_HEIGHT = 50;
 
 const double ROPE_DOWN_STEP = 1; //绳子的自然下坠速度
 
