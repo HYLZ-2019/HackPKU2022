@@ -86,10 +86,8 @@ void getPointInfo(double rangeL, double rangeR, int len, int index, PA_t p,
 
 Color getRopeColor(ROPEDOT_STATE status, int timer) { //给出绳粒子的状态, 返回绳粒子的颜色
     if (status == ROPEDOT_ALIVE) return RED;
-    if (status == ROPEDOT_DEAD) {
-        printf("%lf\n",timer);
-        return Fade(RED,(float)(100-timer)/(100));
-    }
+    if (status == ROPEDOT_DEAD) 
+        return Fade(RED,((float)(100 - std :: min(timer, 100))) / 100);
     
     return GRAY;
 }
@@ -122,9 +120,6 @@ void DrawRope(const World* world) {
             ROPEDOT_STATE status;
             int timer;
             (world -> rope).Index2Type(j, status, timer);
-            if (sze > 1 && i != 0 && j == l) {
-                printf("DEAD SEG%d Timer: [%d]\n", i, timer);
-            } 
           
             if ((j + 1) % BLOCK_NUMBER != r) {
                 Color col = getRopeColor(status, timer);
