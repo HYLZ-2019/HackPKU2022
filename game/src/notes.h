@@ -47,7 +47,7 @@ class Note {
         }
 
         virtual inline void update_pos() {
-            printf("Note");
+            //printf("Note");
             return ;
         }
 
