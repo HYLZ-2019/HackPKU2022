@@ -115,9 +115,10 @@ void DrawRope(const World* world) {
             if(k==kk/2)mid_num = j;
             int type = PolarAngels[j].second;
             if (j == l && sze > 1) {
-                if (type == ROPEDOT_ZERO) printf("ZERO, ");
-                if (type == ROPEDOT_ALIVE) printf("ALIVE, ");
-                if (type == ROPEDOT_DEAD) printf("DEAD, ");
+                if (type == ROPEDOT_ZERO) printf("ZERO");
+                if (type == ROPEDOT_ALIVE) printf("ALIVE");
+                if (type == ROPEDOT_DEAD) printf("DEAD");
+                printf("[%.2lf][%.2lf], ", PolarAngels[j].first.second, PolarAngels[(j + 1) % BLOCK_NUMBER].first.second);
             }
             if ((j + 1) % BLOCK_NUMBER != r) {
                 if(type == ROPEDOT_ZERO){
