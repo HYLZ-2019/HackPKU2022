@@ -4,6 +4,7 @@
 #include "tiger.h"
 #include "rope.h"
 #include "notes.h"
+#include "wolf.h"
 #include <map>
 
 /* 后端的所有信息。 */
@@ -13,6 +14,7 @@ class World {
     Tiger tiger;
     RopeInfo rope;
     NotesInfo notes;
+    Wolf wolf;
     int points; // 清零时game over
     int maxpoints; // 被打爆之前的最高分
     int currentStage;
@@ -31,6 +33,7 @@ class World {
       NOTE_PURPLE,
       NOTE_ORANGE,
       NOTE_BLUE,
+      WOLF,
       NOTE_RED,
       NOTE_PINK,
       NOTE_WOLF
