@@ -78,12 +78,32 @@ void DrawRope(const World* world) {
         int numPoints = r - l;
         if (numPoints <= 0) numPoints += BLOCK_NUMBER;
         Vector2 *pointsP = (Vector2 *)malloc(numPoints * sizeof(Vector2));
+        Vector2 *pointsP1 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
+        Vector2 *pointsP2 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
+        Vector2 *pointsP3 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
+        Vector2 *pointsP4 = (Vector2 *)malloc(numPoints * sizeof(Vector2));
         for (int j = l, k = 0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
             //pointsP[k] = TransitionCoordinate(PolarAngels[j].first, 
             //                                  PolarAngels[j].second);
             pointsP[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
                                               PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3);
             pointsP[k].x += EARTH_POSX, pointsP[k].y += EARTH_POSY;
+            
+            pointsP1[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+20);
+            pointsP1[k].x += EARTH_POSX, pointsP1[k].y += EARTH_POSY;
+            
+            pointsP2[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+40);
+            pointsP2[k].x += EARTH_POSX, pointsP2[k].y += EARTH_POSY;
+            
+            pointsP3[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+60);
+            pointsP3[k].x += EARTH_POSX, pointsP3[k].y += EARTH_POSY;
+            
+            pointsP4[k] = TransitionCoordinate(PolarAngels[j].first.first - world -> NorthPolarAngel, 
+                                              PolarAngels[j].first.second + (float)EARTH_RADIUS*2/3+80);
+            pointsP4[k].x += EARTH_POSX, pointsP4[k].y += EARTH_POSY;
         }
         /*for (int j = 0; j < numPoints - 1; ++j) { 
             if(PolarAngels[j].second == ROPEDOT_ZERO)DrawLineEx(pointsP[j], pointsP[j + 1], 10.0, GRAY);
@@ -94,9 +114,27 @@ void DrawRope(const World* world) {
         for (int j = l, k = 0; j != r; j = (j + 1) % BLOCK_NUMBER, ++k) {
             int type = PolarAngels[j].second;
             if ((j + 1) % BLOCK_NUMBER != r) {
-                if(type == ROPEDOT_ZERO)DrawLineEx(pointsP[k], pointsP[k + 1], 10.0, GRAY);
-                if(type == ROPEDOT_ALIVE)DrawLineEx(pointsP[k], pointsP[k + 1], 10.0, RED);
-                if(type == ROPEDOT_DEAD)DrawLineEx(pointsP[k], pointsP[k + 1], 10.0, BLUE);
+                if(type == ROPEDOT_ZERO){
+                    DrawLineEx(pointsP[k], pointsP[k + 1], 10.0, GRAY);
+                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 10.0, GRAY);
+                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 10.0, GRAY);
+                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 10.0, GRAY);
+                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 10.0, GRAY);
+                }
+                if(type == ROPEDOT_ALIVE){
+                    DrawLineEx(pointsP[k], pointsP[k + 1], 10.0, RED);
+                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 10.0, RED);
+                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 10.0, RED);
+                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 10.0, RED);
+                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 10.0, RED);
+                }
+                if(type == ROPEDOT_DEAD){
+                    DrawLineEx(pointsP[k], pointsP[k + 1], 10.0, BLUE);
+                    DrawLineEx(pointsP1[k], pointsP1[k + 1], 10.0, BLUE);
+                    DrawLineEx(pointsP2[k], pointsP2[k + 1], 10.0, BLUE);
+                    DrawLineEx(pointsP3[k], pointsP3[k + 1], 10.0, BLUE);
+                    DrawLineEx(pointsP4[k], pointsP4[k + 1], 10.0, BLUE);
+                }
             }
         }
         //printf("++++++++++ DrawRope() seg %d numPoints = %d\n", i, numPoints);                        
@@ -129,7 +167,7 @@ void DrawGameplayScreen(const World* world, Shader shader)
 
         EndShaderMode();
         // printf("*************,%d",world->Earth_sita);
-            DrawTexturePro(world->texture[1], world->sourceRec, world->destRec, world->origin, (float)world->Earth_sita, WHITE);
+            DrawTexturePro(world->texture[1], world->sourceRec, world->destRec, world->origin, (float)world -> NorthPolarAngel*RAD2DEG, WHITE);
 
 
             DrawRope(world);
