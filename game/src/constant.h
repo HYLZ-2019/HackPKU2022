@@ -37,7 +37,7 @@ const int TIGER_HEIGHT = 100;
 
 
 // 纹理个数
-const int TEXTURE_CNT = 10;
+const int TEXTURE_CNT = 11;
 
 const int MOVE_SPEED = 120;
 

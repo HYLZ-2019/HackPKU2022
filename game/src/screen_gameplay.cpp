@@ -256,12 +256,14 @@ void DrawGameplayScreen(const World* world, Shader shader)
                 Wolf wolf = world->wolf;//wolf;
                 // printf("%lf,%lf\n",wolf.sita,wolf.r);
                 Rectangle frameRec = {0.0f,0.0f,(float)pic.width, (float)pic.height};
-                Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)pic.width/6, (float)pic.height };
-                DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)pic.width/2,(float)(wolf.r+(float)EARTH_RADIUS*2.0/3+30)}, 
-                (-(float)world->NorthPolarAngel + wolf.sita+PI*7/12)*RAD2DEG,WHITE);
+                Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)pic.width, (float)pic.height };
+                DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)pic.width/2,(float)(wolf.r+pic.height/2+(float)EARTH_RADIUS*2.0/3)}, 
+                (-(float)world->NorthPolarAngel + wolf.sita)*RAD2DEG,WHITE);
                 if(wolf.flag1){
-                    printf("wolf is on  the = %lf, %lf\n", wolf.x, wolf.y);
-                    DrawCircle(wolf.x + EARTH_POSX, wolf.y + EARTH_POSY,(float)WOLF_SKILL1_RADIUS,Fade(BLACK,0.2+0.8*(float)wolf.time1/(float)(15*FPS)));
+                    // printf("wolf is on  the = %lf, %lf\n", wolf.x, wolf.y);
+                    Vector2 t = TransitionCoordinate(wolf.l_sita - wolf.angle, wolf.l_r + (float)EARTH_RADIUS*2/3);
+                        t.x += EARTH_POSX, t.y += EARTH_POSY;
+                    DrawCircle(t.x, t.y ,(float)WOLF_SKILL1_RADIUS,Fade(BLACK,0.2+0.8*(float)wolf.time1/(float)(15*FPS)));
                 }
                 if(wolf.flag2){
                     Vector2 s,t;

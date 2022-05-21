@@ -7,7 +7,7 @@ class Wolf {
         int life; // 存活时间
         int speed; // 速度底线（根据游戏进程常量处理）
         int time; // 狼自己的时间戳
-        double x, y; // 技能一的位置
+        double l_sita, l_r; // 技能一的位置
         bool flag1; // 技能一放置
         double s_sita, s_r; 
         bool flag2;
@@ -17,6 +17,7 @@ class Wolf {
         int delta;                                                            
         double del_speed;
         double last_speed;
+        double angle;
 
         Wolf() : time(0), alive(false), flag1(false), flag2(false), 
             del_speed(0), last_speed(0) {

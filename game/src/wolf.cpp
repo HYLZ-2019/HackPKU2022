@@ -2,10 +2,6 @@
 
 extern World* world;
 
-std::pair<double, double> Transition(double sita, double rho) {
-    return std::make_pair((rho*cos(sita)), (rho*sin(sita)));
-}
-
 double Wolf::random_speed() {
     return (double)(random_number() % (WOLF_MAX_SPEED - 
         speed - 1) + speed);
@@ -46,8 +42,8 @@ void Wolf::init_wolf(int t) {
 }
 
 void Wolf::wolf_skill_1() {
-    std::pair<double, double> p = Transition(sita, r + EARTH_RADIUS * 2 / 3);
-    x = p.first, y = p.second, flag1 = true, time1 = 0;
+    l_sita = sita, l_r = r, angle = world->NorthPolarAngel, 
+        flag1 = true, time1 = 0;
 }
 
 void Wolf::wolf_skill_2() {
@@ -92,7 +88,7 @@ void Wolf::update_wolf() {
         printf("skill_2\n");
         wolf_skill_2();
     } else {
-        if (!flag1 && !flag2) update_pos();
+        if (!flag2) update_pos();
     }
     ++time;
 }
