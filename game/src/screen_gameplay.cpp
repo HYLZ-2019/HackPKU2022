@@ -85,9 +85,9 @@ void getPointInfo(double rangeL, double rangeR, int len, int index, PA_t p,
 }
 
 Color getRopeColor(ROPEDOT_STATE status, int timer) { //给出绳粒子的状态, 返回绳粒子的颜色
-    if (status == ROPEDOT_ALIVE) return RED;
+    if (status == ROPEDOT_ALIVE) return WHITE;
     if (status == ROPEDOT_DEAD) 
-        return Fade(RED,((float)(100 - std :: min(timer, 100))) / 100);
+        return Fade(WHITE,((float)(100 - std :: min(timer, 100))) / 100);
     
     return GRAY;
 }
