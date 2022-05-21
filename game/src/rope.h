@@ -2,6 +2,7 @@
 #define ROPE_H
 
 #include <vector>
+typedef std::pair <double, double> PA_t;
 
 class World;
 extern World* world; // 可以直接读取全局信息。不要修改自己(world.rope)以外的全局信息。
@@ -42,7 +43,10 @@ class RopeInfo {
     void breakRope(int left, int right); 
 
     //get the Rope's data
-    void getRopeData(std::vector<std::pair <int,int> >& seg, std::vector<std::pair<std::pair <double, double>, ROPEDOT_STATE > >& PAs) const;
+    void getRopeData(std::vector<std::pair <int,int> >& seg, std::vector<PA_t>& PAs) const;
+  
+    //传入绳粒子的index, 查询它的状态和die_time
+    void Index2Type(int index, ROPEDOT_STATE& status, int& die_time) const;
   private:
     void getSegs();
 };
