@@ -55,6 +55,8 @@ class GameResults {
 extern GameScreen currentScreen;
 extern Font font;
 extern Music music;
+extern Music tigerMusic;
+extern Music wolfMusic;
 extern Sound fxCoin;
 extern Sound fxBoom;
 extern Sound fxWeird;

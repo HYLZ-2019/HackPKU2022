@@ -32,6 +32,8 @@
 GameScreen currentScreen = GameScreen(0);
 Font font = { 0 };
 Music music = { 0 };
+Music tigerMusic = { 0 };
+Music wolfMusic = { 0 };
 Sound fxCoin = { 0 };
 Sound fxBoom = { 0 };
 Sound fxWeird = { 0 };
@@ -78,14 +80,17 @@ int main(void)
 
     // Load global data (assets that must be available in all screens, i.e. font)
     font = LoadFont("resources/mecha.png");
-    music = LoadMusicStream("resources/ambient.ogg");
+    tigerMusic = LoadMusicStream("resources/tiger_music.ogg");
+    wolfMusic = LoadMusicStream("resources/curse_of_wolf2.ogg");
+    music = tigerMusic;
     fxCoin = LoadSound("resources/coin.wav");
     fxBoom = LoadSound("resources/boom.wav");
     fxWeird = LoadSound("resources/weird.wav");
     shader = LoadShader(0, TextFormat("resources/shaders/glsl%i/wave.fs", GLSL_VERSION));
 
     SetMusicVolume(music, 1.0f);
-    PlayMusicStream(music);
+    PlayMusicStream(tigerMusic);
+    PlayMusicStream(wolfMusic);
 
     // Setup and init first screen
     currentScreen = TITLE;
@@ -148,6 +153,8 @@ int main(void)
     // Unload global data loaded
     UnloadFont(font);
     UnloadMusicStream(music);
+    UnloadMusicStream(tigerMusic);
+    UnloadMusicStream(wolfMusic);
     UnloadSound(fxCoin);
     UnloadSound(fxBoom);
     UnloadSound(fxWeird);
