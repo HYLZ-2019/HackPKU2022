@@ -130,6 +130,7 @@ void NotesInfo::updateNotes() {
         notes.pop_back();
         if (e->get_collision()) {
             world->points += e->points;
+            (e->type == 3) ?  PlaySound(fxWeird) : PlaySound(fxCoin);
             delete e;
         } else if (e->out_of_range()) {
             delete e;
@@ -191,6 +192,7 @@ bool ExplosiveNote::break_rope() {
     int pos = random_number() % (r - l) + l;
     if (pos >= BLOCK_NUMBER) pos -= BLOCK_NUMBER;
     world->rope.breakRope(l, pos);
+    PlaySound(fxBoom);
     printf("%d, %d, %d\n", l, pos, r);
     return true;
 }
