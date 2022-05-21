@@ -72,17 +72,17 @@ void DrawEndingScreen(void)
     // TODO: Draw ENDING screen here!
     bool win = result.currentStage == MAX_STAGE;
     if (win) {
-        Rectangle source_rec = {0.0f, 0.0f, (float)youwinPic.width, (float)youwinPic.width};
+        Rectangle source_rec = {0.0f, 0.0f, (float)youwinPic.width, (float)youwinPic.height};
         Rectangle dest_rec = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
         DrawTexturePro(youwinPic, source_rec, dest_rec, {0.0f, 0.0f}, 0.0f, WHITE);
-        DrawText(TextFormat("%d", result.points), 950, 330, 60, ORANGE);
-        DrawText(TextFormat("%02d:%02d", ((int)result.usedTime)/60, (int)(result.usedTime)%60), 950, 400, 60, ORANGE);
+        DrawText(TextFormat("%d", result.points), 950, 220, 60, ORANGE);
+        DrawText(TextFormat("%02d:%02d", ((int)result.usedTime)/60, (int)(result.usedTime)%60), 950, 315, 60, ORANGE);
     
         // Firework 1: [0, 60], Firework 2: [30, 90]
         int fwtime = framesCounter % 90;
-        Rectangle fwd_1 = {380.0, 50.0, 150.0, 150.0};
-        Rectangle fwd_2 = {600.0, 130.0, 200.0, 200.0};
-        Rectangle fwd_3 = {800.0, 10.0, 300.0, 300.0};
+        Rectangle fwd_1 = {30.0, 20.0, 300.0, 300.0};
+        Rectangle fwd_2 = {400.0, 190.0, 200.0, 200.0};
+        Rectangle fwd_3 = {800.0, 30.0, 150.0, 150.0};
         Rectangle fws_1 = {float(256.0*((fwtime/2)%6)), float(256.0*((fwtime/2)/6)), 256.0, 256.0};
         Rectangle fws_2 = {float(256.0*(((fwtime-15)/2)%6)), float(256.0*(((fwtime-15)/2)/6)), 256.0, 256.0};
         Rectangle fws_3 = {float(256.0*(((fwtime-30)/2)%6)), float(256.0*(((fwtime-30)/2)/6)), 256.0, 256.0};
@@ -98,12 +98,12 @@ void DrawEndingScreen(void)
     
     }
     else {
-        Rectangle source_rec = {0.0f, 0.0f, (float)gameoverPic.width, (float)gameoverPic.width};
+        Rectangle source_rec = {0.0f, 0.0f, (float)gameoverPic.width, (float)gameoverPic.height};
         Rectangle dest_rec = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
         DrawTexturePro(gameoverPic, source_rec, dest_rec, {0.0f, 0.0f}, 0.0f, WHITE);
-        DrawText(TextFormat("%d", result.points), 950, 260, 60, BLACK);
-        DrawText(TextFormat("%d", result.maxpoints), 950, 330, 60, BLACK);
-        DrawText(TextFormat("%02d:%02d", ((int)result.usedTime)/60, (int)(result.usedTime)%60), 950, 400, 60, BLACK);
+        DrawText(TextFormat("%d", result.points), 950, 150, 60, BLACK);
+        DrawText(TextFormat("%d", result.maxpoints), 950, 245, 60, BLACK);
+        DrawText(TextFormat("%02d:%02d", ((int)result.usedTime)/60, (int)(result.usedTime)%60), 950, 335, 60, BLACK);
 
     }
 }
