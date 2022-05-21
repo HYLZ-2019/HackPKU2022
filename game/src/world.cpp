@@ -39,7 +39,10 @@ World :: World() {
     //texture[6] = LoadTextureFromImage(wolf_note);
     texture[World::NOTE_WOLF] = LoadTextureFromImage(wolf_note);
 
-    
+    Image wolf = LoadImage("resources/wolf.png");
+    ImageResize(&wolf,NOTE_WIDTH,NOTE_HEIGHT);
+    //texture[6] = LoadTextureFromImage(wolf_note);
+    texture[World::WOLF] = LoadTextureFromImage(wolf);
     // Image staff = LoadImage("resources/staff.png");
     // ImageResize(&staff,NOTE_WIDTH,NOTE_HEIGHT);
     // // texture[7] = LoadTextureFromImage(staff);
@@ -72,7 +75,11 @@ void World::updateWorld() {
     notes.updateNotes();      
     if (points > pointsNeededForNextStage(currentStage)){
         currentStage += 1;
+        if (currentStage == 1 || currentStage == 5 || currentStage == 8)  {
+            wolf.init_wolf(120);
+        }
     }
+    wolf.update_wolf();
     if (points > maxpoints){
         maxpoints = points;
     }
