@@ -1,0 +1,1 @@
+.\_bin\Debug\HackPKU2022.exe
