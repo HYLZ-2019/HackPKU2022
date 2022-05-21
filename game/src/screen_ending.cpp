@@ -72,6 +72,8 @@ void DrawEndingScreen(void)
     // TODO: Draw ENDING screen here!
     bool win = result.currentStage == MAX_STAGE;
     if (win) {
+        SetMusicVolume(music, 1.0f);
+        music = tigerMusic;
         Rectangle source_rec = {0.0f, 0.0f, (float)youwinPic.width, (float)youwinPic.height};
         Rectangle dest_rec = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
         DrawTexturePro(youwinPic, source_rec, dest_rec, {0.0f, 0.0f}, 0.0f, WHITE);
@@ -98,6 +100,9 @@ void DrawEndingScreen(void)
     
     }
     else {
+        // 狼的bgm音量比较小
+        SetMusicVolume(music, 2.0f);
+        music = wolfMusic;
         Rectangle source_rec = {0.0f, 0.0f, (float)gameoverPic.width, (float)gameoverPic.height};
         Rectangle dest_rec = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
         DrawTexturePro(gameoverPic, source_rec, dest_rec, {0.0f, 0.0f}, 0.0f, WHITE);
