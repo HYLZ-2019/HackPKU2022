@@ -75,6 +75,7 @@ void FasterNote::update_pos() {
         if (random_number() & 1) {
             // 随机游走
             // delta = (random_number() & 1) ? 1 : -1;
+            last_speed = del_speed;
             delta = (random_number() % 3) - 1;
             del_speed = (random_number() & 1) 
                 ? random_speed() : -random_speed();
@@ -105,6 +106,7 @@ void ExplosiveNote::update_pos() {
     static int r_interval = FPS / 2;
     if (time % r_interval == 0) {
         // delta = (random_number() & 1) ? 2 : -2;
+        last_speed = del_speed;
         delta = (random_number() % 5) - 2;  //delta sita
         del_speed = (random_number() & 1) ? random_speed()
             : -random_speed();

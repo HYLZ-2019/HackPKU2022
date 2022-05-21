@@ -215,7 +215,10 @@ void DrawGameplayScreen(const World* world, Shader shader)
                 Rectangle destRec = { EARTH_POSX, EARTH_POSY, NOTE_WIDTH, NOTE_HEIGHT };
                 DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)(pic.width/2),(float)(note->r+pic.height/2+EARTH_RADIUS*2.0/3)}, 
               (-(float)world->NorthPolarAngel + note->sita)*RAD2DEG,WHITE);
-                
+
+                Vector2 origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
+                origin.x += EARTH_POSX, origin.y += EARTH_POSY;
+                DrawCircle(origin.x,origin.y,20,GREEN);
                 // Vector2 tiger_origin = TransitionCoordinate(note->sita - world->NorthPolarAngel, note->r + (float)EARTH_RADIUS*2/3);
                 // tiger_origin.x += EARTH_POSX, tiger_origin.y += EARTH_POSY;
                 // DrawCircle(tiger_origin.x,tiger_origin.y,20,GREEN);
@@ -234,6 +237,38 @@ void DrawGameplayScreen(const World* world, Shader shader)
                     }
                 }
             }
+
+            if(world->wolf.alive){
+                // world->wolf.sita;
+                Texture pic = world->texture[World::WOLF];
+                Wolf wolf = world->wolf;//wolf;
+                // printf("%lf,%lf\n",wolf.sita,wolf.r);
+                Rectangle frameRec = {0.0f,0.0f,(float)pic.width, (float)pic.height};
+                Rectangle destRec = { EARTH_POSX, EARTH_POSY, (float)pic.width, (float)pic.height };
+                DrawTexturePro(pic, frameRec, destRec, (Vector2){(float)pic.width/2,(float)(wolf.r+pic.height/2+(float)EARTH_RADIUS*2.0/3)}, 
+                (-(float)world->NorthPolarAngel + wolf.sita)*RAD2DEG,WHITE);
+                if(wolf.flag1){
+                    // printf("wolf is on  the = %lf, %lf\n", wolf.x, wolf.y);
+                    Vector2 t = TransitionCoordinate(wolf.l_sita - wolf.angle, wolf.l_r + (float)EARTH_RADIUS*2/3);
+                        t.x += EARTH_POSX, t.y += EARTH_POSY;
+                    DrawCircle(t.x, t.y ,(float)WOLF_SKILL1_RADIUS,Fade(BLACK,0.2+0.8*(float)wolf.time1/(float)(15*FPS)));
+                }
+                if(wolf.flag2){
+                    Vector2 s,t;
+                    s = TransitionCoordinate(wolf.sita - world->NorthPolarAngel, wolf.r + (float)EARTH_RADIUS*2/3);
+                    s.x += EARTH_POSX, s.y += EARTH_POSY;
+                    if(wolf.ready){
+                        t = TransitionCoordinate(wolf.s_sita - world->NorthPolarAngel, wolf.s_r + (float)EARTH_RADIUS*2/3);
+                        t.x += EARTH_POSX, t.y += EARTH_POSY;
+                    }
+                    else{
+                        t = TransitionCoordinate(world->tiger.sita - world->NorthPolarAngel, world->tiger.r + (float)EARTH_RADIUS*2/3);
+                        t.x += EARTH_POSX, t.y += EARTH_POSY;
+                    }
+                    DrawLineV(s,t,YELLOW);
+                }
+            }
+
 
 
 
