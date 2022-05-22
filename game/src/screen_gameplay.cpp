@@ -243,8 +243,8 @@ void DrawGameplayScreen(const World* world, Shader shader)
                         int cur_frame = frame / frames_per_pic;
                         Texture explode = world->texture[World::EXPLOSION];
                         Rectangle exs = { float((cur_frame%5)*204.8), float((cur_frame/5)*204.8), float(204.8), float(204.8)};
-                        Rectangle exd = { EARTH_POSX, EARTH_POSY, (float)200, (float)200 };
-                        DrawTexturePro(explode, exs, exd, (Vector2){(float)(200/2),(float)(note->r+200/2+(float)EARTH_RADIUS*2.0/3)}, 
+                        Rectangle exd = { EARTH_POSX, EARTH_POSY, (float)EXPLOSION_RADIUS*2, (float)EXPLOSION_RADIUS*2 };
+                        DrawTexturePro(explode, exs, exd, (Vector2){(float)(EXPLOSION_RADIUS),(float)(note->r+EXPLOSION_RADIUS+(float)EARTH_RADIUS*2.0/3)}, 
               (-(float)world->NorthPolarAngel + note->sita)*RAD2DEG,WHITE);
                     }
                 }
