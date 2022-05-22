@@ -150,8 +150,8 @@ void ShowScore(const World* world) {
         std::pair<std::pair<int,int>,std::pair<double,double>> tmp = world->score_show[i];
         Vector2 t = TransitionCoordinate(tmp.second.first - world->NorthPolarAngel, tmp.second.second + (float)EARTH_RADIUS*2/3);
         t.x += EARTH_POSX, t.y += EARTH_POSY;
-        if(tmp.first.first>0)DrawText(TextFormat("+%d", tmp.first.first), t.x, t.y, 20, RED);
-        else DrawText(TextFormat("%d", tmp.first.first), t.x, t.y, 20, RED);
+        if(tmp.first.first>0)DrawText(TextFormat("+%d", tmp.first.first), t.x, t.y, 30, GREEN);
+        else DrawText(TextFormat("%d", tmp.first.first), t.x, t.y, 30, RED);
     }
     
 }
