@@ -86,13 +86,14 @@ void Wolf::update_wolf() {
         }
     }
     // printf("enter_wolf2!\n");
-    if (time % FPS == 0) {
-        //printf("%d, %d\n", flag1, flag2);
-    }
-    if (time % (FPS * 30) == 0 && time) {
+    // if (time % FPS == 0) {
+    //     //printf("%d, %d\n", flag1, flag2);
+    // }
+    // if (time % (FPS * 30) == 0 && time) {
         //printf("skill_1\n");
         // wolf_skill_1();
-    } else if (time % (FPS * 20) == 0 && time) {
+    // } else 
+    if (time % (FPS * 20) == 0 && time) {
         //printf("skill_2\n");
         wolf_skill_2();
     } else {
