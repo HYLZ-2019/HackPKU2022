@@ -20,8 +20,12 @@ ExplosiveNote::ExplosiveNote(int type, double sita, double r)
 
 void NotesInfo::addNotes(int type) {
     Note* cur;
-    double sita = get_sita(random_number() % BLOCK_NUMBER);
+    int left = world->tiger.index + 30;
+    int right = left + BLOCK_NUMBER / 3 * 2;
+    int temp = (GetRandomValue(left, right) % BLOCK_NUMBER);
+    double sita = get_sita(temp);
     double r = random_number() % ((int)MAX_HEIGHT - 51) + 50;
+    printf("%d, %d\n", world->tiger.index, temp);
     // printf("%lf, %lf\n", sita, r);
     switch(type) {    
         case 0:
@@ -155,7 +159,7 @@ void NotesInfo::updateNotes() {
         cur_notes.pop_back();
     }
     static int x = 0;
-    if (time % FPS == x) {
+    if (time % FPS == 0 || (IsKeyDown(KEY_ZERO))) {
         int ran = random_number() % (MAX_STAGE * 100);
         if (ran < world->currentStage * 30) addNotes(2);
         else if (ran < MAX_STAGE * 50) addNotes(0);
