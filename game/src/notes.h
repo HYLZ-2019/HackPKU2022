@@ -7,7 +7,7 @@
 #include <random>
 
 const int time_stamp = 15;
-const int score[4] = {5, 10, 20, -5};
+const int score[4] = {5, 10, 20, -15};
 
 inline int random_number() {
     return GetRandomValue(0, 147483647);

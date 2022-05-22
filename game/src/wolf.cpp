@@ -82,7 +82,7 @@ void Wolf::update_wolf() {
             }    
         } else {
             if (time2 > FPS * 4) ready2 = true;
-            if (time2 > FPS * 5) flag2 = false;
+            if (time2 > FPS * 5) flag2 = ready2 = false;
         }
     }
     // printf("enter_wolf2!\n");
