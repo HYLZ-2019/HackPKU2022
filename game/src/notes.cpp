@@ -174,7 +174,7 @@ void NotesInfo::updateNotes() {
     static int x = 0;
     if (time % FPS == 0 || (IsKeyDown(KEY_ZERO))) {
         int ran = random_number() % (MAX_STAGE * 100);
-        if (ran < world->currentStage * 30) addNotes(2);
+        if (ran < world->currentStage * 50) addNotes(2);
         else if (ran < MAX_STAGE * 50) addNotes(0);
         else if (ran < MAX_STAGE * 75) addNotes(1);
         else if (world->currentStage) addNotes(3);
@@ -210,7 +210,7 @@ bool ExplosiveNote::break_rope() {
     }
     if (time % (FPS * NOTE_LANTENCY) != 0 || time == 0) return false; 
 
-    PlaySound(fxBoom);
+    //PlaySound(fxBoom);
 
     //接下来要算一个可靠的爆炸区间
     int l = world->rope.segments[0].first;

@@ -237,6 +237,9 @@ void DrawGameplayScreen(const World* world, Shader shader)
 
                 if (note->type == 2){
                 // 最后1秒，闪烁叠加爆炸
+                    if (note->time == int(FPS*(NOTE_LANTENCY-0.8))){
+                        PlaySound(fxBoom);
+                    }
                     if (note->time >= FPS*(NOTE_LANTENCY-1)){
                         int frame = note->time - (FPS*NOTE_LANTENCY - FPS*1);
                         int frames_per_pic = (FPS*1) / 25;
