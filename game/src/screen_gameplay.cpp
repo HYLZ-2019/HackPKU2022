@@ -145,6 +145,17 @@ void ShowSTATE(const World* world) {
              50, 30, 30, RED);
 }
 
+void ShowScore(const World* world) {
+    for(int i=0;i<world->score_show.size();i++){
+        std::pair<std::pair<int,int>,std::pair<double,double>> tmp = world->score_show[i];
+        Vector2 t = TransitionCoordinate(tmp.second.first - world->NorthPolarAngel, tmp.second.second + (float)EARTH_RADIUS*2/3);
+        t.x += EARTH_POSX, t.y += EARTH_POSY;
+        if(tmp.first.first>0)DrawText(TextFormat("+%d", tmp.first.first), t.x, t.y, 20, RED);
+        else DrawText(TextFormat("%d", tmp.first.first), t.x, t.y, 20, RED);
+    }
+    
+}
+
 // Gameplay Screen Draw logic
 void DrawGameplayScreen(const World* world, Shader shader)
 {
@@ -280,7 +291,7 @@ void DrawGameplayScreen(const World* world, Shader shader)
                     }
                 }
             }
-
+            ShowScore(world);
     // DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
     // DrawTextEx(font, "GAMEPLAY SCREEN / YYYY", (Vector2){ 20, 10 }, font.baseSize*3.0f, 4, MAROON);
     // DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, MAROON);

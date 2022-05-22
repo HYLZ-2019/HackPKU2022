@@ -138,7 +138,7 @@ void NotesInfo::updateNotes() {
         notes.pop_back();
         if (e->get_collision()) {
             world->points += e->points;
-            
+            world->score_show.push_back(std::make_pair(std::make_pair(e->points,0),std::make_pair(e->sita,e->r)));
             (e->type == 3) ?  PlaySound(fxWeird) : PlaySound(fxCoin);
             delete e;
         } else if (e->out_of_range()) {
@@ -157,6 +157,19 @@ void NotesInfo::updateNotes() {
     while (!cur_notes.empty()) {
         notes.push_back(cur_notes.back());
         cur_notes.pop_back();
+    }
+    std::vector<std::pair<std::pair<int,int>,std::pair<double,double>>> cur_scores;
+    for( ; !world->score_show.empty();){
+        std::pair<std::pair<int,int>,std::pair<double,double>> tmp = world->score_show.back();
+        world->score_show.pop_back();
+        tmp.first.second += 1;
+        if(tmp.first.second < 40){
+            cur_scores.push_back(tmp);
+        }
+    }
+    while (!cur_scores.empty()) {
+        world->score_show.push_back(cur_scores.back());
+        cur_scores.pop_back();
     }
     static int x = 0;
     if (time % FPS == 0 || (IsKeyDown(KEY_ZERO))) {
