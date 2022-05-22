@@ -264,13 +264,13 @@ void DrawGameplayScreen(const World* world, Shader shader)
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
                         st.x = theta*(t.x-s.x)+s.x;
                         st.y = theta*(t.y-s.y)+s.y;
-                        DrawLineEx(s,st,10,YELLOW);
+                        DrawLineEx(s,st,10,RED);
                     } else if (wolf.ready) {
                         t = TransitionCoordinate(wolf.s_sita - wolf.angle2, wolf.s_r + (float)EARTH_RADIUS*2/3);
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
                         st.x = theta*(t.x-s.x)+s.x;
                         st.y = theta*(t.y-s.y)+s.y;
-                        DrawLineEx(s,st,3,YELLOW);
+                        DrawLineEx(s,st,3,RED);
                     } else {
                         t = TransitionCoordinate(world->tiger.sita - world->NorthPolarAngel, world->tiger.r + (float)EARTH_RADIUS*2/3);
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
