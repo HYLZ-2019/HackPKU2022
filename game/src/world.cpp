@@ -82,8 +82,8 @@ void World::updateWorld() {
     else deltaH = -DOWN_STEP_LENGTH; 
 
     // for test
-    if (IsKeyDown(KEY_F10)) points += 3;
-    if (IsKeyDown(KEY_F11)) points -= 3;
+    if (IsKeyDown(KEY_EIGHT)) points += 3;
+    if (IsKeyDown(KEY_NINE)) points -= 3;
     tiger.updateTiger(deltaH); 
     rope.updateRope();
     notes.updateNotes();      
