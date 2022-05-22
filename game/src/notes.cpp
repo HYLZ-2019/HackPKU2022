@@ -134,6 +134,7 @@ void NotesInfo::updateNotes() {
         notes.pop_back();
         if (e->get_collision()) {
             world->points += e->points;
+            
             (e->type == 3) ?  PlaySound(fxWeird) : PlaySound(fxCoin);
             delete e;
         } else if (e->out_of_range()) {
