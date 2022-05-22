@@ -54,8 +54,9 @@ const int WOLF_MIN_SPEED = 60;
 const int WOLF_MAX_SPEED = 240;
 const int WOLF_SKILL1_RADIUS = 250;
 
-const int NOTE_LANTENCY = 10;
+const int NOTE_LANTENCY = 8;
 const int EXPLOSION_RANGE = 20; // BLOCK
+const int EXPLOSION_RADIUS = 200; // BLOCK
 
 // 总共有几个关卡（一旦stage变成MAX_STAGE，就视为通关）
 const int MAX_STAGE = 10;
