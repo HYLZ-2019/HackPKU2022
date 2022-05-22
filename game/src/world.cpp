@@ -80,13 +80,18 @@ void World::updateWorld() {
     else if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S))
         deltaH = - MOVE_STEP_LENGTH - DOWN_STEP_LENGTH;
     else deltaH = -DOWN_STEP_LENGTH; 
+
+    // for test
+    if (IsKeyDown(KEY_EIGHT)) points += 3;
+    if (IsKeyDown(KEY_NINE)) points -= 3;
     tiger.updateTiger(deltaH); 
     rope.updateRope();
     notes.updateNotes();      
     if (points > pointsNeededForNextStage(currentStage)){
         currentStage += 1;
-        if (currentStage == 1 || currentStage == 5 || currentStage == 8)  {
-            wolf.init_wolf(120);
+        if (currentStage == 2 || currentStage == 5 || currentStage == 8)  {
+           if (!wolf.alive) wolf.init_wolf(65);
+           else wolf.life += 60;
         }
     }
     wolf.update_wolf();

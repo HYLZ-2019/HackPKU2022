@@ -145,6 +145,17 @@ void ShowSTATE(const World* world) {
              50, 30, 30, RED);
 }
 
+void ShowScore(const World* world) {
+    for(int i=0;i<world->score_show.size();i++){
+        std::pair<std::pair<int,int>,std::pair<double,double>> tmp = world->score_show[i];
+        Vector2 t = TransitionCoordinate(tmp.second.first - world->NorthPolarAngel, tmp.second.second + (float)EARTH_RADIUS*2/3);
+        t.x += EARTH_POSX, t.y += EARTH_POSY;
+        if(tmp.first.first>0)DrawText(TextFormat("+%d", tmp.first.first), t.x, t.y, 30, GREEN);
+        else DrawText(TextFormat("%d", tmp.first.first), t.x, t.y, 30, RED);
+    }
+    
+}
+
 // Gameplay Screen Draw logic
 void DrawGameplayScreen(const World* world, Shader shader)
 {
@@ -232,8 +243,8 @@ void DrawGameplayScreen(const World* world, Shader shader)
                         int cur_frame = frame / frames_per_pic;
                         Texture explode = world->texture[World::EXPLOSION];
                         Rectangle exs = { float((cur_frame%5)*204.8), float((cur_frame/5)*204.8), float(204.8), float(204.8)};
-                        Rectangle exd = { EARTH_POSX, EARTH_POSY, (float)200, (float)200 };
-                        DrawTexturePro(explode, exs, exd, (Vector2){(float)(200/2),(float)(note->r+200/2+(float)EARTH_RADIUS*2.0/3)}, 
+                        Rectangle exd = { EARTH_POSX, EARTH_POSY, (float)EXPLOSION_RADIUS*2, (float)EXPLOSION_RADIUS*2 };
+                        DrawTexturePro(explode, exs, exd, (Vector2){(float)(EXPLOSION_RADIUS),(float)(note->r+EXPLOSION_RADIUS+(float)EARTH_RADIUS*2.0/3)}, 
               (-(float)world->NorthPolarAngel + note->sita)*RAD2DEG,WHITE);
                     }
                 }
@@ -264,13 +275,13 @@ void DrawGameplayScreen(const World* world, Shader shader)
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
                         st.x = theta*(t.x-s.x)+s.x;
                         st.y = theta*(t.y-s.y)+s.y;
-                        DrawLineEx(s,st,10,YELLOW);
+                        DrawLineEx(s,st,10,RED);
                     } else if (wolf.ready) {
                         t = TransitionCoordinate(wolf.s_sita - wolf.angle2, wolf.s_r + (float)EARTH_RADIUS*2/3);
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
                         st.x = theta*(t.x-s.x)+s.x;
                         st.y = theta*(t.y-s.y)+s.y;
-                        DrawLineEx(s,st,3,YELLOW);
+                        DrawLineEx(s,st,3,RED);
                     } else {
                         t = TransitionCoordinate(world->tiger.sita - world->NorthPolarAngel, world->tiger.r + (float)EARTH_RADIUS*2/3);
                         t.x += EARTH_POSX, t.y += EARTH_POSY;
@@ -280,7 +291,7 @@ void DrawGameplayScreen(const World* world, Shader shader)
                     }
                 }
             }
-
+            ShowScore(world);
     // DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
     // DrawTextEx(font, "GAMEPLAY SCREEN / YYYY", (Vector2){ 20, 10 }, font.baseSize*3.0f, 4, MAROON);
     // DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, MAROON);

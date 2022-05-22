@@ -19,6 +19,8 @@ class World {
     int maxpoints; // 被打爆之前的最高分
     int currentStage;
     time_t beginTime;
+    //score time  sita r
+    std::vector<std::pair<std::pair<int,int>,std::pair<double,double>>> score_show;
 
     double NorthPolarAngel;
     

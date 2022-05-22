@@ -25,7 +25,7 @@ void Tiger :: updateTiger(double delH) {
 
     if (world->wolf.flag2 && world->wolf.ready2 && 
         std::fabs(world->wolf.s_r - r) < TIGER_HEIGHT / 2)
-            world->points -= 200;
+            world->points -= 10;
 
     if(times%6==0) position = (position+1)%6;
     times ++;

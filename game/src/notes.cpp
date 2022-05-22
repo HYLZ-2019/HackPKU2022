@@ -20,8 +20,12 @@ ExplosiveNote::ExplosiveNote(int type, double sita, double r)
 
 void NotesInfo::addNotes(int type) {
     Note* cur;
-    double sita = get_sita(random_number() % BLOCK_NUMBER);
+    int left = world->tiger.index + 30;
+    int right = left + BLOCK_NUMBER / 3 * 2;
+    int temp = (GetRandomValue(left, right) % BLOCK_NUMBER);
+    double sita = get_sita(temp);
     double r = random_number() % ((int)MAX_HEIGHT - 51) + 50;
+    printf("%d, %d\n", world->tiger.index, temp);
     // printf("%lf, %lf\n", sita, r);
     switch(type) {    
         case 0:
@@ -108,11 +112,11 @@ void ExplosiveNote::update_pos() {
     if (time % r_interval == 0) {
         // delta = (random_number() & 1) ? 2 : -2;
         last_speed = del_speed;
-        delta = (random_number() % 5) - 2;  //delta sita
+        delta = (random_number() % 3) - 1;  //delta sita
         del_speed = (random_number() & 1) ? random_speed()
             : -random_speed();
     }
-    if (time % (interval / 2) == 0) {
+    if (time % (interval * 4) == 0) {
         int cur_sita = get_cur_sita();
         cur_sita = (cur_sita + delta + BLOCK_NUMBER) % BLOCK_NUMBER;
         sita = get_sita(cur_sita);
@@ -134,6 +138,7 @@ void NotesInfo::updateNotes() {
         notes.pop_back();
         if (e->get_collision()) {
             world->points += e->points;
+            world->score_show.push_back(std::make_pair(std::make_pair(e->points,0),std::make_pair(e->sita,e->r)));
             (e->type == 3) ?  PlaySound(fxWeird) : PlaySound(fxCoin);
             delete e;
         } else if (e->out_of_range()) {
@@ -153,8 +158,21 @@ void NotesInfo::updateNotes() {
         notes.push_back(cur_notes.back());
         cur_notes.pop_back();
     }
+    std::vector<std::pair<std::pair<int,int>,std::pair<double,double>>> cur_scores;
+    for( ; !world->score_show.empty();){
+        std::pair<std::pair<int,int>,std::pair<double,double>> tmp = world->score_show.back();
+        world->score_show.pop_back();
+        tmp.first.second += 1;
+        if(tmp.first.second < 40){
+            cur_scores.push_back(tmp);
+        }
+    }
+    while (!cur_scores.empty()) {
+        world->score_show.push_back(cur_scores.back());
+        cur_scores.pop_back();
+    }
     static int x = 0;
-    if (time % FPS == x) {
+    if (time % FPS == 0 || (IsKeyDown(KEY_ZERO))) {
         int ran = random_number() % (MAX_STAGE * 100);
         if (ran < world->currentStage * 30) addNotes(2);
         else if (ran < MAX_STAGE * 50) addNotes(0);
@@ -167,7 +185,12 @@ void NotesInfo::updateNotes() {
     return;
 }
 
-const int CHECK_SIZE = 15;
+inline bool check_in(int cur, int l, int r) {
+    if (l <= r) return l <= cur && cur <= r;
+    else return l > cur || cur > r; 
+}
+
+const int CHECK_SIZE = 25;
 
 bool Note::get_collision() {
     int cur = get_cur_sita();
@@ -197,16 +220,32 @@ bool ExplosiveNote::break_rope() {
     //接下来要算一个可靠的爆炸区间
     int l = world->rope.segments[0].first;
     int r = world->rope.segments[0].second;
+    int cur = get_cur_sita();
+
+    if (!check_in(cur, l, r)) return true; 
+
     int len = r - l;
     if (len < 0) len += BLOCK_NUMBER;
     if (len <= 1) { //相当于现在没有ALIVE线，只有老虎在的那一个点
         return true; //没有实际爆炸效果
     }
 
-    if (r < l) r += BLOCK_NUMBER; 
-    int blowL = (l + random_number() % (len - 1));
-    int blowR = std::min(blowL + EXPLOSION_RANGE, r);
+    int blowL = -1, blowR = -1;
 
-    world->rope.breakRope(blowL % BLOCK_NUMBER, blowR % BLOCK_NUMBER);
+    int left = (cur - CHECK_SIZE + BLOCK_NUMBER) % BLOCK_NUMBER;
+    int right = (cur + CHECK_SIZE + BLOCK_NUMBER) % BLOCK_NUMBER;
+    for (int i = left; i != right; i = (i + 1) % BLOCK_NUMBER) {
+        RopeDot cur_dot = world->rope.dots[i];
+        if (!cur_dot.isALIVE()) continue ;
+        int pos = (i - cur_dot.sl + BLOCK_NUMBER) % BLOCK_NUMBER;
+        int len = (cur_dot.sr - cur_dot.sl + BLOCK_NUMBER) % BLOCK_NUMBER;
+        if (get_dis(cur_dot.sita, cur_dot.r) < (double)EXPLOSION_RADIUS
+             + 30.00 * (double)pos / (double)len) {
+            if (blowL == -1) blowL = i;
+            blowR = i;
+        }
+    }
+
+    world->rope.breakRope(blowL, (blowR + 1) % BLOCK_NUMBER);
     return true;
 }
