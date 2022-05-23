@@ -240,10 +240,12 @@ void DrawGameplayScreen(const World* world, Shader shader)
                     if (note->time == int(FPS*(NOTE_LANTENCY-0.8))){
                         PlaySound(fxBoom);
                     }
-                    if (note->time >= FPS*(NOTE_LANTENCY-1)){
-                        int frame = note->time - (FPS*NOTE_LANTENCY - FPS*1);
-                        int frames_per_pic = (FPS*1) / 25;
+                    // 给爆炸75帧吧，这样可以整除
+                    if (note->time >= FPS*NOTE_LANTENCY-75){
+                        int frame = note->time - (FPS*NOTE_LANTENCY - 75);
+                        int frames_per_pic = 75 / 25;
                         int cur_frame = frame / frames_per_pic;
+                        printf("cur_frame:%d\n", cur_frame);
                         Texture explode = world->texture[World::EXPLOSION];
                         Rectangle exs = { float((cur_frame%5)*204.8), float((cur_frame/5)*204.8), float(204.8), float(204.8)};
                         Rectangle exd = { EARTH_POSX, EARTH_POSY, (float)EXPLOSION_RADIUS*2, (float)EXPLOSION_RADIUS*2 };

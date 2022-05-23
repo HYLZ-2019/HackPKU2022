@@ -80,7 +80,8 @@ void FasterNote::update_pos() {
             // 随机游走
             // delta = (random_number() & 1) ? 1 : -1;
             last_speed = del_speed;
-            delta = (random_number() % 3) - 1;
+            int rope_height = world->rope.dots[get_cur_sita()].r;
+            delta = r > rope_height ? -1 : 1;
             del_speed = (random_number() & 1) 
                 ? random_speed() : -random_speed();
         } else {
@@ -120,6 +121,16 @@ void ExplosiveNote::update_pos() {
         int cur_sita = get_cur_sita();
         cur_sita = (cur_sita + delta + BLOCK_NUMBER) % BLOCK_NUMBER;
         sita = get_sita(cur_sita);
+    }
+    // 恶意delta
+    int rope_height = world->rope.dots[get_cur_sita()].r;
+    const int SAFE_DIST = 100;
+    if (r < rope_height - EXPLOSION_RADIUS || (r > rope_height && r < rope_height + SAFE_DIST)){
+        // 凑近点，炸它
+        del_speed = NOTE_HIGH_SPEED;
+    }
+    if ((r < rope_height && r > rope_height - SAFE_DIST) || r > rope_height + EXPLOSION_RADIUS){
+        del_speed = -NOTE_HIGH_SPEED;
     }
     r += ((del_speed - last_speed) / (double)r_interval * 
         (time % r_interval + 1) + last_speed) / FPS;
