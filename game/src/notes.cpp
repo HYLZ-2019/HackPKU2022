@@ -80,8 +80,7 @@ void FasterNote::update_pos() {
             // 随机游走
             // delta = (random_number() & 1) ? 1 : -1;
             last_speed = del_speed;
-            int rope_height = world->rope.dots[get_cur_sita()].r;
-            delta = r > rope_height ? -1 : 1;
+            delta = (random_number() % 3) - 1;
             del_speed = (random_number() & 1) 
                 ? random_speed() : -random_speed();
         } else {
