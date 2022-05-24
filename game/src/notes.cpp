@@ -25,7 +25,7 @@ void NotesInfo::addNotes(int type) {
     int temp = (GetRandomValue(left, right) % BLOCK_NUMBER);
     double sita = get_sita(temp);
     double r = random_number() % ((int)MAX_HEIGHT - 51) + 50;
-    printf("%d, %d\n", world->tiger.index, temp);
+    //printf("%d, %d\n", world->tiger.index, temp);
     // printf("%lf, %lf\n", sita, r);
     switch(type) {    
         case 0:
